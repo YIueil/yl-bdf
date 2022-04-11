@@ -26,9 +26,11 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-
         <maven-source-plugin.verison>3.2.1</maven-source-plugin.verison>
         <maven-javadoc-plugin.version>3.3.2</maven-javadoc-plugin.version>
+
+        <junit-jupiter.version>5.8.2</junit-jupiter.version>
+        <lombok.version>1.18.22</lombok.version>
     </properties>
 
     <distributionManagement>
@@ -38,6 +40,21 @@
             <url>file://${basedir}/maven-repo</url>
         </repository>
     </distributionManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit-jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>
