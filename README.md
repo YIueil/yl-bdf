@@ -8,7 +8,7 @@ pom.xml
         <repository>
             <id>github-rich-repo</id>
             <name>YIueil's Maven Repository on Github</name>
-            <url>https://yiueil.github.io/how-to-become-rich/maven-repo/</url>
+            <url>https://yiueil.github.io/yl-bdf/maven-repo/</url>
         </repository>
     </repositories>
 ```
