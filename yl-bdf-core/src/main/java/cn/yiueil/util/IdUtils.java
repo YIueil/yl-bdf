@@ -6,4 +6,5 @@ package cn.yiueil.util;
  * Description: id工具类
  */
 public class IdUtils {
+
 }
