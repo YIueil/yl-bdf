@@ -20,7 +20,7 @@
         <dependency>
             <groupId>cn.yiueil</groupId>
             <artifactId>yl-bdf-core</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
 
         <dependency>
@@ -33,6 +33,7 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
             <version>5.3.18</version>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>
