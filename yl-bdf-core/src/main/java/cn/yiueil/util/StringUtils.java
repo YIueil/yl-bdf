@@ -97,33 +97,7 @@ public class StringUtils {
      * @return 替换后的结果
      */
     public static String format(CharSequence template, Map<?, ?> map, CharSequence leftStr, CharSequence rightStr, boolean ignoreNull) {
-        if (template == null) {
-            return null;
-        }
-        if (map == null || map.isEmpty()) {
-            return template.toString();
-        }
-
-        if (leftStr == null) {
-            leftStr = "\\$\\{";
-        }
-        if (rightStr == null) {
-            rightStr = "}";
-        }
-
-        String targetTemplate = template.toString();
-        String key;
-        String value;
-        for (Map.Entry<?, ?> entry : map.entrySet()) {
-            key = leftStr + ParseUtils.getStringDefaultNull(entry.getKey()) + rightStr;
-            value = ParseUtils.getStringDefaultEmptyStr(entry.getValue());
-            if (null == value && ignoreNull) {
-                continue;
-            }
-            assert value != null;
-            targetTemplate = targetTemplate.replaceAll(key, value);
-        }
-        return targetTemplate;
+        return null;
     }
 
     /**
