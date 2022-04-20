@@ -153,8 +153,13 @@ public class LocalDateTimeUtils {
         return LocalDateTime.ofInstant(instant, zoneId);
     }
 
-    public static Date str2LocalDateTime(String dateStr) {
-        return null;
+    /**
+     * 将ISO标准日期字符串转换未LocalDateTime
+     * @param dateStr ISO标准日期字符串
+     * @return 转换结果
+     */
+    public static LocalDateTime str2LocalDateTime(String dateStr) {
+        return LocalDateTime.parse(dateStr);
     }
     //endregion
 
