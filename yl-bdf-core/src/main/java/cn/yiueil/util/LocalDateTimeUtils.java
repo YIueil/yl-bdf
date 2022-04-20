@@ -1,11 +1,9 @@
 package cn.yiueil.util;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -100,6 +98,65 @@ public class LocalDateTimeUtils {
     }
     //endregion
 
+    //region 新老API的转换
+    /**
+     * LocalDate转Date
+     * @param localDate 日期
+     * @return 转换结果
+     */
+    public static Date localDate2Date(LocalDate localDate) {
+        LocalDateTime localDateTime = localDate.atTime(0, 0);
+        ZonedDateTime zonedDateTime = localDateTime.atZone(ZoneId.systemDefault());
+        return Date.from(zonedDateTime.toInstant());
+    }
+
+    /**
+     * LocalDateTime转Date
+     * @param localDateTime 日期时间
+     * @return 转换结果
+     */
+    public static Date localDateTime2Date(LocalDateTime localDateTime) {
+        ZonedDateTime zonedDateTime = localDateTime.atZone(ZoneId.systemDefault());
+        return Date.from(zonedDateTime.toInstant());
+    }
+
+    /**
+     * Date转LocalDate, 忽略LocalTime
+     * @param date 日期
+     * @return 日期
+     */
+    public static LocalDate date2LocalDate(Date date) {
+        Instant instant = Instant.ofEpochMilli(date.getTime());
+        ZoneId zoneId = ZoneId.systemDefault();
+        return LocalDateTime.ofInstant(instant, zoneId).toLocalDate();
+    }
+
+    /**
+     * Date转LocalTime, 忽略LocalDate
+     * @param date 日期
+     * @return 时间
+     */
+    public static LocalTime date2LocalTime(Date date) {
+        Instant instant = Instant.ofEpochMilli(date.getTime());
+        ZoneId zoneId = ZoneId.systemDefault();
+        return LocalDateTime.ofInstant(instant, zoneId).toLocalTime();
+    }
+
+    /**
+     * Date转LocalDateTime
+     * @param date 日期
+     * @return 日期时间
+     */
+    public static LocalDateTime date2localDateTime(Date date) {
+        Instant instant = Instant.ofEpochMilli(date.getTime());
+        ZoneId zoneId = ZoneId.systemDefault();
+        return LocalDateTime.ofInstant(instant, zoneId);
+    }
+
+    public static Date str2LocalDateTime(String dateStr) {
+        return null;
+    }
+    //endregion
 
     /**
      * 通过时间戳，地区，时区等参数，展示用户容易接受的时间字符串

@@ -28,13 +28,62 @@ public class ParseUtils {
     }
 
     /**
-     * todo 方法还未开发 将对象转换获取为Integer类型
+     * 将对象转换获取为String类型
      * @param o 需要转换的对象
      * @param defaultValue 默认值
      * @return 转换结果
      */
-    @Deprecated
     public static Integer getInteger(Object o, Integer defaultValue) {
         return ConverterHolder.getConverter(Integer.class).convert(o, defaultValue);
     }
+
+    /**
+     * 将对象转换获取为Float类型
+     * @param o 需要转换的对象
+     * @param defaultValue 默认值
+     * @return 转换结果
+     */
+    public static Float getFloat(Object o, Float defaultValue) {
+        return ConverterHolder.getConverter(Float.class).convert(o, defaultValue);
+    }
+
+    /**
+     * 将对象转换获取为Double类型
+     * @param o 需要转换的对象
+     * @param defaultValue 默认值
+     * @return 转换结果
+     */
+    public static Double getDouble(Object o, Double defaultValue) {
+        return ConverterHolder.getConverter(Double.class).convert(o, defaultValue);
+    }
+
+    /**
+     * 将对象转换获取为Long类型
+     * @param o 需要转换的对象
+     * @param defaultValue 默认值
+     * @return 转换结果
+     */
+    public static Long getLong(Object o, Long defaultValue) {
+        return ConverterHolder.getConverter(Long.class).convert(o, defaultValue);
+    }
+
+    /**
+     * 将对象转换获取为Boolean类型
+     * @param o 需要转换的对象
+     * @param defaultValue 默认值
+     * @return 转换结果
+     * <pre>
+     *     e.g.:<br>
+     *     ParseUtils.getBoolean("true", null) => true<br>
+     *     ParseUtils.getBoolean("false", null) => false<br>
+     *     ParseUtils.getBoolean(1, null) => true<br>
+     *     ParseUtils.getBoolean(0, null) => false<br>
+     *     ParseUtils.getBoolean(-1, null) => false<br>
+     *     ParseUtils.getBoolean("1", null) => false<br>
+     * </pre>
+     */
+    public static Boolean getBoolean(Object o, Boolean defaultValue) {
+        return ConverterHolder.getConverter(Boolean.class).convert(o, defaultValue);
+    }
+
 }

@@ -1,4 +1,6 @@
-package cn.yiueil.convert;
+package cn.yiueil.convert.impl;
+
+import cn.yiueil.convert.Converter;
 
 /**
  * Author:YIueil

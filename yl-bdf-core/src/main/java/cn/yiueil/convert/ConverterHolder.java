@@ -1,5 +1,7 @@
 package cn.yiueil.convert;
 
+import cn.yiueil.convert.impl.*;
+
 import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.HashMap;
@@ -59,6 +61,11 @@ public class ConverterHolder {
         defaultConverterMap = new HashMap<>();
         defaultConverterMap.put(String.class, new StringConverter());
         defaultConverterMap.put(Date.class, new DateConverter());
+        defaultConverterMap.put(Integer.class, new IntegerConverter());
+        defaultConverterMap.put(FloatConverter.class, new FloatConverter());
+        defaultConverterMap.put(Double.class, new DoubleConverter());
+        defaultConverterMap.put(Long.class, new LongConverter());
+        defaultConverterMap.put(Boolean.class, new BooleanConverter());
     }
 
     private void loadDefaultConverter() {
