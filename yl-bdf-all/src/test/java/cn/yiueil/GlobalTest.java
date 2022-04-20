@@ -1,9 +1,11 @@
 package cn.yiueil;
 
+import cn.yiueil.lang.TypeRef;
 import cn.yiueil.util.ParseUtils;
 import org.junit.jupiter.api.Test;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -27,7 +29,16 @@ public class GlobalTest {
     public void test2() throws ParseException {
 //        System.out.println(new SimpleDateFormat("yyyy-MM-dd hh:mm:sss").parse("2020-01-01"));
         Object o = 1650010801000L;
-        Date date = ParseUtils.get(Date.class, o, null);
+        Date date = ParseUtils.get(new TypeRef<Date>() {
+        }, o, null);
         System.out.println(date);
+    }
+
+    /**
+     * 测试：
+     */
+    @Test
+    public void test3() {
+        System.out.println(new TypeRef<ArrayList<String>>(){}.getType());
     }
 }

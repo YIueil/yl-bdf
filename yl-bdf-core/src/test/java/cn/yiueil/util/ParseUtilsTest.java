@@ -1,5 +1,6 @@
 package cn.yiueil.util;
 
+import cn.yiueil.lang.TypeRef;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -77,5 +78,44 @@ class ParseUtilsTest {
         System.out.println(ParseUtils.getBoolean(0, null));
         System.out.println(ParseUtils.getBoolean(-1, null));
         System.out.println(ParseUtils.getBoolean("1", null));
+    }
+
+    @Test
+    void testGet1() {
+    }
+
+    @Test
+    void testGetString2() {
+    }
+
+    @Test
+    void testGetInteger1() {
+    }
+
+    @Test
+    void testGetFloat() {
+    }
+
+    @Test
+    void testGetDouble1() {
+    }
+
+    @Test
+    void testGetLong() {
+    }
+
+    @Test
+    void testGetBoolean() {
+    }
+
+    @Test
+    void testGetList() {
+        List<Object> objects = new ArrayList<>();
+        objects.add(1);
+        objects.add(true);
+        objects.add("2");
+        List<String> list2 = ParseUtils.getList(new TypeRef<String>() {
+        }, objects);
+        System.out.println();
     }
 }

@@ -1,11 +1,11 @@
 package cn.yiueil.convert;
 
 import cn.yiueil.convert.impl.*;
+import cn.yiueil.lang.TypeRef;
 
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Author:YIueil
@@ -25,29 +25,33 @@ public class ConverterHolder {
     }
 
     @SuppressWarnings("unchecked")
-    private static <T> Converter<T> getDefaultConverter(Class<T> classType) {
-        return (getInstance().defaultConverterMap == null || getInstance().defaultConverterMap.size() == 0) ? null : (Converter<T>)getInstance().defaultConverterMap.get(classType);
+    private static <T> Converter<T> getDefaultConverter(Type type) {
+        return (getInstance().defaultConverterMap == null || getInstance().defaultConverterMap.size() == 0) ? null : (Converter<T>)getInstance().defaultConverterMap.get(type);
     }
 
     @SuppressWarnings("unchecked")
-    private static <T> Converter<T> getCustomConverter(Class<T> classType) {
-        return (getInstance().customConverterMap == null || getInstance().customConverterMap.size() == 0) ? null : (Converter<T>)getInstance().customConverterMap.get(classType);
+    private static <T> Converter<T> getCustomConverter(Type type) {
+        return (getInstance().customConverterMap == null || getInstance().customConverterMap.size() == 0) ? null : (Converter<T>)getInstance().customConverterMap.get(type);
     }
 
     /**
      * 获取转换器 自定义转换器优先
-     * @param classType 转换后的实际类型
+     * @param ref 转换后的实际类型
      * @param <T> 实际类型
      * @return 转换器
      */
-    public static <T> Converter<T> getConverter(Class<T> classType) {
+    public static <T> Converter<T> getConverter(TypeRef<T> ref) {
+        Type type = ref.getType();
+        if (type instanceof ParameterizedType) {// 当泛型T还包含泛型时,需要获取到不包括泛型的Type,否则找不到对应的转换器
+            type = ((ParameterizedType) type).getRawType();
+        }
         Converter<T> converter;
-        converter = getCustomConverter(classType);
+        converter = getCustomConverter(type);
         if (converter == null) {
-            converter = getDefaultConverter(classType);
+            converter = getDefaultConverter(type);
         }
         if (converter == null) {
-            throw new RuntimeException("G! 没有找到转换器");
+            throw new RuntimeException("G! 没有找到转换器:" + ref.getType().toString());
         }
         return converter;
     }
