@@ -5,7 +5,7 @@ import java.math.RoundingMode;
 
 /**
  * 文本相似度计算<br>
- * 工具类提供者：hutools
+ * 工具类参考：hutools
  *
  * @author fanqun
  **/

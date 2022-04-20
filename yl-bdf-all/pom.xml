@@ -5,9 +5,10 @@
     <parent>
         <artifactId>yl-bdf</artifactId>
         <groupId>cn.yiueil</groupId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
+    <description>全量包</description>
 
     <artifactId>yl-bdf-all</artifactId>
 

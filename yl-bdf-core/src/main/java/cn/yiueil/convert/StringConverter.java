@@ -1,6 +1,11 @@
 package cn.yiueil.convert;
 
-public class StringConverter extends Converter<String> {
+/**
+ * Author:YIueil
+ * Date:2022/4/15 15:12
+ * Description: String转换器
+ */
+public class StringConverter implements Converter<String> {
     @Override
     public String convert(Object obj, String defaultValue) {
         return obj == null ? defaultValue : obj.toString();

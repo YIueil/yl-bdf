@@ -1,6 +1,7 @@
 package cn.yiueil.convert;
 
 import java.lang.reflect.Type;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,37 +11,58 @@ import java.util.Map;
  * Description: 类型转换器Holder
  */
 public class ConverterHolder {
+    private Map<Type, Converter<?>> defaultConverterMap;
+    private Map<Type, Converter<?>> customConverterMap;
+
+    private static class SingletonRegistry { // todo 这部分写法列为自己的代码规范
+        private static final ConverterHolder INSTANCE = new ConverterHolder();
+    }
+
+    public static ConverterHolder getInstance() {
+        return SingletonRegistry.INSTANCE;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T> Converter<T> getDefaultConverter(Class<T> classType) {
+        return (getInstance().defaultConverterMap == null || getInstance().defaultConverterMap.size() == 0) ? null : (Converter<T>)getInstance().defaultConverterMap.get(classType);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T> Converter<T> getCustomConverter(Class<T> classType) {
+        return (getInstance().customConverterMap == null || getInstance().customConverterMap.size() == 0) ? null : (Converter<T>)getInstance().customConverterMap.get(classType);
+    }
+
+    /**
+     * 获取转换器 自定义转换器优先
+     * @param classType 转换后的实际类型
+     * @param <T> 实际类型
+     * @return 转换器
+     */
+    public static <T> Converter<T> getConverter(Class<T> classType) {
+        Converter<T> converter;
+        converter = getCustomConverter(classType);
+        if (converter == null) {
+            converter = getDefaultConverter(classType);
+        }
+        if (converter == null) {
+            throw new RuntimeException("G! 没有找到转换器");
+        }
+        return converter;
+    }
+
     private ConverterHolder() {
         loadDefaultConverter();
         loadCustomConverter();
     }
 
-    /**
-     * 默认类型转换器
-     */
-    private Map<Type, Converter<?>> defaultConverterMap;
-    /**
-     * 用户自定义类型转换器
-     */
-    private volatile Map<Type, Converter<?>> customConverterMap;
-
     private void loadCustomConverter() {
-        //todo 支持自定义的类型转换器
-        customConverterMap = new HashMap<>();
+        defaultConverterMap = new HashMap<>();
+        defaultConverterMap.put(String.class, new StringConverter());
+        defaultConverterMap.put(Date.class, new DateConverter());
     }
 
     private void loadDefaultConverter() {
-        defaultConverterMap = new HashMap<>();
-        defaultConverterMap.put(String.class, new StringConverter());
-    }
-
-    public <T> Converter<T> getConverter(Type type) {
-        return null;
-    }
-
-    public static class Registry {
-        public static ConverterHolder getInstance() {
-            return new ConverterHolder();
-        }
+        customConverterMap = new HashMap<>();
+        // todo 添加对于自定义转换器的扫描添加支持
     }
 }
