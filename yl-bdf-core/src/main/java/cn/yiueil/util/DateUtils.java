@@ -22,6 +22,7 @@ public class DateUtils {
         textFormatList.add(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));// 24小时制 不含毫秒
         textFormatList.add(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"));// 12小时制 不含毫秒
         textFormatList.add(new SimpleDateFormat("yyyy-MM-dd"));// 不含时分秒
+        //todo 适配更多标准日期格式
     }
 
     //region 当前日期相关
