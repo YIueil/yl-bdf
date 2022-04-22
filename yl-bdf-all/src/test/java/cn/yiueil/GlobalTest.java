@@ -1,12 +1,10 @@
 package cn.yiueil;
 
-import cn.yiueil.lang.TypeRef;
 import cn.yiueil.util.ParseUtils;
 import org.junit.jupiter.api.Test;
 
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
 
 /**
  * Author:YIueil
@@ -18,27 +16,33 @@ public class GlobalTest {
      * 测试：
      */
     @Test
-    public void test1(){
-        System.out.println(ParseUtils.getString(1, ""));
+    public void test1() {
+        List<Object> list = new ArrayList<>();
+        list.add(new ArrayList<>());
+        list.add(false);
+        list.add(1);
+        list.add(2.0);
+        list.add("3");
+        List<String> result = ParseUtils.getList(String.class, list);
+//        List<String> result = ParseUtils.getList(new TypeReference<String>(){}, list);
+        System.out.println(result);
     }
 
     /**
      * 测试：
      */
     @Test
-    public void test2() throws ParseException {
-//        System.out.println(new SimpleDateFormat("yyyy-MM-dd hh:mm:sss").parse("2020-01-01"));
-        Object o = 1650010801000L;
-        Date date = ParseUtils.get(new TypeRef<Date>() {
-        }, o, null);
-        System.out.println(date);
+    public void test2() {
+        String str = "[1,23,456]";
+        List<String> list = ParseUtils.getList(String.class, str);
+        System.out.println(list);
     }
 
     /**
      * 测试：
      */
     @Test
-    public void test3() {
-        System.out.println(new TypeRef<ArrayList<String>>(){}.getType());
+    public void test3(){
+
     }
 }

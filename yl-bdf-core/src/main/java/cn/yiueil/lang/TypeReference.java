@@ -20,16 +20,21 @@ import java.lang.reflect.Type;
  *
  * @param <T> 需要自定义的参考类型
  */
-public abstract class TypeRef<T> implements Type {
+public abstract class TypeReference<T> implements Type {
 
 	/** 泛型参数 */
-	private final Type type;
+	private Type type;
 
+	public static <T> TypeReference<T> of(Type type) {
+		TypeReference<T> typeReference = new TypeReference<T>() {};
+		typeReference.type = type;
+		return typeReference;
+	}
 
 	/**
 	 * 构造
 	 */
-	public TypeRef() {
+	public TypeReference() {
 		this.type = getTypeArgument(getClass());
 	}
 
@@ -42,7 +47,7 @@ public abstract class TypeRef<T> implements Type {
 		Type t = clazz.getGenericSuperclass();
 		if (t instanceof ParameterizedType) {
 			ParameterizedType pt = (ParameterizedType) t;
-			Type[] types = pt.getActualTypeArguments(); // 可能有多个泛型类型
+			Type[] types = pt.getActualTypeArguments(); // 可能有多个泛型类型, 但对于该类有且只有一个类型
 			return types[0];
 		}
 		return Object.class;

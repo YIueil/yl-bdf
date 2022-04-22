@@ -1,12 +1,10 @@
 package cn.yiueil.util;
 
-import cn.yiueil.lang.TypeRef;
+import cn.yiueil.lang.TypeReference;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class ParseUtilsTest {
 
@@ -110,12 +108,6 @@ class ParseUtilsTest {
 
     @Test
     void testGetList() {
-        List<Object> objects = new ArrayList<>();
-        objects.add(1);
-        objects.add(true);
-        objects.add("2");
-        List<String> list2 = ParseUtils.getList(new TypeRef<String>() {
-        }, objects);
-        System.out.println();
+
     }
 }
