@@ -1,10 +1,6 @@
 package cn.yiueil.util;
 
-import cn.yiueil.lang.TypeReference;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 class ParseUtilsTest {
 

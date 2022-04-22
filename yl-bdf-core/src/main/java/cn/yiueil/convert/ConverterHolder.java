@@ -1,7 +1,7 @@
 package cn.yiueil.convert;
 
 import cn.yiueil.convert.impl.*;
-import cn.yiueil.lang.TypeReference;
+import cn.yiueil.lang.reflect.TypeReference;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

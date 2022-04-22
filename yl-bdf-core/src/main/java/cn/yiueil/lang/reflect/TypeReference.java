@@ -1,4 +1,4 @@
-package cn.yiueil.lang;
+package cn.yiueil.lang.reflect;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

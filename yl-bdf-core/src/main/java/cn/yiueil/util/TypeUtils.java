@@ -1,5 +1,7 @@
 package cn.yiueil.util;
 
+import cn.yiueil.lang.reflect.TypeReference;
+
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
@@ -21,6 +23,8 @@ public class TypeUtils {
         if (null != type) {
             if (type instanceof Class) {
                 return (Class<?>) type;
+            } else if (type instanceof TypeReference<?>) {
+                return (Class<?>) ((TypeReference<?>) type).getType();
             } else if (type instanceof ParameterizedType) {
                 return (Class<?>) ((ParameterizedType) type).getRawType();
             } else if (type instanceof TypeVariable) {
