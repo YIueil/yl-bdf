@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
  * Author:YIueil
  * Date:2022/4/22 17:14
  * Description: 验证工具类
+ * @see PatternPool
  */
 public class CheckUtils {
     public static boolean isPhone(String str) {
@@ -15,7 +16,7 @@ public class CheckUtils {
     }
 
     public static boolean isMail(String str) {
-        return validator(PatternPool.MAIL, str);
+        return validator(PatternPool.EMAIL, str);
     }
 
     public static boolean isIDCard(String str) {

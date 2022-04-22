@@ -9,6 +9,6 @@ import java.util.regex.Pattern;
  */
 public class PatternPool {
     public static final Pattern PHONE = Pattern.compile(RegexPool.PHONE);
-    public static final Pattern MAIL = Pattern.compile(RegexPool.MAIL);
+    public static final Pattern EMAIL = Pattern.compile(RegexPool.EMAIL);
     public static final Pattern ID_CARD = Pattern.compile(RegexPool.ID_CARD);
 }
