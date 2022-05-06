@@ -11,7 +11,6 @@
         <module>yl-bdf-core</module>
         <module>yl-bdf-web</module>
         <module>yl-bdf-all</module>
-        <module>yl-bdf-fake</module>
     </modules>
     <packaging>pom</packaging>
 
