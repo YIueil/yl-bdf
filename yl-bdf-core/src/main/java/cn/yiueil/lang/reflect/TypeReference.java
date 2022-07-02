@@ -26,13 +26,13 @@ public abstract class TypeReference<T> implements Type {
 	private Type type;
 
 	/**
-	 * 通过类型直接构造
-	 * @param type 内部存储的类型
-	 * @param <T> 内部type泛型值
+	 * 通过类型直接构造TypeReference对象
+	 * @param type 内部type泛型值
 	 * @return 泛型类型保存实例
 	 */
-	public static <T> TypeReference<T> of(Type type) {
-		TypeReference<T> typeReference = new TypeReference<T>() {};
+	@SuppressWarnings("all")
+	public static TypeReference of(Type type) {
+		TypeReference typeReference = new TypeReference() {};
 		typeReference.type = type;
 		return typeReference;
 	}

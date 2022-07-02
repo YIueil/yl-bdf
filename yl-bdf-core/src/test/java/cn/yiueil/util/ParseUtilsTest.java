@@ -1,6 +1,12 @@
 package cn.yiueil.util;
 
+import cn.yiueil.convert.impl.collection.ListConverter;
+import cn.yiueil.lang.reflect.TypeReference;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 class ParseUtilsTest {
 
@@ -20,6 +26,13 @@ class ParseUtilsTest {
 
     @Test
     void getList() {
+        ArrayList<Object> objects = new ArrayList<>();
+        objects.add(1);
+        objects.add("2");
+        objects.add("3");
+        ListConverter<String> converter = new ListConverter<>(new TypeReference<String>() {});
+        List<String> result = converter.convert(objects, Collections.emptyList());
+        System.out.println(result);
     }
 
     @Test

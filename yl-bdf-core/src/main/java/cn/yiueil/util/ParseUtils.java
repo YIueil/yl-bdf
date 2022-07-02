@@ -1,9 +1,9 @@
 package cn.yiueil.util;
 
 import cn.yiueil.convert.ConverterHolder;
+import cn.yiueil.convert.impl.collection.ListConverter;
 import cn.yiueil.lang.reflect.TypeReference;
 
-import java.lang.reflect.Type;
 import java.util.*;
 
 public class ParseUtils {
@@ -19,7 +19,7 @@ public class ParseUtils {
      * @return 转换结果
      */
     public static <T> T get(TypeReference<T> typeReference, Object o, T defaultValue) {
-        return ConverterHolder.convert(typeReference, o, defaultValue);
+        return ConverterHolder.getConverter(typeReference).convert(o, defaultValue);
     }
 
     /**
@@ -30,7 +30,8 @@ public class ParseUtils {
      * @return 转换结果
      */
     public static String getString(Object o, String defaultValue) {
-        return ConverterHolder.convert(TypeReference.of(String.class), o, defaultValue);
+        return get(new TypeReference<String>() {
+        }, o, defaultValue);
     }
 
     /**
@@ -41,7 +42,8 @@ public class ParseUtils {
      * @return 转换结果
      */
     public static Integer getInteger(Object o, Integer defaultValue) {
-        return ConverterHolder.convert(TypeReference.of(Integer.class), o, defaultValue);
+        return get(new TypeReference<Integer>() {
+        }, o, defaultValue);
     }
 
     /**
@@ -52,7 +54,8 @@ public class ParseUtils {
      * @return 转换结果
      */
     public static Float getFloat(Object o, Float defaultValue) {
-        return ConverterHolder.convert(TypeReference.of(Float.class), o, defaultValue);
+        return get(new TypeReference<Float>() {
+        }, o, defaultValue);
     }
 
     /**
@@ -63,7 +66,8 @@ public class ParseUtils {
      * @return 转换结果
      */
     public static Double getDouble(Object o, Double defaultValue) {
-        return ConverterHolder.convert(TypeReference.of(Double.class), o, defaultValue);
+        return get(new TypeReference<Double>() {
+        }, o, defaultValue);
     }
 
     /**
@@ -74,7 +78,8 @@ public class ParseUtils {
      * @return 转换结果
      */
     public static Long getLong(Object o, Long defaultValue) {
-        return ConverterHolder.convert(TypeReference.of(Long.class), o, defaultValue);
+        return get(new TypeReference<Long>() {
+        }, o, defaultValue);
     }
 
     /**
@@ -94,46 +99,21 @@ public class ParseUtils {
      * </pre>
      */
     public static Boolean getBoolean(Object o, Boolean defaultValue) {
-        return ConverterHolder.convert(TypeReference.of(Boolean.class), o, defaultValue);
+        return get(new TypeReference<Boolean>() {
+        }, o, defaultValue);
     }
 
     /**
-     * todo list类型的转换功力不够
+     * 将对象转换获取为List类型
      *
      * @param classType 转换后的类型
      * @param o         转换前的对象
      * @param <T>       转换后的元素类型
      * @return 转换后的集合
      */
-    public static <T> List<T> getList(Class<T> classType, Object o) {
-        TypeReference<T> typeReference = TypeReference.of(classType);
-        return getList(typeReference, o);
+    public static <T> List<T> getList(Object o , Class<T> classType) {
+        ListConverter<T> listConverter = new ListConverter<T>(TypeReference.of(classType));
+        return listConverter.convert(o, Collections.emptyList());
     }
 
-    @SuppressWarnings("all")
-    private static <T> List<T> getList(TypeReference<T> typeReference, Object o) {
-        List<T> result = new ArrayList<>();
-        if (o instanceof Iterable) {
-            Iterable iterable = (Iterable) o;
-            for (Object value : iterable) {
-                result.add(ConverterHolder.convert(typeReference, value, null));
-            }
-            return result;
-        }
-        if (o instanceof CharSequence) {
-            CharSequence charSequence = (CharSequence) o;
-            String s = charSequence.toString();
-            if (s.contains(",")) {
-                return (List<T>) Arrays.asList(s.split(","));
-            }
-        }
-        return Collections.emptyList();
-    }
-
-    /**
-     * todo 直接适配集合的转换
-     */
-    private static <T> Collection<T> getCollection(Type collectionType, Type elementType, Object value) {
-        return null;
-    }
 }

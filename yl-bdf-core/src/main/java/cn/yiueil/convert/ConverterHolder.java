@@ -1,6 +1,6 @@
 package cn.yiueil.convert;
 
-import cn.yiueil.convert.impl.*;
+import cn.yiueil.convert.impl.base.*;
 import cn.yiueil.lang.reflect.TypeReference;
 
 import java.lang.reflect.ParameterizedType;
@@ -34,7 +34,7 @@ public class ConverterHolder {
         return (getInstance().customConverterMap == null || getInstance().customConverterMap.size() == 0) ? null : (Converter<T>)getInstance().customConverterMap.get(type);
     }
 
-    private static <T> Converter<T> getConverter(TypeReference<T> typeReference) {
+    public static <T> Converter<T> getConverter(TypeReference<T> typeReference) {
         Type type = typeReference.getType();
         if (type instanceof ParameterizedType) {// 当泛型T还包含泛型时,需要获取到不包括泛型的Type,否则找不到对应的转换器
             type = ((ParameterizedType) type).getRawType();
@@ -48,10 +48,6 @@ public class ConverterHolder {
             throw new RuntimeException("G! 没有找到转换器:" + typeReference.getType().toString());
         }
         return converter;
-    }
-
-    public static <T> T convert(TypeReference<T> typeReference, Object obj, T defaultValue) {
-        return getConverter(typeReference).convert(obj, defaultValue);
     }
 
     private ConverterHolder() {

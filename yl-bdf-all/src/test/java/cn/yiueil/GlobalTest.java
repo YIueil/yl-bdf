@@ -4,6 +4,7 @@ import cn.yiueil.util.ParseUtils;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -23,8 +24,7 @@ public class GlobalTest {
         list.add(1);
         list.add(2.0);
         list.add("3");
-        List<String> result = ParseUtils.getList(String.class, list);
-//        List<String> result = ParseUtils.getList(new TypeReference<String>(){}, list);
+        List<String> result = ParseUtils.getList(list, String.class);
         System.out.println(result);
     }
 
@@ -34,8 +34,8 @@ public class GlobalTest {
     @Test
     public void test2() {
         String str = "[1,23,456]";
-        List<String> list = ParseUtils.getList(String.class, str);
-        System.out.println(list);
+        List<String> result = ParseUtils.getList(str, String.class);
+        System.out.println(result);
     }
 
     /**
