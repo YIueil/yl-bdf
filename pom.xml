@@ -6,7 +6,7 @@
 
     <groupId>cn.yiueil</groupId>
     <artifactId>yl-bdf</artifactId>
-    <version>${revision}</version>
+    <version>0.0.1-SNAPSHOT</version>
     <modules>
         <module>yl-bdf-core</module>
         <module>yl-bdf-web</module>
@@ -24,7 +24,7 @@
     </developers>
 
     <properties>
-        <revision>0.0.1-SNAPSHOT</revision> <!--版本号 固定使用revision变量关键字 实现对所有子模块的版本控制-->
+        <revision>0.0.1-SNAPSHOT</revision> <!--todo 版本号 固定使用revision变量关键字 实现对所有子模块的版本控制-->
 
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
