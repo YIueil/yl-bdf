@@ -3,6 +3,7 @@ package cn.yiueil.session;
 import cn.yiueil.entity.instance.Privilege;
 import cn.yiueil.entity.instance.User;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
@@ -12,6 +13,7 @@ import java.util.List;
  * Description: 会话信息
  */
 @Getter
+@Setter
 public class SessionContent {
     public static final String SESSION_KEY = "SESSION-CONTENT"; // 会话session名称
 
