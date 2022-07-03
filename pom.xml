@@ -12,6 +12,7 @@
         <module>yl-bdf-web</module>
         <module>yl-bdf-all</module>
         <module>examples</module>
+        <module>yl-bdf-web-search</module>
     </modules>
     <packaging>pom</packaging>
 

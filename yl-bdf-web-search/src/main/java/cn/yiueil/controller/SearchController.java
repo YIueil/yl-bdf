@@ -8,6 +8,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Author:YIueil
+ * Date:2022/7/4 1:48
+ * Description: 通用查询
+ */
 @RestController
 @RequestMapping(value = Params.REQUEST_PATH)
 public class SearchController implements LoggedController{

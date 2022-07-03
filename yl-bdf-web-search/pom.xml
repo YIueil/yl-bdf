@@ -8,10 +8,8 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
-    <artifactId>examples</artifactId>
-
-    <packaging>war</packaging>
+    <description>web开发包扩展-通用查询</description>
+    <artifactId>yl-bdf-web-search</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -20,28 +18,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-            <version>5.3.19</version>
-        </dependency>
-
-        <dependency>
             <groupId>cn.yiueil</groupId>
             <artifactId>yl-bdf-web</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-
-        <dependency>
-            <groupId>cn.yiueil</groupId>
-            <artifactId>yl-bdf-web-search</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.13.3</version>
-        </dependency>
     </dependencies>
-
 </project>
