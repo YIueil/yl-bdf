@@ -37,15 +37,24 @@ public class ResultVo implements Serializable {
         return new ResultVo(ResultCode.SUCCESS, null, null, body);
     }
 
-    public static ResultVo success(Object body, String msg) {
-        return new ResultVo(ResultCode.SUCCESS, msg, null, body);
+    public static ResultVo success(Object body, String tips) {
+        return new ResultVo(ResultCode.SUCCESS, tips, null, body);
     }
 
-    public static ResultVo fail(Object body, String msg) {
-        return new ResultVo(ResultCode.FAILED, msg, null, body);
+    public static ResultVo fail(Object body, String tips) {
+        return new ResultVo(ResultCode.FAILED, tips, null, body);
     }
 
-    public static ResultVo error(String msg, Exception e) {
-        return new ResultVo(ResultCode.ERROR, msg, Arrays.toString(e.getStackTrace()), null);
+    public static ResultVo error(String tips, Exception e) {
+        return new ResultVo(ResultCode.ERROR, tips, Arrays.toString(e.getStackTrace()), null);
     }
+
+    public static ResultVo error(Object body, String tips, Exception e) {
+        return new ResultVo(ResultCode.ERROR, tips, Arrays.toString(e.getStackTrace()), body);
+    }
+
+    public static ResultVo validate_fail(Object body, String tips) {
+        return new ResultVo(ResultCode.VALIDATE_FAIL, tips, null, body);
+    }
+
 }

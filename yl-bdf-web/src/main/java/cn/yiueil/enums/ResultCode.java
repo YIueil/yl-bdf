@@ -3,6 +3,11 @@ package cn.yiueil.enums;
 import cn.yiueil.entity.instance.CodeStatus;
 import lombok.Getter;
 
+/**
+ * Author:YIueil
+ * Date:2022/7/4 1:18
+ * Description: 状态码类 以后都用这个好吗
+ */
 @Getter
 public enum ResultCode implements CodeStatus {
     SUCCESS(1200, "success"),
@@ -10,7 +15,7 @@ public enum ResultCode implements CodeStatus {
     ERROR(1500, "error"),
     UNAUTHORIZED(1401,"unauthorized"),
     EXPIRED(1409,"expired"),
-    VALIDATE_ERROR(1400, "validate_error");
+    VALIDATE_FAIL(1400, "validate_fail");
 
     private final int code;
     private final String msg;
