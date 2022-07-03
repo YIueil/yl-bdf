@@ -6,7 +6,7 @@ import java.io.Serializable;
 /**
  * Author:YIueil
  * Date:2022/7/3 21:00
- * Description: 用户实体接口
+ * Description: 用户门面
  */
 public interface User extends Serializable {
     Long getId();

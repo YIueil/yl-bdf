@@ -1,7 +1,9 @@
 package cn.yiueil.entity.instance;
 
 /**
- * 代码状态类
+ * Author:YIueil
+ * Date:2022/7/4 1:27
+ * Description: 编码门面
  */
 public interface CodeStatus {
     int getCode();
