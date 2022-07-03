@@ -2,13 +2,13 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
        https://www.springframework.org/schema/context/spring-context.xsd
        http://www.springframework.org/schema/mvc
-       https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+       https://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
     <!-- 自动扫描包，让指定包下的注解生效,由IOC容器统一管理 -->
     <context:component-scan base-package="cn.yiueil.controller"/>
 
@@ -24,13 +24,9 @@
       这两个实例分别在类级别和方法级别处理。
       而annotation-driven配置帮助我们自动完成上述两个实例的注入。
    -->
-<!--    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">-->
-<!--        <property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>-->
-<!--    </bean>-->
-
     <!--开启SpringMVC注解驱动-->
-    <!--指定validator-->
     <mvc:annotation-driven />
 
-
+    <!--aop切面织入-->
+    <aop:aspectj-autoproxy/>
 </beans>

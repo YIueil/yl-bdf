@@ -19,8 +19,8 @@
         <spring.version>5.3.18</spring.version>
         <fastjson.version>1.2.75</fastjson.version>
         <logback.version>1.2.9</logback.version>
+        <aspectj.version>1.9.7</aspectj.version>
         <hibernate-validator.version>6.0.23.Final</hibernate-validator.version>
-
     </properties>
 
     <dependencies>
@@ -34,6 +34,7 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
             <version>${spring.version}</version>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>
@@ -41,6 +42,19 @@
             <artifactId>spring-web</artifactId>
             <version>${spring.version}</version>
             <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <version>${spring.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${aspectj.version}</version>
         </dependency>
 
         <dependency>
