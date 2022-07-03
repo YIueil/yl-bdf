@@ -54,6 +54,7 @@ public class LocalDateTimeUtils {
     //region 指定日期相关
     /**
      * 获取当前年份
+     * @param localDateTime 当前日期
      * @return 年
      */
     public static int getYear(LocalDateTime localDateTime) {
@@ -62,6 +63,7 @@ public class LocalDateTimeUtils {
 
     /**
      * 获取当前月份
+     * @param localDateTime 当前时间
      * @return 月
      */
     public static int getMouth(LocalDateTime localDateTime) {
@@ -70,6 +72,7 @@ public class LocalDateTimeUtils {
 
     /**
      * 获取当前是本月的第几天
+     * @param localDateTime 当前时间
      * @return 日
      */
     public static int getDayOfMouth(LocalDateTime localDateTime) {
@@ -82,6 +85,7 @@ public class LocalDateTimeUtils {
      * 其中在9、10、11、12月为 year 学年，1月为 year-1 学年。
      * 如果在2、3、4、5、6、7、8月，为此学年第 2 学期，
      * year-1学年。</p>
+     * @param localDateTime 当前时间
      * @return 当前学年
      * <p>e.g. : 2021-2022-2</p>
      */

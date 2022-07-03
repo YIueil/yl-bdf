@@ -90,12 +90,12 @@ public class ParseUtils {
      * @return 转换结果
      * <pre>
      *     e.g.:<br>
-     *     ParseUtils.getBoolean("true", null) => true<br>
-     *     ParseUtils.getBoolean("false", null) => false<br>
-     *     ParseUtils.getBoolean(1, null) => true<br>
-     *     ParseUtils.getBoolean(0, null) => false<br>
-     *     ParseUtils.getBoolean(-1, null) => false<br>
-     *     ParseUtils.getBoolean("1", null) => false<br>
+     *     ParseUtils.getBoolean("true", null) : true <br>
+     *     ParseUtils.getBoolean("false", null) : false <br>
+     *     ParseUtils.getBoolean(1, null) : true <br>
+     *     ParseUtils.getBoolean(0, null) : false <br>
+     *     ParseUtils.getBoolean(-1, null) : false <br>
+     *     ParseUtils.getBoolean("1", null) : false <br>
      * </pre>
      */
     public static Boolean getBoolean(Object o, Boolean defaultValue) {
