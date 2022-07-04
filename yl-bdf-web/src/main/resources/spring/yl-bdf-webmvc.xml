@@ -15,18 +15,10 @@
     <!-- 让Spring MVC不处理静态资源 -->
     <mvc:default-servlet-handler />
 
-    <!--
-      支持mvc注解驱动
-      在spring中一般采用@RequestMapping注解来完成映射关系
-      要想使@RequestMapping注解生效
-      必须向上下文中注册DefaultAnnotationHandlerMapping
-      和一个AnnotationMethodHandlerAdapter实例
-      这两个实例分别在类级别和方法级别处理。
-      而annotation-driven配置帮助我们自动完成上述两个实例的注入。
-   -->
     <!--开启SpringMVC注解驱动-->
     <mvc:annotation-driven />
 
-    <!--aop切面织入-->
+    <!--aop支持-->
     <aop:aspectj-autoproxy/>
+
 </beans>
