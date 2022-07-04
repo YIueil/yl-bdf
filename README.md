@@ -44,5 +44,5 @@ pom.xml
 并在你的spring中添加配置的引入
 
 ```xml
-<import resource="spring/yl-bdf-webmvc.xml"/>
+    <import resource="spring/yl-bdf-spring.xml"/>
 ```
