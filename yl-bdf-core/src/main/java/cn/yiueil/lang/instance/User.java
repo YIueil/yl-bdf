@@ -1,4 +1,4 @@
-package cn.yiueil.entity.instance;
+package cn.yiueil.lang.instance;
 
 
 import java.io.Serializable;
