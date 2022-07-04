@@ -1,7 +1,7 @@
 package cn.yiueil.session;
 
-import cn.yiueil.entity.instance.Privilege;
-import cn.yiueil.entity.instance.User;
+import cn.yiueil.lang.instance.Privilege;
+import cn.yiueil.lang.instance.User;
 import lombok.Getter;
 import lombok.Setter;
 

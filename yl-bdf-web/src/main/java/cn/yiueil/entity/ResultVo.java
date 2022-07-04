@@ -1,7 +1,7 @@
 package cn.yiueil.entity;
 
-import cn.yiueil.entity.instance.CodeStatus;
 import cn.yiueil.enums.ResultCode;
+import cn.yiueil.lang.instance.CodeStatus;
 import lombok.Getter;
 
 import java.io.Serializable;

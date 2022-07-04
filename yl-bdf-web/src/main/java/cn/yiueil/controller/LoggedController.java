@@ -1,6 +1,7 @@
 package cn.yiueil.controller;
 
-import cn.yiueil.entity.instance.User;
+
+import cn.yiueil.lang.instance.User;
 import cn.yiueil.session.SessionContent;
 
 import javax.servlet.http.HttpServletRequest;

@@ -1,6 +1,6 @@
 package cn.yiueil.enums;
 
-import cn.yiueil.entity.instance.CodeStatus;
+import cn.yiueil.lang.instance.CodeStatus;
 import lombok.Getter;
 
 /**
