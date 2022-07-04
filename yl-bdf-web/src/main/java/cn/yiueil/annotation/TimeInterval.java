@@ -6,7 +6,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * todo 接口即调用计时
+ * Author:YIueil
+ * Date:2022/7/4 21:13
+ * Description: 接口调用计时器
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.TYPE})
