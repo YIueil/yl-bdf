@@ -21,6 +21,7 @@
         <logback.version>1.2.9</logback.version>
         <aspectj.version>1.9.7</aspectj.version>
         <swagger.version>2.9.2</swagger.version>
+        <swagger.bootstrap.version>3.0.3</swagger.bootstrap.version>
         <hibernate-validator.version>6.0.23.Final</hibernate-validator.version>
     </properties>
 
@@ -101,6 +102,12 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${swagger.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-spring-ui</artifactId>
+            <version>${swagger.bootstrap.version}</version>
         </dependency>
 
         <!--json-->

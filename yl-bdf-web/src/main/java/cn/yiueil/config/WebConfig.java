@@ -12,7 +12,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/statics/**").addResourceLocations("classpath:/statics/");
 
         // 解决 SWAGGER 404报错
-        registry.addResourceHandler("/swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("/swagger-ui.html", "doc.html").addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 }
