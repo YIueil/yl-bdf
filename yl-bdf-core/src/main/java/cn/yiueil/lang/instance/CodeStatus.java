@@ -6,7 +6,7 @@ package cn.yiueil.lang.instance;
  * Description: 编码门面
  */
 public interface CodeStatus {
-    int getCode();
+    Integer getCode();
 
     String getMsg();
 }

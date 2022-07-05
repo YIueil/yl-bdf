@@ -17,7 +17,7 @@ public enum ResultCode implements CodeStatus {
     EXPIRED(1409,"expired"),
     VALIDATE_FAIL(1400, "validate_fail");
 
-    private final int code;
+    private final Integer code;
     private final String msg;
 
     ResultCode(int code,String msg) {

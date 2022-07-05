@@ -14,7 +14,8 @@ import java.util.Arrays;
  */
 @Getter
 public class ResultVo implements Serializable {
-    private CodeStatus codeStatus; // 请求状态码(必须)
+    private Integer code;
+    private String msg;
     private String stackTrace;// 错误请求栈信息(错误时必须)
     private String tips; // 接口提示信息(可选)
     private Object body;// 返回结果请求体(可选)
@@ -23,7 +24,8 @@ public class ResultVo implements Serializable {
     }
 
     private ResultVo(CodeStatus codeStatus, String tips, String stackTrace, Object body) {
-        this.codeStatus = codeStatus;
+        this.code = codeStatus.getCode();
+        this.msg = codeStatus.getMsg();
         this.stackTrace = stackTrace;
         this.tips = tips;
         this.body = body;

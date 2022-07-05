@@ -2,7 +2,9 @@ package cn.yiueil.lang.tree;
 
 import cn.yiueil.lang.instance.Node;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
@@ -10,8 +12,9 @@ import java.util.Map;
  * Date:2022/7/3 20:03
  * Description: 树形结构封装类
  */
+@NoArgsConstructor
 @AllArgsConstructor
-public class TreeNode<T> implements Node<T> {
+public class TreeNode<T> implements Node<T>, Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
