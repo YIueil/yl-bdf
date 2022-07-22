@@ -13,8 +13,10 @@
         <module>yl-bdf-all</module>
         <module>yl-bdf-core</module>
         <module>yl-bdf-db</module>
+        <module>yl-bdf-jpa</module>
         <module>yl-bdf-web</module>
         <module>yl-bdf-web-search</module>
+        <module>yl-bdf-web-swagger</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -38,6 +40,10 @@
 
         <junit-jupiter.version>5.8.2</junit-jupiter.version>
         <lombok.version>1.18.22</lombok.version>
+
+        <spring.version>5.3.18</spring.version>
+        <swagger.version>2.9.2</swagger.version>
+        <swagger.bootstrap.version>3.0.3</swagger.bootstrap.version>
     </properties>
 
     <distributionManagement>

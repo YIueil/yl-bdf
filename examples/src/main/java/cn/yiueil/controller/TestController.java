@@ -1,5 +1,8 @@
 package cn.yiueil.controller;
 
+import cn.yiueil.data.impl.JpaBaseDao;
+import cn.yiueil.entity.Employee;
+import cn.yiueil.service.EmployeeService;
 import cn.yiueil.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,9 +13,13 @@ public class TestController implements BaseController{
     @Autowired
     TestService testService;
 
+    @Autowired
+    EmployeeService employeeService;
+
     @GetMapping(value = "test")
     public String test() {
-        testService.test();
         return success();
     }
+
+
 }

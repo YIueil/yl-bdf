@@ -3,18 +3,27 @@ package cn.yiueil.util;
 import cn.yiueil.lang.tree.Tree;
 import cn.yiueil.lang.tree.TreeNode;
 import cn.yiueil.lang.tree.TreeNodeConfig;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.ArrayList;
 
 class JSONUtilsTest {
 
     @Test
-    void toJSONString() {
+    void toJSONString() throws JsonProcessingException {
         ObjectMapper instance = JSONUtils.getInstance();
-        ObjectMapper instance1 = JSONUtils.getInstance();
+        ArrayList<Object> objects = new ArrayList<>();
+        objects.add(1);
+        objects.add(true);
+        objects.add("2");
+        objects.add("");
+        String string = instance.writeValueAsString(objects);
+        JsonNode jsonNode = instance.readTree(string);
         System.out.println();
+        System.out.println(jsonNode.get(0).intValue());
     }
 
     @Test

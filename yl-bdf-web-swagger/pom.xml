@@ -8,8 +8,9 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <description>web开发包扩展-通用查询</description>
-    <artifactId>yl-bdf-web-search</artifactId>
+    <description>swagger扩展</description>
+
+    <artifactId>yl-bdf-web-swagger</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -23,10 +24,24 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
+        <!--swagger-->
         <dependency>
-            <groupId>cn.yiueil</groupId>
-            <artifactId>yl-bdf-web-swagger</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-spring-ui</artifactId>
+            <version>${swagger.bootstrap.version}</version>
         </dependency>
     </dependencies>
+
 </project>
