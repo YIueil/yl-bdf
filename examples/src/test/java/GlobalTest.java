@@ -3,8 +3,10 @@ import cn.yiueil.entity.Employee;
 import cn.yiueil.repository.EmployeeRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -12,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@WebAppConfiguration
 @SpringJUnitConfig(locations = {"classpath:spring.xml"})
 public class GlobalTest {
     @Autowired
@@ -30,6 +33,8 @@ public class GlobalTest {
         Employee employee = new Employee("张三");
         jpaBaseDao.save(employee);
         employee = new Employee("李四");
+        jpaBaseDao.save(employee);
+        employee = new Employee("王五");
         jpaBaseDao.save(employee);
         System.out.println();
     }
@@ -76,7 +81,18 @@ public class GlobalTest {
         nameList.add("张三");
         nameList.add("李四");
         filter.put("nameList", nameList);
+        filter.put("ccc", 1);
         List<Map<String, Object>> list = jpaBaseDao.sqlAsMap("select * from t_employee where name in (:nameList)", filter);
+        System.out.println(list);
+    }
+
+    /**
+     * 测试：
+     */
+    @Test
+    @Transactional
+    public void test6(){
+        List<Map<String, Object>> list = jpaBaseDao.sqlAsMap("select * from t_employee", null, 2, 3);
         System.out.println(list);
     }
 }
