@@ -1,7 +1,5 @@
 package cn.yiueil.controller;
 
-import cn.yiueil.data.impl.JpaBaseDao;
-import cn.yiueil.entity.Employee;
 import cn.yiueil.service.EmployeeService;
 import cn.yiueil.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;

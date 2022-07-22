@@ -26,8 +26,26 @@
 
         <dependency>
             <groupId>cn.yiueil</groupId>
+            <artifactId>yl-bdf-jpa</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.yiueil</groupId>
             <artifactId>yl-bdf-web</artifactId>
             <version>${project.parent.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.yiueil</groupId>
+            <artifactId>yl-bdf-web-swagger</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.yiueil</groupId>
+            <artifactId>yl-bdf-web-search</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 </project>
