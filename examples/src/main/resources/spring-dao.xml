@@ -32,6 +32,4 @@
         <property name="dataSource" ref="druidDataSource"/>
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
-
-    <bean class="cn.yiueil.data.impl.JpaBaseDao"/>
 </beans>
