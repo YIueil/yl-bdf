@@ -18,7 +18,7 @@ public interface SearchService {
      * @param filter 过滤条件
      * @param pageIndex 当前页码
      * @param pageSize 每页数量
-     * @return
+     * @return 分页查询结果
      */
     PageVo searchPage(DynamicQueryDTO dynamicQueryDTO, Map<String, Object> filter, Integer pageIndex, Integer pageSize);
 }

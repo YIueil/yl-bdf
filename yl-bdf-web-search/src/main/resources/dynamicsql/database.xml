@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root cache="false" xmlns="http://www.yiueil.cn"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.yiueil.cn yl-dynamic-sql.xsd">
+    <config id="getEmployeeByIds" description="备注内容">
+        <sql><![CDATA[
+            select * from t_employee where 1 = 1 id in (:ids)
+        ]]></sql>
+        <params>
+            <param name="ids"/>
+        </params>
+        <filters>
+            <filter name="name">
+                and name = :name
+            </filter>
+        </filters>
+        <endSql><![CDATA[
+            order by id desc
+        ]]></endSql>
+    </config>
+    
+    <config id="">
+        <sql></sql>
+        <params>
+            <param></param>
+        </params>
+        <filters>
+            <filter></filter>
+        </filters>
+        <endSql></endSql>
+    </config>
+</root>
