@@ -14,13 +14,12 @@ public class ListConverter<T> extends CollectionConverter<List<T>> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     protected List<T> convertInternal(Object obj) {
         ArrayList<T> result = new ArrayList<>();
         if (obj instanceof Collection) {
-            Collection collection = (Collection) obj;
-            Iterator iterator = collection.iterator();
-            while (iterator.hasNext()) {
-                Object item = iterator.next();
+            Collection<?> collection = (Collection<?>) obj;
+            for (Object item : collection) {
                 T resultItem = ConverterHolder.getConverter(typeReference).convert(item, null);
                 if (resultItem != null) {
                     result.add(resultItem);

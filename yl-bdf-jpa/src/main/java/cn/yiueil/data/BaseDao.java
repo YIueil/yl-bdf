@@ -32,6 +32,8 @@ public interface BaseDao {
     /**
      * 基本删除
      * @param id id
+     * @param <T> 删除目标类型
+     * @param tClass 删除目标类型
      */
     @Deprecated
     <T> void deleteById(Class<T> tClass, Object id);
@@ -39,6 +41,8 @@ public interface BaseDao {
     /**
      * 通过guid进行删除
      * @param guid guid
+     * @param <T> 删除目标类型
+     * @param tClass 删除目标类型
      */
     <T> void deleteByGuid(Class<T> tClass, String guid);
 }

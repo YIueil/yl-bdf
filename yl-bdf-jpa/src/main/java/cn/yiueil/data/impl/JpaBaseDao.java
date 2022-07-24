@@ -45,7 +45,6 @@ public class JpaBaseDao implements BatchDao, SqlDao, GuidDao {
     }
 
     @Override
-    @Deprecated
     public <T> void deleteByGuid(Class<T> tClass, String guid) {
         // todo 完成根据guid删除
     }

@@ -19,7 +19,9 @@ public class RandomUtils {
     }
 
     /**
-     * 随机生成一个范围类的int数 (前开后闭区间)
+     * 随机生成一个范围类的int数
+     * @param min 最小值(闭区间: 会取到该值)
+     * @param max 最大值(开区间: 不会取到该值)
      * @return 随机int值
      */
     public static int randomInt(int min, int max) {
