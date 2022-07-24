@@ -6,7 +6,6 @@ import cn.yiueil.data.SqlDao;
 import cn.yiueil.exception.PageException;
 import org.hibernate.query.internal.NativeQueryImpl;
 import org.hibernate.transform.Transformers;
-import org.springframework.data.domain.Pageable;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -87,6 +86,8 @@ public class JpaBaseDao implements BatchDao, SqlDao, GuidDao {
 
     @Override
     public int executeUpdate(String sql, Map<String, Object> parameters) {
-        return 0;
+        Query query = entityManager.createNativeQuery(sql);
+        setParameters(query, parameters);
+        return query.executeUpdate();
     }
 }

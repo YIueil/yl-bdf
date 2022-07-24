@@ -3,7 +3,6 @@ import cn.yiueil.entity.Employee;
 import cn.yiueil.repository.EmployeeRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -94,5 +93,17 @@ public class GlobalTest {
     public void test6(){
         List<Map<String, Object>> list = jpaBaseDao.sqlAsMap("select * from t_employee", null, 2, 3);
         System.out.println(list);
+    }
+
+    /**
+     * 测试：测试更新删除
+     */
+    @Test
+    @Transactional
+    @Commit
+    public void test7(){
+        HashMap<String, Object> filter = new HashMap<>();
+        filter.put("id", 6);
+        System.out.println(jpaBaseDao.executeUpdate("delete from t_employee where id = ?1", filter));
     }
 }

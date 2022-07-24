@@ -15,7 +15,7 @@ public class CheckUtils {
         return validator(PatternPool.PHONE, str);
     }
 
-    public static boolean isMail(String str) {
+    public static boolean isEmail(String str) {
         return validator(PatternPool.EMAIL, str);
     }
 
