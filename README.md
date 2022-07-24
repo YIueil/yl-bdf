@@ -1,6 +1,8 @@
 # yiueil-bdf
 基础开发框架
 
+https://yiueil.github.io/yl-bdf/maven-repo/cn/yiueil/yl-bdf/0.0.1-SNAPSHOT/yl-bdf-core-0.0.1-SNAPSHOT.jar
+
 ## 使用yl-bdf
 pom.xml
 ```xml
