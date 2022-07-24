@@ -111,6 +111,7 @@ public class ParseUtils {
      * @param <T>       转换后的元素类型
      * @return 转换后的集合
      */
+    @SuppressWarnings("unchecked")
     public static <T> List<T> getList(Object o , Class<T> classType) {
         ListConverter<T> listConverter = new ListConverter<T>(TypeReference.of(classType));
         return listConverter.convert(o, Collections.emptyList());
