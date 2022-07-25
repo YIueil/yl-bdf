@@ -21,6 +21,14 @@
         <hibernate.entitymanager.version>5.6.9.Final</hibernate.entitymanager.version>
     </properties>
 
+    <distributionManagement>
+        <repository>
+            <id>local-repo-release</id>
+            <name>GitHub Release</name>
+            <url>file://${project.parent.basedir}/maven-repo</url>
+        </repository>
+    </distributionManagement>
+
     <dependencies>
         <dependency>
             <groupId>cn.yiueil</groupId>
