@@ -15,11 +15,6 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-
-        <spring.version>5.3.18</spring.version>
-        <logback.version>1.2.9</logback.version>
-        <aspectj.version>1.9.7</aspectj.version>
-        <hibernate-validator.version>6.0.23.Final</hibernate-validator.version>
     </properties>
 
     <profiles>
