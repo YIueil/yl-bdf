@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata modelVersion="1.1.0">
+  <groupId>cn.yiueil</groupId>
+  <artifactId>yl-bdf</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <versioning>
+    <snapshot>
+      <timestamp>20220725.041456</timestamp>
+      <buildNumber>2</buildNumber>
+    </snapshot>
+    <lastUpdated>20220725041456</lastUpdated>
+    <snapshotVersions>
+      <snapshotVersion>
+        <extension>pom</extension>
+        <value>0.0.1-20220725.041456-2</value>
+        <updated>20220725041456</updated>
+      </snapshotVersion>
+    </snapshotVersions>
+  </versioning>
+</metadata>
