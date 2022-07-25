@@ -20,14 +20,6 @@
         <dom4j.version>2.1.3</dom4j.version>
     </properties>
 
-    <distributionManagement>
-        <repository>
-            <id>local-repo-release</id>
-            <name>GitHub Release</name>
-            <url>file://${basedir}/../maven-repo</url>
-        </repository>
-    </distributionManagement>
-
     <dependencies>
         <!--json-->
         <dependency>

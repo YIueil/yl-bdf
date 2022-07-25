@@ -20,14 +20,6 @@
         <swagger.bootstrap.version>3.0.3</swagger.bootstrap.version>
     </properties>
 
-    <distributionManagement>
-        <repository>
-            <id>local-repo-release</id>
-            <name>GitHub Release</name>
-            <url>file://${project.parent.basedir}/maven-repo</url>
-        </repository>
-    </distributionManagement>
-
     <dependencies>
         <dependency>
             <groupId>cn.yiueil</groupId>
