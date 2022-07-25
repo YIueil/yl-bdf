@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root cache="false" xmlns="http://www.yiueil.cn"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.yiueil.cn yl-dynamic-sql.xsd">
+      xsi:schemaLocation="http://www.yiueil.cn https://yiueil.github.io/static-repo/static/xsd/yl-dynamic-sql.xsd">
     <config id="getEmployee" description="获取员工列表">
         <sql><![CDATA[
             select * from t_employee where id in (:ids)
