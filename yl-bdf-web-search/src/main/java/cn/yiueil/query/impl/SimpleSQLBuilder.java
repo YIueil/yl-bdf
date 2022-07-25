@@ -1,12 +1,13 @@
 package cn.yiueil.query.impl;
 
+import cn.yiueil.data.impl.JpaBaseDao;
+import cn.yiueil.entity.PageVo;
 import cn.yiueil.query.SQLBuilder;
 import cn.yiueil.util.CollectionUtils;
 import org.dom4j.Element;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Author:YIueil
@@ -14,6 +15,8 @@ import java.util.stream.Collectors;
  * Description: 简单实现sql拼接
  */
 public class SimpleSQLBuilder extends SQLBuilder {
+    private JpaBaseDao jpaBaseDao;
+
     @Override
     public String buildMain(Element element) {
         return element.elementText("sql");
@@ -41,5 +44,20 @@ public class SimpleSQLBuilder extends SQLBuilder {
     @Override
     public String buildCount(String sql) {
         return "select count(*) from (" + sql + ")t";
+    }
+
+    @Override
+    public void buildPageVo(String sql, Map<String, Object> filter, PageVo pageVo) {
+        pageVo.setBody(jpaBaseDao.sqlAsMap(sql, filter, pageVo.getPageIndex(), pageVo.getPageSize()));
+        pageVo.setItemCounts(jpaBaseDao.countSize(buildCount(sql), filter));
+        pageVo.setPageTotal((pageVo.getItemCounts() / pageVo.getPageSize()) + 1);
+    }
+
+    public JpaBaseDao getJpaBaseDao() {
+        return jpaBaseDao;
+    }
+
+    public void setJpaBaseDao(JpaBaseDao jpaBaseDao) {
+        this.jpaBaseDao = jpaBaseDao;
     }
 }

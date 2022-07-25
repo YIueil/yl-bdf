@@ -1,6 +1,7 @@
 package cn.yiueil.query;
 
 
+import cn.yiueil.entity.PageVo;
 import org.dom4j.Element;
 import org.dom4j.Node;
 
@@ -50,4 +51,11 @@ public abstract class SQLBuilder {
      * @return count语句
      */
     public abstract String buildCount(String sql);
+
+    /**
+     * 构造分页对象返回
+     * @param sql 原始查询sql语句
+     * @param filter 过滤参数列表
+     */
+    public abstract void buildPageVo(String sql, Map<String, Object> filter, PageVo pageVo);
 }

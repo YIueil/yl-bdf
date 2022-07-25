@@ -1,6 +1,5 @@
 package cn.yiueil.service.impl;
 
-import cn.yiueil.data.impl.JpaBaseDao;
 import cn.yiueil.dto.DynamicQueryDTO;
 import cn.yiueil.entity.PageVo;
 import cn.yiueil.query.DynamicQuery;
@@ -21,9 +20,6 @@ import java.util.Map;
 @Service
 public class SearchServiceImpl implements SearchService {
     @Autowired
-    JpaBaseDao jpaBaseDao;
-
-    @Autowired
     SQLBuilder sqlBuilder;
 
     @Override
@@ -41,9 +37,7 @@ public class SearchServiceImpl implements SearchService {
                 "//yl:config[@id='"+ dynamicQueryDTO.getConfigId() +"']",
                 "yl").ifPresent(node -> {
             String sql = sqlBuilder.build(node, filter);
-            pageVo.setBody(jpaBaseDao.sqlAsMap(sql, filter, pageIndex, pageSize));
-            pageVo.setItemCounts(jpaBaseDao.countSize(sqlBuilder.buildCount(sql), filter));
-            pageVo.setPageTotal((pageVo.getItemCounts() / pageSize) + 1);
+            sqlBuilder.buildPageVo(sql, filter, pageVo);
         });
         return pageVo;
     }
