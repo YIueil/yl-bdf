@@ -4,6 +4,7 @@ import cn.yiueil.data.BatchDao;
 import cn.yiueil.data.GuidDao;
 import cn.yiueil.data.SqlDao;
 import cn.yiueil.exception.PageException;
+import cn.yiueil.util.ParseUtils;
 import org.hibernate.query.internal.NativeQueryImpl;
 import org.hibernate.transform.Transformers;
 
@@ -81,6 +82,13 @@ public class JpaBaseDao implements BatchDao, SqlDao, GuidDao {
         query.setMaxResults(pageSize);
         setParameters(query, parameters);
         return (List<Map<String, Object>>) query.unwrap(NativeQueryImpl.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
+    }
+
+    @Override
+    public int countSize(String sql, Map<String, Object> parameters) {
+        Query query = entityManager.createNativeQuery(sql);
+        setParameters(query, parameters);
+        return ParseUtils.getInteger(query.getResultList().get(0), 0);
     }
 
     @Override

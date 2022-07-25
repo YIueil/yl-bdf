@@ -27,6 +27,8 @@ public interface SqlDao {
 
     int executeUpdate(String sql, Map<String, Object> parameters);
 
+    int countSize(String sql, Map<String, Object> parameters);
+
     default void setParameters(Query query, Map<String, Object> args) {
         // 获取到真实的参数列表
         List<String> parameters = query.getParameters().stream().map(Parameter::getName).collect(Collectors.toList());

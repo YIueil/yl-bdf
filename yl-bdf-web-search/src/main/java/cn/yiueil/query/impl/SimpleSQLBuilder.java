@@ -37,4 +37,9 @@ public class SimpleSQLBuilder extends SQLBuilder {
     public String buildEnd(Element element) {
         return element.elementText("endSql");
     }
+
+    @Override
+    public String buildCount(String sql) {
+        return "select count(*) from (" + sql + ")t";
+    }
 }

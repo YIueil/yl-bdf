@@ -42,6 +42,8 @@ public class SearchServiceImpl implements SearchService {
                 "yl").ifPresent(node -> {
             String sql = sqlBuilder.build(node, filter);
             pageVo.setBody(jpaBaseDao.sqlAsMap(sql, filter, pageIndex, pageSize));
+            pageVo.setItemCounts(jpaBaseDao.countSize(sqlBuilder.buildCount(sql), filter));
+            pageVo.setPageTotal((pageVo.getItemCounts() / pageSize) + 1);
         });
         return pageVo;
     }

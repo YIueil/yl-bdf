@@ -43,4 +43,11 @@ public abstract class SQLBuilder {
      * @return 尾部SQL
      */
     public abstract String buildEnd(Element element);
+
+    /**
+     * 构造Count语句
+     * @param sql 可执行的sql语句
+     * @return count语句
+     */
+    public abstract String buildCount(String sql);
 }
