@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root cache="true"
+      xmlns="http://www.yiueil.cn"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.yiueil.cn yl-dynamic-sql.xsd">
+    <config id="getEmployeeList">
+        <sql><![CDATA[
+            select * from t_employee where 1 = 1
+        ]]></sql>
+        <params>
+            <param name="ids"/>
+        </params>
+        <filters>
+            <filter name="guid"><![CDATA[
+                and guid = :guid
+            ]]></filter>
+        </filters>
+        <endSql><![CDATA[
+            order by id desc
+        ]]></endSql>
+    </config>
+</root>

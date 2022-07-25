@@ -3,6 +3,7 @@ package cn.yiueil.util;
 import org.dom4j.*;
 import org.dom4j.io.SAXReader;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.*;
 
@@ -21,6 +22,17 @@ public class XmlUtils {
     public static Document parse(InputStream inputStream) throws DocumentException {
         SAXReader reader = new SAXReader();
         return reader.read(inputStream);
+    }
+
+    /**
+     * dom解析xml
+     * @param file xml文件
+     * @return 解析结果document类
+     * @throws DocumentException 文档解析异常
+     */
+    public static Document parse(File file) throws DocumentException {
+        SAXReader reader = new SAXReader();
+        return reader.read(file);
     }
 
     /**

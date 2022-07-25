@@ -3,6 +3,7 @@ package cn.yiueil.service.impl;
 import cn.yiueil.dto.DynamicQueryDTO;
 import cn.yiueil.entity.PageVo;
 import cn.yiueil.query.DynamicQuery;
+import cn.yiueil.query.DynamicQueryPool;
 import cn.yiueil.query.SQLBuilder;
 import cn.yiueil.service.SearchService;
 import cn.yiueil.util.StringUtils;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class SearchServiceImpl implements SearchService {
@@ -30,9 +32,17 @@ public class SearchServiceImpl implements SearchService {
         pageVo.setPageSize(pageSize);
         Document document;
         if (StringUtils.isEmpty(dynamicQueryDTO.getConfigPath())) {
-            dynamicQueryDTO.setConfigPath(DynamicQuery.DEFAULT_CONFIG_PATH);
+            dynamicQueryDTO.setConfigFile("database.xml");
+            dynamicQueryDTO.setConfigPath(DynamicQueryPool.DEFAULT_CONFIG_PATH);
         }
-        document = XmlUtils.parse(new FileInputStream(dynamicQueryDTO.getConfigPath()));
+        // todo 判断文件是否已经变更过
+        Optional<DynamicQuery> dynamicSql = DynamicQueryPool.findDynamicSql(dynamicQueryDTO);
+        if (dynamicSql.isPresent()) {
+            sqlBuilder.buildPageVo(sqlBuilder.build(dynamicSql.get(), filter), filter, pageVo);
+            return pageVo;
+        }
+        // 不走缓存
+        document = XmlUtils.parse(new FileInputStream(dynamicQueryDTO.getConfigPath() + dynamicQueryDTO.getConfigFile()));
         XmlUtils.selectSingleNode(document,
                 "//yl:config[@id='"+ dynamicQueryDTO.getConfigId() +"']",
                 "yl").ifPresent(node -> {

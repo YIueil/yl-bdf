@@ -5,6 +5,7 @@ import cn.yiueil.entity.PageVo;
 import org.dom4j.Element;
 import org.dom4j.Node;
 
+import java.util.List;
 import java.util.Map;
 
 public abstract class SQLBuilder {
@@ -24,6 +25,47 @@ public abstract class SQLBuilder {
     }
 
     /**
+     * 构建符合jpa执行标准的sql语句
+     * @param dynamicQuery 动态查询配置
+     * @param filter 过滤条件集合
+     * @return 参数化的jpa标准sql语句
+     */
+    public String build(DynamicQuery dynamicQuery, Map<String, Object> filter) {
+        return dynamicQuery.getSql() + buildFilter(dynamicQuery, filter) + dynamicQuery.getEndSql();
+    }
+
+    /**
+     * 构造动态查询服务
+     * @param node 配置节点
+     * @param dynamicQuery 动态查询对象
+     * @return 动态查询对象
+     */
+    public DynamicQuery buildDynamicQuery(Node node, DynamicQuery dynamicQuery){
+        if (node instanceof Element) {
+            Element element = (Element) node;
+            dynamicQuery.setSql(buildMain(element));
+            dynamicQuery.setEndSql(buildEnd(element));
+            dynamicQuery.setParams(getParams(element));
+            dynamicQuery.setFilters(getFilters(element));
+        }
+        return dynamicQuery;
+    }
+
+    /**
+     * 构造过滤参数列表
+     * @param element 配置节点
+     * @return 过滤参数列表Map
+     */
+    public abstract Map<String, String> getFilters(Element element);
+
+    /**
+     * 构造内嵌参数列表
+     * @param element 配置节点
+     * @return
+     */
+    public abstract List<String> getParams(Element element);
+
+    /**
      * 构造sql主体部分
      * @param element 配置节点
      * @return 主体
@@ -37,6 +79,14 @@ public abstract class SQLBuilder {
      * @return 主题 + 过滤
      */
     public abstract String buildFilter(Element element, Map<String, Object> filter);
+
+    /**
+     * 构造过滤参数
+     * @param dynamicQuery 动态查询对象
+     * @param filter 过滤参数列表
+     * @return 主题 + 过滤
+     */
+    public abstract String buildFilter(DynamicQuery dynamicQuery, Map<String, Object> filter);
 
     /**
      * 构造sql尾部部分
