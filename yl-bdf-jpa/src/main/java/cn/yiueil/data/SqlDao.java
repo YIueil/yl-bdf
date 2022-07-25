@@ -19,11 +19,11 @@ import java.util.stream.Collectors;
 public interface SqlDao {
     List<Map<String, Object>> sqlAsMap(String sql);
 
-    List<Map<String, Object>> sqlAsMap(String sql, int pageNumber, int pageSize);
+    List<Map<String, Object>> sqlAsMap(String sql, int pageIndex, int pageSize);
 
     List<Map<String, Object>> sqlAsMap(String sql, Map<String, Object> parameters);
 
-    List<Map<String, Object>> sqlAsMap(String sql, Map<String, Object> parameters, int pageNumber, int pageSize);
+    List<Map<String, Object>> sqlAsMap(String sql, Map<String, Object> parameters, int pageIndex, int pageSize);
 
     int executeUpdate(String sql, Map<String, Object> parameters);
 

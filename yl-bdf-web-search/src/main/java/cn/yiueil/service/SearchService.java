@@ -2,7 +2,9 @@ package cn.yiueil.service;
 
 import cn.yiueil.dto.DynamicQueryDTO;
 import cn.yiueil.entity.PageVo;
+import org.dom4j.DocumentException;
 
+import java.io.FileNotFoundException;
 import java.util.Map;
 
 /**
@@ -20,5 +22,5 @@ public interface SearchService {
      * @param pageSize 每页数量
      * @return 分页查询结果
      */
-    PageVo searchPage(DynamicQueryDTO dynamicQueryDTO, Map<String, Object> filter, Integer pageIndex, Integer pageSize);
+    PageVo searchPage(DynamicQueryDTO dynamicQueryDTO, Map<String, Object> filter, Integer pageIndex, Integer pageSize) throws FileNotFoundException, DocumentException;
 }

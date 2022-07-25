@@ -6,20 +6,18 @@
 <root cache="true"
       xmlns="http://www.yiueil.cn"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.yiueil.cn https://yiueil.github.io/static-repo/static/xsd/yl-dynamic-sql.xsd"
->
-    <config id="getOrderList" >
+      xsi:schemaLocation="http://www.yiueil.cn https://yiueil.github.io/static-repo/static/xsd/yl-dynamic-sql.xsd">
+    <config id="exampleConfig">
         <sql><![CDATA[
-                select * from order where 1 = 1 and id in (:ids)
+            select * from table where 1 = 1 and id in (:ids)
         ]]></sql>
         <params>
-            <param name="id"/>
+            <param name="ids"/>
         </params>
         <filters>
-            <filter name="name"><![CDATA[
-                and name = :name
-            ]]>
-            </filter>
+            <filter name="guid"><![CDATA[
+                and guid = :guid
+            ]]></filter>
         </filters>
         <endSql><![CDATA[
             order by id desc

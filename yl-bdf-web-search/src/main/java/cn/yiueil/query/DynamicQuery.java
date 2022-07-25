@@ -6,5 +6,5 @@ package cn.yiueil.query;
  * Description: 动态查询
  */
 public class DynamicQuery {
-
+    public static final String DEFAULT_CONFIG_PATH = DynamicQuery.class.getClassLoader().getResource("dynamicsql/employee.xml").getFile();
 }

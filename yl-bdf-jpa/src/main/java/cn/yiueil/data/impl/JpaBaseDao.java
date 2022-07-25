@@ -55,8 +55,8 @@ public class JpaBaseDao implements BatchDao, SqlDao, GuidDao {
     }
 
     @Override
-    public List<Map<String, Object>> sqlAsMap(String sql, int pageNumber, int pageSize) {
-        return sqlAsMap(sql, null, pageNumber, pageSize);
+    public List<Map<String, Object>> sqlAsMap(String sql, int pageIndex, int pageSize) {
+        return sqlAsMap(sql, null, pageIndex, pageSize);
     }
 
     @Override
@@ -69,15 +69,15 @@ public class JpaBaseDao implements BatchDao, SqlDao, GuidDao {
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<Map<String, Object>> sqlAsMap(String sql, Map<String, Object> parameters, int pageNumber, int pageSize) {
-        if (pageNumber < 1) {
-            throw new PageException("pageNumber: 当前页码 必须大于1");
+    public List<Map<String, Object>> sqlAsMap(String sql, Map<String, Object> parameters, int pageIndex, int pageSize) {
+        if (pageIndex < 1) {
+            throw new PageException("pageIndex: 当前页码 必须大于1");
         }
         if (pageSize < 1) {
             throw new RuntimeException("pageSize: 页面数量 必须大于1");
         }
         Query query = entityManager.createNativeQuery(sql);
-        query.setFirstResult((--pageNumber) * pageSize);
+        query.setFirstResult((--pageIndex) * pageSize);
         query.setMaxResults(pageSize);
         setParameters(query, parameters);
         return (List<Map<String, Object>>) query.unwrap(NativeQueryImpl.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();

@@ -7,4 +7,5 @@
 
     <import resource="yl-bdf-webmvc.xml"/><!-- webmvc相关配置-->
     <import resource="yl-bdf-jpa.xml"/><!-- jpa相关配置 -->
+    <import resource="yl-bdf-search.xml"/><!--search相关配置-->
 </beans>

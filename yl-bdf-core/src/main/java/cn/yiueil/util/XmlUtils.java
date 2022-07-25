@@ -1,13 +1,10 @@
 package cn.yiueil.util;
 
-import org.dom4j.Attribute;
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.Element;
+import org.dom4j.*;
 import org.dom4j.io.SAXReader;
 
 import java.io.InputStream;
-import java.util.Iterator;
+import java.util.*;
 
 /**
  * Author:YIueil
@@ -26,6 +23,10 @@ public class XmlUtils {
         return reader.read(inputStream);
     }
 
+    /**
+     * 打印xml文档
+     * @param document 文档类
+     */
     public static void print(Document document) {
         Element root = document.getRootElement();
         System.out.println("根节点:" + root.getName());
@@ -33,5 +34,39 @@ public class XmlUtils {
             Element element = it.next();
             System.out.println("子节点:" + element.getName());
         }
+    }
+
+    /**
+     * 解析带命名空间的xml, 使用xpath表达式获取节点列表
+     *
+     * @param document        文档类
+     * @param xpathExpression xpath表达式
+     * @param namespace 命名空间
+     * @return 获取到的节点集合
+     */
+    public static List<Node> selectNodes(Document document, String xpathExpression, String namespace) {
+        Element root = document.getRootElement();
+        Map<String, String> map = new HashMap<>();
+        map.put(namespace, root.getNamespaceURI());
+        XPath xPath = document.createXPath(xpathExpression);
+        xPath.setNamespaceURIs(map);
+        return xPath.selectNodes(document);
+    }
+
+    /**
+     * 解析带命名空间的xml, 使用xpath表达式获取第一个节点
+     *
+     * @param document        文档类
+     * @param xpathExpression xpath表达式
+     * @param namespace 命名空间
+     * @return 获取到的节点集合
+     */
+    public static Optional<Node> selectSingleNode(Document document, String xpathExpression, String namespace) {
+        Node node = null;
+        List<Node> nodes = selectNodes(document, xpathExpression, namespace);
+        if (CollectionUtils.isNotEmpty(nodes)) {
+            node = nodes.get(0);
+        }
+        return Optional.ofNullable(node);
     }
 }

@@ -18,17 +18,20 @@ import java.util.Map;
 public class CustomExceptionHandler {
     @ExceptionHandler({Exception.class})
     public ResultVo globalExceptionHandler(Exception e) {
+        e.printStackTrace();
         return ResultVo.error("服务异常", e);
     }
 
     @ExceptionHandler({RuntimeException.class})
     public ResultVo runtimeException(BusinessException e) {
-        return ResultVo.error("未知异常", e);
+        e.printStackTrace();
+        return ResultVo.error("未知运行时异常", e);
     }
 
     @ExceptionHandler({BusinessException.class})
     public ResultVo businessExceptionHandler(BusinessException e) {
-        return ResultVo.error("业务功能异常", e);
+        e.printStackTrace();
+        return ResultVo.error("未知业务功能异常", e);
     }
 
     @ExceptionHandler({MethodArgumentNotValidException.class})

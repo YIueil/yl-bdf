@@ -2,13 +2,16 @@ package cn.yiueil.controller;
 
 import cn.yiueil.dto.DynamicQueryDTO;
 import cn.yiueil.entity.PageVo;
+import cn.yiueil.exception.BusinessException;
 import cn.yiueil.general.RestURL;
 import cn.yiueil.service.SearchService;
 import io.swagger.annotations.ApiOperation;
+import org.dom4j.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,8 +32,15 @@ public class SearchController implements LoggedController{
                              @RequestParam(defaultValue = "10") Integer pageSize,
                              @RequestBody @Validated DynamicQueryDTO dynamicQueryDTO) {
         // 1、构建查询参数
-        Map<String, Object> filter = new HashMap<>();
-        return success(searchService.searchPage(dynamicQueryDTO, filter, pageIndex, pageSize));
+        Map<String, Object> filter = new HashMap<>(dynamicQueryDTO.getFilter());
+        try {
+            return success(searchService.searchPage(dynamicQueryDTO, filter, pageIndex, pageSize));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return error("查询服务配置文件不存在", e);
+        } catch (DocumentException e) {
+            return error("查询配置文件结构有误", e);
+        }
     }
 
     @PostMapping(value = "searchOne")
