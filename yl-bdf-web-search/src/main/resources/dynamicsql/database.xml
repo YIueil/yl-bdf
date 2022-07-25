@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE root PUBLIC "yl-dynamic-sql.xsd" "https://yiueil.github.io/static-repo/static/dtd/yl-dynamic-sql.dtd">
-<root cache="true">
-    <config id="getOrderList">
+<!--使用dtd约束-->
+<!--<!DOCTYPE root PUBLIC "yl-dynamic-sql.xsd" "https://yiueil.github.io/static-repo/static/dtd/yl-dynamic-sql.dtd">-->
+
+<!--是应用xsd约束-->
+<root cache="true"
+      xmlns="http://www.yiueil.cn"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.yiueil.cn https://yiueil.github.io/static-repo/static/xsd/yl-dynamic-sql.xsd"
+>
+    <config id="getOrderList" >
         <sql><![CDATA[
                 select * from order where 1 = 1 and id in (:ids)
         ]]></sql>
