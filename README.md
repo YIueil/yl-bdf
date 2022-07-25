@@ -1,7 +1,33 @@
 # yiueil-bdf
 基础开发框架
 
-https://yiueil.github.io/yl-bdf/maven-repo/cn/yiueil/yl-bdf/0.0.1-SNAPSHOT/yl-bdf-core-0.0.1-SNAPSHOT.jar
+## 增加模块步骤
+- 创建模块
+- pom添加部署配置
+```xml
+<profiles>
+    <profile>
+        <id>snapshot</id>
+        <distributionManagement>
+            <repository>
+                <id>local-repo-snapshot</id>
+                <name>本地发布仓库地址</name>
+                <url>file://${basedir}/../maven-repo</url>
+            </repository>
+        </distributionManagement>
+    </profile>
+    <profile>
+        <id>release</id>
+        <distributionManagement>
+            <repository>
+                <id>github-repo</id>
+                <name>GitHub Apache Maven Packages</name>
+                <url>https://maven.pkg.github.com/YIueil/yl-bdf</url>
+            </repository>
+        </distributionManagement>
+    </profile>
+</profiles>
+```
 
 ## 使用yl-bdf
 pom.xml
