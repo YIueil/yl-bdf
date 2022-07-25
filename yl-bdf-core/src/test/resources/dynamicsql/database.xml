@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<root cache="false" xmlns="http://www.yiueil.cn"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.yiueil.cn yl-dynamic-sql.xsd">
-    <config id="getEmployee" description="获取员工列表">
-        <sql><![CDATA[
-            select * from t_employee where id in (:ids)
-        ]]></sql>
-        <params>
-            <param name="ids"/>
-        </params>
-        <filters>
-            <filter name="name"><![CDATA[
-                and name = :name
-            ]]></filter>
-        </filters>
-        <endSql><![CDATA[
-            order by id desc
-        ]]></endSql>
-    </config>
+<!DOCTYPE root [
+        <!ELEMENT root (config)*>
+        <!ATTLIST root
+                cache CDATA #REQUIRED>
+        <!ELEMENT config (sql|params|filters|endSql)*>
+        <!ATTLIST config
+                id CDATA #REQUIRED
+                description CDATA #IMPLIED>
+        <!ELEMENT sql (#PCDATA)>
+        <!ELEMENT params (param)*>
+        <!ELEMENT param (#PCDATA)>
+        <!ATTLIST param
+                name CDATA #REQUIRED>
+        <!ELEMENT filters (filter)*>
+        <!ELEMENT filter (#PCDATA)>
+        <!ATTLIST filter
+                name CDATA #REQUIRED>
+        <!ELEMENT endSql (#PCDATA)>
+        ]>
+<root cache="false">
+
 </root>
