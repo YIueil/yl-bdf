@@ -1,6 +1,6 @@
 package cn.yiueil.controller;
 
-import cn.yiueil.entity.ResultVo;
+import cn.yiueil.vo.ResultVo;
 import cn.yiueil.util.JSONUtils;
 
 /**

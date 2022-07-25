@@ -1,8 +1,7 @@
 package cn.yiueil.controller;
 
 import cn.yiueil.dto.DynamicQueryDTO;
-import cn.yiueil.entity.PageVo;
-import cn.yiueil.exception.BusinessException;
+import cn.yiueil.vo.PageVo;
 import cn.yiueil.general.RestURL;
 import cn.yiueil.service.SearchService;
 import io.swagger.annotations.ApiOperation;

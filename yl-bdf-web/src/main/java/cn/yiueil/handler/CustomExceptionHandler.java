@@ -1,6 +1,6 @@
 package cn.yiueil.handler;
 
-import cn.yiueil.entity.ResultVo;
+import cn.yiueil.vo.ResultVo;
 import cn.yiueil.exception.BusinessException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;

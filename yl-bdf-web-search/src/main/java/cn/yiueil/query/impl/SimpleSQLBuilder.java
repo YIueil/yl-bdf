@@ -1,7 +1,7 @@
 package cn.yiueil.query.impl;
 
 import cn.yiueil.data.impl.JpaBaseDao;
-import cn.yiueil.entity.PageVo;
+import cn.yiueil.vo.PageVo;
 import cn.yiueil.query.DynamicQuery;
 import cn.yiueil.query.SQLBuilder;
 import cn.yiueil.util.CollectionUtils;

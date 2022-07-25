@@ -1,4 +1,4 @@
-package cn.yiueil.entity;
+package cn.yiueil.vo;
 
 
 import lombok.Getter;

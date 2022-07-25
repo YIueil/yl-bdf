@@ -1,7 +1,7 @@
 package cn.yiueil.service;
 
 import cn.yiueil.dto.DynamicQueryDTO;
-import cn.yiueil.entity.PageVo;
+import cn.yiueil.vo.PageVo;
 import org.dom4j.DocumentException;
 
 import java.io.FileNotFoundException;

@@ -1,7 +1,7 @@
 package cn.yiueil.query;
 
 
-import cn.yiueil.entity.PageVo;
+import cn.yiueil.vo.PageVo;
 import org.dom4j.Element;
 import org.dom4j.Node;
 

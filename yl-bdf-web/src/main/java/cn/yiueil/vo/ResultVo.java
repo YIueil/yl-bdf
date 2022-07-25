@@ -1,4 +1,4 @@
-package cn.yiueil.entity;
+package cn.yiueil.vo;
 
 import cn.yiueil.enums.ResultCode;
 import cn.yiueil.lang.instance.CodeStatus;

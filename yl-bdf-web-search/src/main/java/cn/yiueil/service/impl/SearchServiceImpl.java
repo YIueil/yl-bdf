@@ -1,7 +1,7 @@
 package cn.yiueil.service.impl;
 
 import cn.yiueil.dto.DynamicQueryDTO;
-import cn.yiueil.entity.PageVo;
+import cn.yiueil.vo.PageVo;
 import cn.yiueil.query.DynamicQuery;
 import cn.yiueil.query.DynamicQueryPool;
 import cn.yiueil.query.SQLBuilder;
