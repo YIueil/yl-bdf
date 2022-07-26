@@ -1,22 +1,22 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <root cache="true"
       xmlns="http://www.yiueil.cn"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.yiueil.cn https://yiueil.github.io/static-repo/static/xsd/yl-dynamic-sql.xsd">
-    <config id="getEmployeeList1">
+    <config id="getBlogList">
         <sql><![CDATA[
-            select * from t_employee where 1 = 1
+            select * from t_blog where 1 = 1
         ]]></sql>
         <params>
-            <param name="ids"/>
+            <param name="id"></param>
         </params>
         <filters>
-            <filter name="guid"><![CDATA[
-                and guid = :guid
+            <filter name="title"><![CDATA[
+                and title = :title
             ]]></filter>
         </filters>
-        <endSql><![CDATA[
+        <endSql>
             order by id desc
-        ]]></endSql>
+        </endSql>
     </config>
 </root>

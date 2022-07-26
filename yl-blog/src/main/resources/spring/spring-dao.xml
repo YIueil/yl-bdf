@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/data/jpa https://www.springframework.org/schema/data/jpa/spring-jpa.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+    <context:property-placeholder location="classpath:properties/jdbc.properties"/>
+
+    <tx:annotation-driven transaction-manager="jpaTransactionManager"/>
+
+    <jpa:repositories base-package="cn.yiueil.repository" entity-manager-factory-ref="entityManagerFactory"
+                      transaction-manager-ref="jpaTransactionManager"/>
+
+    <bean id="druidDataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="url" value="${jdbc.url}"/>
+        <property name="driverClassName" value="${jdbc.driver}"/>
+    </bean>
+
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="packagesToScan" value="cn.yiueil.entity"/>
+        <property name="dataSource" ref="druidDataSource"/>
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="showSql" value="false"/>
+                <property name="generateDdl" value="true"/>
+                <property name="databasePlatform" value="cn.yiueil.dialect.SQLiteDialect"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="jpaTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="dataSource" ref="druidDataSource"/>
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+</beans>
