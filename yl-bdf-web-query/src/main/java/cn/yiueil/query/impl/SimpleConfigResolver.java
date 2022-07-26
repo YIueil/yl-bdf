@@ -30,9 +30,13 @@ public class SimpleConfigResolver implements ConfigResolver {
     @Override
     public Map<String, Object> buildFilters(Element element) {
         Map<String, Object> filterMap = new HashMap<>();
-        List<Element> filters = element.element("filters").elements("filter");
-        if (CollectionUtils.isNotEmpty(filters)) {
-            filters.forEach(filter -> filterMap.put(filter.attributeValue("name"), filter.getText()));
+        Element filters = element.element("filters");
+        if (filters == null) {
+            return filterMap;
+        }
+        List<Element> filterList = filters.elements("filter");
+        if (CollectionUtils.isNotEmpty(filterList)) {
+            filterList.forEach(filter -> filterMap.put(filter.attributeValue("name"), filter.getText()));
         }
         return filterMap;
     }
@@ -40,9 +44,13 @@ public class SimpleConfigResolver implements ConfigResolver {
     @Override
     public Map<String, Object> buildParams(Element element) {
         Map<String, Object> elementMap = new HashMap<>();
-        List<Element> params = element.element("params").elements("param");
-        if (CollectionUtils.isNotEmpty(params)) {
-            params.forEach(param -> elementMap.put(param.attributeValue("name"), param.attributeValue("default")));
+        Element params = element.element("params");
+        if (params == null) {
+            return elementMap;
+        }
+        List<Element> paramList = params.elements("param");
+        if (CollectionUtils.isNotEmpty(paramList)) {
+            paramList.forEach(param -> elementMap.put(param.attributeValue("name"), param.attributeValue("default")));
         }
         return elementMap;
     }
