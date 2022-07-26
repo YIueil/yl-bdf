@@ -1,6 +1,8 @@
 package cn.yiueil.entity;
 
 import cn.yiueil.lang.instance.HasGuid;
+import cn.yiueil.lang.instance.HasOwn;
+import cn.yiueil.lang.instance.HasTime;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @Table(name = "t_blog")
-public class Blog implements HasGuid {
+public class Blog implements HasGuid, HasTime, HasOwn<Integer> {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "g_blog")
     @SequenceGenerator(name = "g_blog", sequenceName = "s_blog", allocationSize = 1)
@@ -31,4 +33,7 @@ public class Blog implements HasGuid {
 
     @Column(columnDefinition = "删除时间")
     private LocalDateTime modifyTime;
+
+    @Column(columnDefinition = "创建人")
+    private Integer createUser;
 }

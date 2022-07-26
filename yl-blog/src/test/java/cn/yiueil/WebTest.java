@@ -11,8 +11,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-
 @WebAppConfiguration
 @ContextConfiguration(locations = {"classpath:spring/spring.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -29,8 +27,7 @@ public class WebTest {
     public void test1(){
         Blog blog = new Blog();
         blog.setTitle("hello world");
-        blog.setContent("我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了我服了");
-        blog.setCreateTime(LocalDateTime.now());
+        blog.setContent("内容哦");
         baseDao.save(blog);
     }
 }

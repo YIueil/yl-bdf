@@ -1,8 +1,6 @@
 package cn.yiueil.data.impl;
 
-import cn.yiueil.data.BatchDao;
-import cn.yiueil.data.GuidDao;
-import cn.yiueil.data.SqlDao;
+import cn.yiueil.data.*;
 import cn.yiueil.exception.PageException;
 import cn.yiueil.util.ParseUtils;
 import org.hibernate.query.internal.NativeQueryImpl;
@@ -20,7 +18,7 @@ import java.util.Optional;
  * Date:2022/7/22 17:50
  * Description: jpa基础查询实现
  */
-public class JpaBaseDao implements BatchDao, SqlDao, GuidDao {
+public class JpaBaseDao implements BatchDao, SqlDao, GeneratorDao {
     @PersistenceContext
     EntityManager entityManager;
 
@@ -32,6 +30,8 @@ public class JpaBaseDao implements BatchDao, SqlDao, GuidDao {
     @Override
     public void save(Object entityObject) {
         generatorGuid(entityObject);
+        generatorCreateTime(entityObject);
+        generatorCreateUser(entityObject);
         entityManager.merge(entityObject);
     }
 
