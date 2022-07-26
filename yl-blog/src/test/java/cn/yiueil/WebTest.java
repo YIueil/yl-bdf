@@ -26,8 +26,9 @@ public class WebTest {
     @Transactional
     public void test1(){
         Blog blog = new Blog();
+        blog.setId(3);
         blog.setTitle("hello world");
-        blog.setContent("内容哦");
+        blog.setContent("内容哦123444");
         baseDao.save(blog);
     }
 }

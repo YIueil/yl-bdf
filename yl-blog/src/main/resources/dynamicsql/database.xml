@@ -7,12 +7,9 @@
         <sql><![CDATA[
             select * from t_blog where 1 = 1
         ]]></sql>
-        <params>
-            <param name="id"></param>
-        </params>
         <filters>
             <filter name="title"><![CDATA[
-                and title = :title
+                and title = %:title%
             ]]></filter>
         </filters>
         <endSql>

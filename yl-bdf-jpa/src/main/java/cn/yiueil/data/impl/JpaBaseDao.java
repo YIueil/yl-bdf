@@ -30,6 +30,7 @@ public class JpaBaseDao implements BatchDao, SqlDao, GeneratorDao {
     @Override
     public void save(Object entityObject) {
         generatorGuid(entityObject);
+        updateModifyTime(entityObject);
         generatorCreateTime(entityObject);
         generatorCreateUser(entityObject);
         entityManager.merge(entityObject);
