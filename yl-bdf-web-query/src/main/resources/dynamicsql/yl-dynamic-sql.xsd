@@ -36,6 +36,8 @@
     <xs:simpleContent>
       <xs:extension base="xs:string">
         <xs:attribute type="xs:string" name="name" use="required"/>
+        <xs:attribute type="xs:string" name="left"/>
+        <xs:attribute type="xs:string" name="right"/>
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>

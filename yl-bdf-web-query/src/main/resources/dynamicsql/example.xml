@@ -15,7 +15,7 @@
             <param name="ids"/>
         </params>
         <filters>
-            <filter name="guid"><![CDATA[
+            <filter name="guid" left="" right=""><![CDATA[
                 and guid = :guid
             ]]></filter>
         </filters>

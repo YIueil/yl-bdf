@@ -20,5 +20,7 @@
 <!ELEMENT filter (#PCDATA)>
 <!ATTLIST filter
         name CDATA #REQUIRED>
+        left CDATA #IMPLIED>
+        right CDATA #IMPLIED>
 
 <!ELEMENT endSql (#PCDATA)><!--尾接SQL-->
