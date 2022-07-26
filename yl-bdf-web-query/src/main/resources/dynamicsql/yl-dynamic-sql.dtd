@@ -13,7 +13,8 @@
 <!ELEMENT params (param)*><!--内嵌参数列表-->
 <!ELEMENT param (#PCDATA)>
 <!ATTLIST param
-        name CDATA #REQUIRED>
+        name CDATA #REQUIRED
+        default CDATA #IMPLIED>
 
 <!ELEMENT filters (filter)*><!--过滤参数列表-->
 <!ELEMENT filter (#PCDATA)>
