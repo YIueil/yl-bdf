@@ -21,7 +21,7 @@ public interface BaseDao {
      * 基本保存、更新
      * @param entityObject entity对象
      */
-    void save(Object entityObject);
+    <T> T save(T entityObject);
 
     /**
      * 基本删除

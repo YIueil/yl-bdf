@@ -2,10 +2,7 @@ package cn.yiueil.data;
 
 import cn.yiueil.util.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Author:YIueil
@@ -15,16 +12,14 @@ import java.util.List;
 public interface BatchDao extends BaseDao{
     /**
      * 批量保存
-     * @param tClass 批量保存entity类型
      * @param entityList entity集合
      * @param <T> entity 类型
      * @return 批量保存结果
      */
-    default <T> List<T> batchSave(Class<T> tClass, Collection<T> entityList) {
-        if (CollectionUtils.isEmpty(entityList)) {
-            return Collections.emptyList();
+    default <T> void batchSave(Collection<T> entityList) {
+        for (T next : entityList) {
+            save(next);
         }
-        return new ArrayList<>(entityList);
     }
 
     /**

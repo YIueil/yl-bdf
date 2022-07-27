@@ -2,6 +2,7 @@ package cn.yiueil.data.impl;
 
 import cn.yiueil.data.*;
 import cn.yiueil.exception.PageException;
+import cn.yiueil.lang.instance.HasId;
 import cn.yiueil.util.ParseUtils;
 import org.hibernate.query.internal.NativeQueryImpl;
 import org.hibernate.transform.Transformers;
@@ -28,13 +29,24 @@ public class JpaBaseDao implements BatchDao, SqlDao, GeneratorDao {
     }
 
     @Override
-    public void save(Object entityObject) {
+    public <T> T save(T entityObject) {
         generatorGuid(entityObject);
         updateModifyTime(entityObject);
         generatorCreateTime(entityObject);
         generatorCreateUser(entityObject);
-        entityManager.merge(entityObject);
+        if (entityObject instanceof HasId) {
+            if (((HasId<?>) entityObject).getId() == null) {
+                entityManager.persist(entityObject);
+            } else {
+                entityManager.merge(entityObject);
+            }
+        } else {
+            entityManager.merge(entityObject);
+        }
+        return entityObject;
     }
+
+
 
     @Override
     public void delete(Object entityObject) {

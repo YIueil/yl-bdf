@@ -10,6 +10,6 @@ import javax.persistence.Column;
 public interface HasGuid {
     void setGuid(String guid);
 
-    @Column(name = "guid", length = 64)
+    @Column(name = "guid", length = 32, columnDefinition = "Guid")
     String getGuid();
 }

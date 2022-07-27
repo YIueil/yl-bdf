@@ -1,26 +1,31 @@
 package cn.yiueil.entity;
 
-import cn.yiueil.lang.instance.HasGuid;
-import cn.yiueil.lang.instance.HasOwn;
-import cn.yiueil.lang.instance.HasTime;
+import cn.yiueil.lang.instance.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "t_blog")
-public class Blog implements HasGuid, HasTime, HasOwn<Integer> {
+public class Blog implements BaseEntity<Integer>, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "g_blog")
     @SequenceGenerator(name = "g_blog", sequenceName = "s_blog", allocationSize = 1)
     private Integer id;
 
-    @Column(length = 32)
     private String guid;
+
+    private LocalDateTime createTime;
+
+    private LocalDateTime modifyTime;
+
+    private Integer createUser;
 
     @Column(length = 100, columnDefinition = "标题")
     private String title;
@@ -28,12 +33,11 @@ public class Blog implements HasGuid, HasTime, HasOwn<Integer> {
     @Column(length = 1024, columnDefinition = "内容")
     private String content;
 
-    @Column(columnDefinition = "创建时间")
-    private LocalDateTime createTime;
-
-    @Column(columnDefinition = "删除时间")
-    private LocalDateTime modifyTime;
-
-    @Column(columnDefinition = "创建人")
-    private Integer createUser;
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "tr_blog_tag",
+            joinColumns = {@JoinColumn(name = "fk_blog_id")},
+            inverseJoinColumns = {@JoinColumn(name = "fk_tag_id")}
+    )
+    private List<Tag> tags;
 }
