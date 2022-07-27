@@ -1,5 +1,6 @@
 package cn.yiueil.lang.instance;
 
+import javax.persistence.Column;
 import javax.persistence.Id;
 
 /**
