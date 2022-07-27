@@ -1,4 +1,4 @@
-package cn.yiueil.query;
+package cn.yiueil.query.instance;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -24,7 +24,7 @@ public class DynamicQuery {
 
     private String endSql;
 
-    private Map<String, Object> params;
+    private Map<String, Param> params;
 
-    private Map<String, Object> filters;
+    private Map<String, Filter> filters;
 }

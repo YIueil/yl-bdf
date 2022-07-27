@@ -4,7 +4,7 @@ import cn.yiueil.data.impl.JpaBaseDao;
 import cn.yiueil.dto.DynamicQueryDTO;
 import cn.yiueil.exception.BusinessException;
 import cn.yiueil.query.ConfigResolver;
-import cn.yiueil.query.DynamicQuery;
+import cn.yiueil.query.instance.DynamicQuery;
 import cn.yiueil.query.DynamicQueryNode;
 import cn.yiueil.query.DynamicQueryPool;
 import cn.yiueil.query.instance.DynamicQueryInst;

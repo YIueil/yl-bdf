@@ -8,8 +8,8 @@
             select * from t_blog where 1 = 1
         ]]></sql>
         <filters>
-            <filter name="title"><![CDATA[
-                and title = %:title%
+            <filter name="title" left="%" right="%"><![CDATA[
+                and title like :title
             ]]></filter>
         </filters>
         <endSql>

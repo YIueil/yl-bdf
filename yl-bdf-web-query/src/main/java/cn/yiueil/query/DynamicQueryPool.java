@@ -1,6 +1,7 @@
 package cn.yiueil.query;
 
 import cn.yiueil.dto.DynamicQueryDTO;
+import cn.yiueil.query.instance.DynamicQuery;
 import cn.yiueil.util.ArrayUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +34,8 @@ public class DynamicQueryPool implements InitializingBean {
      */
     public Optional<DynamicQueryNode> findDynamicNode(DynamicQueryDTO dynamicQueryDTO) {
         DynamicQueryNode dynamicQueryNode = null;
-        if (dynamicSqlMap.containsKey(dynamicQueryDTO.getConfigFile())) {
-            dynamicQueryNode = dynamicSqlMap.get(dynamicQueryDTO.getConfigFile());
+        if (dynamicSqlMap.containsKey(dynamicQueryDTO.getFullPath())) {
+            dynamicQueryNode = dynamicSqlMap.get(dynamicQueryDTO.getFullPath());
         }
         return Optional.ofNullable(dynamicQueryNode);
     }

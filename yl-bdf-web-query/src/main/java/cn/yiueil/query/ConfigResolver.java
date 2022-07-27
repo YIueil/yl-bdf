@@ -1,6 +1,9 @@
 package cn.yiueil.query;
 
+import cn.yiueil.query.instance.DynamicQuery;
 import cn.yiueil.query.instance.DynamicQueryInst;
+import cn.yiueil.query.instance.Filter;
+import cn.yiueil.query.instance.Param;
 import cn.yiueil.util.CollectionUtils;
 import cn.yiueil.util.XmlUtils;
 import org.dom4j.Document;
@@ -78,21 +81,21 @@ public interface ConfigResolver {
      * @param parameters 查询参数列表
      * @return 符合jpa执行规范的sql
      */
-    String buildSql(String mixSql, String endSql, Map<String, Object> filters, Map<String, Object> parameters);
+    String buildSql(String mixSql, String endSql, Map<String, Filter> filters, Map<String, Object> parameters);
 
     /**
      * 构造过滤参数列表
      * @param element 配置节点
      * @return 过滤参数列表Map
      */
-    Map<String, Object> buildFilters(Element element);
+    Map<String, Filter> buildFilters(Element element);
 
     /**
      * 构造内嵌参数列表
      * @param element 配置节点
      * @return 内嵌参数集合
      */
-    Map<String, Object> buildParams(Element element);
+    Map<String, Param> buildParams(Element element);
 
     /**
      * 构造sql主体部分
@@ -110,7 +113,7 @@ public interface ConfigResolver {
     String buildEndSql(Element element);
 
     /**
-     * 构造实际的查询参数列表(拼接默认值)
+     * 构造实际的查询参数列表, 参数处理 (默认值处理, 字符串拼接操作)
      * @param dynamicQueryInst 查动态询实例
      * @param parameters 查询参数列表
      */

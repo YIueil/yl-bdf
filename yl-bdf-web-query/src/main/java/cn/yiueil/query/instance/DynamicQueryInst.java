@@ -1,6 +1,5 @@
 package cn.yiueil.query.instance;
 
-import cn.yiueil.query.DynamicQuery;
 import lombok.Getter;
 import lombok.Setter;
 
