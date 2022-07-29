@@ -2,6 +2,7 @@ package cn.yiueil.util;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -11,7 +12,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class JSONUtils {
     private static class SingletonRegistry {
-        private static final ObjectMapper objectMapper = new ObjectMapper();
+        private static final ObjectMapper objectMapper;
+        static {
+            objectMapper = new ObjectMapper();
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false); // 忽略不能反序列化的字段
+        }
     }
 
     /**

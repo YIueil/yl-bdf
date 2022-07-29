@@ -1,7 +1,10 @@
 package cn.yiueil.entity;
 
 import cn.yiueil.lang.instance.BaseEntity;
+import cn.yiueil.lang.instance.HasParent;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -13,7 +16,9 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "t_blog")
-public class Blog implements BaseEntity<Integer>, Serializable {
+@NoArgsConstructor
+@AllArgsConstructor
+public class Blog implements BaseEntity<Integer>, HasParent<Integer>, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "g_blog")
     @SequenceGenerator(name = "g_blog", sequenceName = "s_blog", allocationSize = 1)
@@ -26,6 +31,8 @@ public class Blog implements BaseEntity<Integer>, Serializable {
     private LocalDateTime modifyTime;
 
     private Integer createUser;
+
+    private Integer parentId;
 
     @Column(length = 100, columnDefinition = "标题")
     private String title;

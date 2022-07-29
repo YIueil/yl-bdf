@@ -3,7 +3,6 @@ package cn.yiueil;
 import cn.yiueil.data.impl.JpaBaseDao;
 import cn.yiueil.entity.Blog;
 import cn.yiueil.entity.Tag;
-import cn.yiueil.repository.BlogRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +22,6 @@ public class WebTest {
     @Autowired
     JpaBaseDao baseDao;
 
-    @Autowired
-    BlogRepository repository;
-
     /**
      * 测试：
      */
@@ -33,14 +29,21 @@ public class WebTest {
     @Commit
     @Transactional
     public void test1(){
-        Blog blog = new Blog();
-        blog.setTitle("hello world");
-        blog.setContent("内容哦123444");
-        List<Tag> tagList = new ArrayList<>();
-        tagList.add(new Tag("杂谈"));
-        tagList.add(new Tag("技术"));
-        blog.setTags(tagList);
-        baseDao.batchSave(tagList);
-        baseDao.save(blog);
+        Blog front = new Blog(null, null, null, null, null, 0, "前端", "前端", null);
+        baseDao.save(front);
+        Blog front_children1 = new Blog(null, null, null, null, null, front.getId(), "前端基础", "前端基础", null);
+        baseDao.save(front_children1);
+        Blog front_children1_1 = new Blog(null, null, null, null, null, front_children1.getId(), "html", "html", null);
+        Blog front_children1_2 = new Blog(null, null, null, null, null, front_children1.getId(), "css", "css", null);
+        Blog front_children1_3 = new Blog(null, null, null, null, null, front_children1.getId(), "js", "js", null);
+        baseDao.save(front_children1_1);
+        baseDao.save(front_children1_2);
+        baseDao.save(front_children1_3);
+        Blog backend = new Blog(null, null, null, null, null, 0, "后端", "后端", null);
+        baseDao.save(backend);
+        Blog backend_children1 = new Blog(null, null, null, null, null, backend.getId(), "java", "java", null);
+        Blog backend_children2 = new Blog(null, null, null, null, null, backend.getId(), "python", "python", null);
+        baseDao.save(backend_children1);
+        baseDao.save(backend_children2);
     }
 }
