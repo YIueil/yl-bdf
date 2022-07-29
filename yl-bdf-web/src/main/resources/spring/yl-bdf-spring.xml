@@ -6,6 +6,4 @@
     <context:component-scan base-package="cn.yiueil"/>
 
     <import resource="classpath:spring/yl-bdf-webmvc.xml"/><!-- webmvc相关配置-->
-    <import resource="classpath:spring/yl-bdf-jpa.xml"/><!-- jpa相关配置 -->
-    <import resource="classpath:spring/yl-bdf-query.xml"/><!--query相关配置-->
 </beans>

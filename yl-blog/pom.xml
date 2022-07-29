@@ -63,7 +63,7 @@
         <!--yl-bdf框架支持-->
         <dependency>
             <groupId>cn.yiueil</groupId>
-            <artifactId>yl-bdf-all</artifactId>
+            <artifactId>yl-bdf-jpa</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 

@@ -5,6 +5,7 @@ import cn.yiueil.query.instance.DynamicQuery;
 import cn.yiueil.util.ArrayUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.net.URL;
@@ -17,6 +18,7 @@ import java.util.Optional;
  * Date:2022/7/26 0:09
  * Description: 动态查询资源池 资源池包含多个节点，一个文件一个节点
  */
+@Component
 public class DynamicQueryPool implements InitializingBean {
     @Autowired
     private ConfigResolver configResolver; // 处理器

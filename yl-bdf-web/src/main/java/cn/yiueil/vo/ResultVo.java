@@ -2,6 +2,8 @@ package cn.yiueil.vo;
 
 import cn.yiueil.enums.ResultCode;
 import cn.yiueil.lang.instance.CodeStatus;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 
 import java.io.Serializable;
@@ -13,11 +15,21 @@ import java.util.Arrays;
  * Description: 接口返回包装视图类
  */
 @Getter
+@ApiModel(value = "标准返回视图对象")
 public class ResultVo implements Serializable {
+    @ApiModelProperty(value = "应用响应状态码")
     private Integer code;
+
+    @ApiModelProperty(value = "接口返回状态信息")
     private String msg;
+
+    @ApiModelProperty(value = "错误请求栈信息(错误时必须)")
     private String stackTrace;// 错误请求栈信息(错误时必须)
+
+    @ApiModelProperty(value = "接口提示信息")
     private String tips; // 接口提示信息(可选)
+
+    @ApiModelProperty(value = "返回结果体")
     private Object body;// 返回结果请求体(可选)
 
     private ResultVo() {

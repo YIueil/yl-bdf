@@ -47,6 +47,13 @@
             <version>${project.parent.version}</version>
         </dependency>
 
+        <!--swagger注解-->
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>${swagger.annotaions.version}</version>
+        </dependency>
+
         <!--servlet支持-->
         <dependency>
             <groupId>javax.servlet</groupId>

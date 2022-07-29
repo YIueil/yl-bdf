@@ -6,6 +6,7 @@ import cn.yiueil.lang.instance.HasId;
 import cn.yiueil.util.ParseUtils;
 import org.hibernate.query.internal.NativeQueryImpl;
 import org.hibernate.transform.Transformers;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -19,6 +20,7 @@ import java.util.Optional;
  * Date:2022/7/22 17:50
  * Description: jpa基础查询实现
  */
+@Repository
 public class JpaBaseDao implements BatchDao, SqlDao, GeneratorDao {
     @PersistenceContext
     EntityManager entityManager;

@@ -9,6 +9,7 @@ import cn.yiueil.util.CollectionUtils;
 import cn.yiueil.util.MapUtils;
 import cn.yiueil.util.ParseUtils;
 import org.dom4j.Element;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.Map;
  * Date:2022/7/25 19:53
  * Description: 简单实现sql拼接 存在sql注入风险
  */
+@Component
 public class SimpleConfigResolver implements ConfigResolver {
     @Override
     public String buildMixSql(Element element) {
