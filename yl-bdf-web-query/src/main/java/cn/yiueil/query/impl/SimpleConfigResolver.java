@@ -8,6 +8,7 @@ import cn.yiueil.query.instance.Param;
 import cn.yiueil.util.CollectionUtils;
 import cn.yiueil.util.MapUtils;
 import cn.yiueil.util.ParseUtils;
+import cn.yiueil.util.StringUtils;
 import org.dom4j.Element;
 import org.springframework.stereotype.Component;
 
@@ -77,6 +78,8 @@ public class SimpleConfigResolver implements ConfigResolver {
     public DynamicQueryInst constructInst(DynamicQuery dynamicQuery, Map<String, Object> parameters) {
         DynamicQueryInst dynamicQueryInst = DynamicQueryInst.of(dynamicQuery);
         buildParameters(dynamicQueryInst, parameters); // 对于没有传入参数的, 取默认值
+        concatFilterExtra(dynamicQueryInst, parameters);
+
         dynamicQueryInst.setSql(buildSql(dynamicQueryInst.getMixSql(), dynamicQueryInst.getEndSql(),
                 dynamicQueryInst.getFilters(), parameters));
         dynamicQueryInst.setCountSql(buildCount(dynamicQueryInst.getSql()));
@@ -84,25 +87,27 @@ public class SimpleConfigResolver implements ConfigResolver {
     }
 
     public void buildParameters(DynamicQueryInst dynamicQueryInst, Map<String, Object> parameters) {
-        HashMap<String, Object> newParameters = new HashMap<>(parameters);
-        setDefaultParamValue(dynamicQueryInst, parameters, newParameters);
-        concatFilterExtra(dynamicQueryInst, parameters, newParameters);
-        dynamicQueryInst.setParameters(newParameters);
+        setDefaultParamValue(dynamicQueryInst, parameters, parameters);
     }
 
-    private void concatFilterExtra(DynamicQueryInst dynamicQueryInst, Map<String, Object> parameters, HashMap<String, Object> newParameters) {
+    private void concatFilterExtra(DynamicQueryInst dynamicQueryInst, Map<String, Object> parameters) {
+        Map<String, Object> newParameters = new HashMap<>();
         Map<String, Filter> filters = dynamicQueryInst.getFilters();
         if (MapUtils.isNotEmpty(filters)) {
             for (String paramKey : filters.keySet()) {
                 if (parameters.containsKey(paramKey)) {
                     Filter filter = filters.get(paramKey);
-                    newParameters.put(paramKey, filter.getLeft() + ParseUtils.getString(parameters.get(paramKey), "") + filter.getRight());
+                    newParameters.put(paramKey,
+                            ParseUtils.getString(filter.getLeft(), "")
+                            + ParseUtils.getString(parameters.get(paramKey), "")
+                            + ParseUtils.getString(filter.getRight(), ""));
                 }
             }
         }
+        dynamicQueryInst.setParameters(newParameters);
     }
 
-    private void setDefaultParamValue(DynamicQueryInst dynamicQueryInst, Map<String, Object> parameters, HashMap<String, Object> newParameters) {
+    private void setDefaultParamValue(DynamicQueryInst dynamicQueryInst, Map<String, Object> parameters, Map<String, Object> newParameters) {
         Map<String, Param> params = dynamicQueryInst.getParams();
         if (MapUtils.isNotEmpty(params)) {
             for (String paramKey : params.keySet()) {

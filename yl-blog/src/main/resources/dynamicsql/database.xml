@@ -11,6 +11,9 @@
             <filter name="title" left="%" right="%"><![CDATA[
                 and title like :title
             ]]></filter>
+            <filter name="parentId"><![CDATA[
+                and parentId > :parentId
+            ]]></filter>
         </filters>
         <endSql>
             order by createTime
