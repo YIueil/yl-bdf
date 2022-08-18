@@ -15,13 +15,13 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "t_blog")
+@Table(name = "t_page")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Blog implements BaseEntity<Integer>, HasParent<Integer>, Serializable {
+public class PageEntity implements BaseEntity<Integer>, HasParent<Integer>, Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "g_blog")
-    @SequenceGenerator(name = "g_blog", sequenceName = "s_blog", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "g_page")
+    @SequenceGenerator(name = "g_page", sequenceName = "s_page", allocationSize = 1)
     private Integer id;
 
     private String guid;
@@ -42,9 +42,9 @@ public class Blog implements BaseEntity<Integer>, HasParent<Integer>, Serializab
 
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
-            name = "tr_blog_tag",
-            joinColumns = {@JoinColumn(name = "fk_blog_id")},
+            name = "tr_page_tag",
+            joinColumns = {@JoinColumn(name = "fk_page_id")},
             inverseJoinColumns = {@JoinColumn(name = "fk_tag_id")}
     )
-    private List<Tag> tags;
+    private List<TagEntity> tags;
 }

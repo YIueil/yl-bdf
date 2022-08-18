@@ -9,7 +9,7 @@ import java.util.List;
  * Date:2022/7/30 5:47
  * Description: blog服务
  */
-public interface BlogService {
+public interface PageService {
 
-    List<Tree<Integer>> getBlogTree();
+    List<Tree<Integer>> getPageTree();
 }

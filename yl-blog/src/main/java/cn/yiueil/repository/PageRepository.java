@@ -1,9 +1,9 @@
 package cn.yiueil.repository;
 
-import cn.yiueil.entity.Blog;
+import cn.yiueil.entity.PageEntity;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.CrudRepository;
 
-public interface BlogRepository extends CrudRepository<Blog, Integer>, JpaSpecificationExecutor<Blog> {
+public interface PageRepository extends CrudRepository<PageEntity, Integer>, JpaSpecificationExecutor<PageEntity> {
 
 }

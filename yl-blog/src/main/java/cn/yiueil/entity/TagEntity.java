@@ -14,8 +14,8 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "t_tag")
 @NoArgsConstructor
-public class Tag implements BaseEntity<Integer>, Serializable {
-    public Tag(String name) {
+public class TagEntity implements BaseEntity<Integer>, Serializable {
+    public TagEntity(String name) {
         this.name = name;
     }
 
