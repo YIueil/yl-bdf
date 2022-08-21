@@ -1,9 +1,7 @@
 package cn.yiueil.controller;
 
 import cn.yiueil.dto.SpaceDTO;
-import cn.yiueil.entity.SpaceEntity;
 import cn.yiueil.service.SpaceService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
