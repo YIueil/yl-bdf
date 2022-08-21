@@ -1,9 +1,12 @@
 package cn.yiueil.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import cn.yiueil.dto.SpaceDTO;
+import cn.yiueil.entity.SpaceEntity;
+import cn.yiueil.service.SpaceService;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Author:YIueil
@@ -12,9 +15,28 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(value = "/space")
-public class SpaceController implements BaseController{
+public class SpaceController implements LoggedController{
+    @Autowired
+    SpaceService spaceService;
+
     @GetMapping(value = "/{id}")
-    public String getSpace(@PathVariable String id) {
-        return null;
+    public String getSpace(@PathVariable Integer id) {
+        return success(spaceService.getSpace(id));
+    }
+
+    @GetMapping(value = "/list")
+    public String getSpaceList() {
+        return success(spaceService.listSpace());
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public String removeSpace(@PathVariable Integer id) {
+        spaceService.deleteSpace(id);
+        return success();
+    }
+
+    @PostMapping
+    public String addSpace(@RequestBody @Validated SpaceDTO spaceDTO) {
+        return success(spaceService.saveSpace(spaceDTO));
     }
 }

@@ -16,6 +16,7 @@ public class JSONUtils {
         static {
             objectMapper = new ObjectMapper();
             objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false); // 忽略不能反序列化的字段
+            objectMapper.findAndRegisterModules(); // 注册 jsr 扩展
         }
     }
 

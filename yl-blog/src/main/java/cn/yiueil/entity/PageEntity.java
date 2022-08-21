@@ -34,6 +34,9 @@ public class PageEntity implements BaseEntity<Integer>, HasParent<Integer>, Seri
 
     private Integer parentId;
 
+    @Column(columnDefinition = "icon")
+    private String iconUrl;
+
     @Column(length = 100, columnDefinition = "标题")
     private String title;
 

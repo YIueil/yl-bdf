@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/page")
-public class PageController implements BaseController{
+public class PageController implements LoggedController{
     @Autowired
     PageService pageService;
 
