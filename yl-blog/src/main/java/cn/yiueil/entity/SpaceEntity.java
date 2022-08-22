@@ -1,6 +1,7 @@
 package cn.yiueil.entity;
 
 import cn.yiueil.lang.instance.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,6 +43,7 @@ public class SpaceEntity implements BaseEntity<Integer>, Serializable {
     @Column(length = 30, columnDefinition = "空间名")
     private String name;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "fk_space_id")
     List<PageEntity> pageList;

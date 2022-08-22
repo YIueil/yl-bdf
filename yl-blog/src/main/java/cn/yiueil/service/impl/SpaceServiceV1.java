@@ -24,7 +24,6 @@ public class SpaceServiceV1 implements SpaceService {
     SpaceRepository spaceRepository;
 
     @Override
-    @Transactional(readOnly = true)
     public SpaceEntity getSpace(Integer id) {
         return spaceRepository.findById(id).orElse(null);
     }
@@ -36,7 +35,7 @@ public class SpaceServiceV1 implements SpaceService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public Iterable<SpaceEntity> listSpace() {
         return spaceRepository.findAll();
     }
