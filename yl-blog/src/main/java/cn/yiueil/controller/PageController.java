@@ -38,6 +38,6 @@ public class PageController implements LoggedController{
     @ApiOperation(value = "page: 获取文章树", notes = "查询整个文章列表, 组装树形结构", response = ResultVo.class)
     @GetMapping(value = "/tree")
     public String getPageTree(@RequestParam Integer spaceId) {
-        return success(pageService.getPageTree());
+        return success(pageService.listPageTree());
     }
 }

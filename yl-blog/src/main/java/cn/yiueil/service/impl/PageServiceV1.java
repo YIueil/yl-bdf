@@ -50,7 +50,7 @@ public class PageServiceV1 implements PageService {
     }
 
     @Override
-    public List<Tree<Integer>> getPageTree() {
+    public List<Tree<Integer>> listPageTree() {
         List<PageEntity> pages = pageRepository.findAll((root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));

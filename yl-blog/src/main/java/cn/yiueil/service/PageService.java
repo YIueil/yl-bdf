@@ -18,7 +18,7 @@ public interface PageService extends ModelTransform<PageDTO, PageEntity> {
 
     void deletePageById(Integer id);
 
-    List<Tree<Integer>> getPageTree();
+    List<Tree<Integer>> listPageTree();
 
     Object findPageById(Integer id);
 }
