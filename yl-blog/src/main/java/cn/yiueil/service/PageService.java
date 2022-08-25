@@ -18,7 +18,7 @@ public interface PageService extends ModelTransform<PageDTO, PageEntity> {
 
     void deletePageById(Integer id);
 
-    List<Tree<Integer>> listPageTree();
+    List<Tree<Integer>> listPageTree() throws RuntimeException;
 
     Object findPageById(Integer id);
 }

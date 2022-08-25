@@ -15,8 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -40,6 +39,7 @@ public class PageServiceV1 implements PageService {
     }
 
     @Override
+    @Transactional
     public void deletePageById(Integer id) {
         baseDao.deleteById(PageEntity.class, id);
     }
@@ -50,13 +50,21 @@ public class PageServiceV1 implements PageService {
     }
 
     @Override
-    public List<Tree<Integer>> listPageTree() {
+    public List<Tree<Integer>> listPageTree() throws RuntimeException {
         List<PageEntity> pages = pageRepository.findAll((root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
         return TreeUtils.build(pages.stream()
-                .map(page -> new TreeNode<>(page.getId(), page.getParentId(), page.getTitle(), 1, null))
+                .map(page -> {
+                    Map<String, Object> extra = new HashMap<>();
+                    extra.put("id", page.getId());
+                    extra.put("guid", page.getGuid());
+                    extra.put("title", page.getTitle());
+                    extra.put("parentId", page.getParentId());
+                    extra.put("content", page.getContent());
+                    return new TreeNode<>(page.getId(), page.getParentId(), page.getTitle(), 1, extra);
+                })
                 .collect(Collectors.toList()), 0);
     }
 

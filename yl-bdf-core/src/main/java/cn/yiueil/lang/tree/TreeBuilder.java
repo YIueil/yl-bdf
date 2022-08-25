@@ -110,7 +110,7 @@ public class TreeBuilder<T> implements Builder<Tree<T>>, Serializable {
                 continue;
             }
             parentId = node.getParentId();
-            if ((parentId == null && root.getId() == null) || root.getId().equals(parentId)) {
+            if (root.getId().equals(parentId)) {
                 root.addChildren(node);
                 continue;
             }
