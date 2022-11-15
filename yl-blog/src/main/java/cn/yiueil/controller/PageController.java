@@ -14,7 +14,7 @@ import java.util.ArrayList;
 @CrossOrigin
 @RestController
 @RequestMapping(value = "/page")
-public class PageController implements LoggedController{
+public class PageController implements LoggedController {
     @Autowired
     PageService pageService;
 

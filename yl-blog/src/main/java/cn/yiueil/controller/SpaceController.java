@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RestController
 @RequestMapping(value = "/space")
-public class SpaceController implements LoggedController{
+public class SpaceController implements LoggedController {
     @Autowired
     SpaceService spaceService;
 

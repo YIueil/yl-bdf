@@ -1,5 +1,6 @@
 package cn.yiueil.controller;
 
+import cn.yiueil.constant.SearchRestURL;
 import cn.yiueil.dto.DynamicQueryDTO;
 import cn.yiueil.vo.PageVo;
 import cn.yiueil.general.RestURL;
@@ -20,8 +21,8 @@ import java.util.Map;
  * Description: 通用查询
  */
 @RestController
-@RequestMapping(value = RestURL.REQUEST_PATH)
-public class SearchController implements LoggedController{
+@RequestMapping(value = RestURL.BASE_PATH + SearchRestURL.QUERY)
+public class SearchController implements LoggedController {
     @Autowired
     SearchService searchService;
 

@@ -16,6 +16,7 @@
         <module>yl-bdf-web</module>
         <module>yl-bdf-web-query</module>
         <module>yl-bdf-web-swagger</module>
+        <module>yl-bdf-orup</module>
     </modules>
     <packaging>pom</packaging>
 

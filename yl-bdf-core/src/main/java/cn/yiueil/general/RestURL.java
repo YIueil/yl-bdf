@@ -1,5 +1,5 @@
 package cn.yiueil.general;
 
 public interface RestURL {
-    String REQUEST_PATH = "/bdf-web";
+    String BASE_PATH = "/bdf-web";
 }
