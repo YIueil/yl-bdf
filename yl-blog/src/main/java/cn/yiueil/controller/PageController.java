@@ -37,10 +37,15 @@ public class PageController implements LoggedController {
         return success(pageService.savePage(pageDTO));
     }
 
-
     @ApiOperation(value = "page: 获取文章树", notes = "查询整个文章列表, 组装树形结构", response = ResultVo.class)
     @GetMapping(value = "/tree")
     public String listPageTree(@RequestParam Integer spaceId) {
         return success(ObjectUtils.defaultIfNull(pageService.listPageTree(), new ArrayList<>()));
+    }
+
+    @ApiOperation(value = "page: 获取文章", notes = "查询整个文章列表, 组装树形结构", response = ResultVo.class)
+    @GetMapping(value = "/{id}")
+    public String getPage(@PathVariable Integer id) {
+        return success(ObjectUtils.defaultIfNull(pageService.findPageById(id), new ArrayList<>()));
     }
 }

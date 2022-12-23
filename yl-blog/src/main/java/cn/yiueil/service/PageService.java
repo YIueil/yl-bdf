@@ -20,5 +20,5 @@ public interface PageService extends ModelTransform<PageDTO, PageEntity> {
 
     List<Tree<Integer>> listPageTree() throws RuntimeException;
 
-    Object findPageById(Integer id);
+    PageDTO findPageById(Integer id);
 }

@@ -45,6 +45,7 @@ public class PageServiceV1 implements PageService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public PageDTO findPageById(Integer id) {
         return entity2Dto(baseDao.findById(PageEntity.class, id).orElseThrow(ResourceNotFoundException::new));
     }

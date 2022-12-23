@@ -43,7 +43,7 @@ public class PageEntity implements BaseEntity<Integer>, HasParent<Integer>, Seri
     @Column(length = 1024, columnDefinition = "内容")
     private String content;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinTable(
             name = "tr_page_tag",
             joinColumns = {@JoinColumn(name = "fk_page_id")},
