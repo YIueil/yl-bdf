@@ -32,6 +32,6 @@ public class TagEntity implements BaseEntity<Integer>, Serializable {
 
     private Integer createUser;
 
-    @Column(length = 30, columnDefinition = "标签名")
+    @Column(length = 30)
     private String name;
 }

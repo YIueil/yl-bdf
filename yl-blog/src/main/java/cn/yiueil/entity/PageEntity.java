@@ -34,13 +34,13 @@ public class PageEntity implements BaseEntity<Integer>, HasParent<Integer>, Seri
 
     private Integer parentId;
 
-    @Column(columnDefinition = "icon")
+    @Column(length = 500)
     private String iconUrl;
 
-    @Column(length = 100, columnDefinition = "标题")
+    @Column(length = 100)
     private String title;
 
-    @Column(length = 1024, columnDefinition = "内容")
+    @Column(length = 1024)
     private String content;
 
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)

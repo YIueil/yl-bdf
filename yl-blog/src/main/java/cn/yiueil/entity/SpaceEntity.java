@@ -37,10 +37,10 @@ public class SpaceEntity implements BaseEntity<Integer>, Serializable {
 
     private Integer createUser;
 
-    @Column(columnDefinition = "icon")
+    @Column(length = 500)
     private String iconUrl;
 
-    @Column(length = 30, columnDefinition = "空间名")
+    @Column(length = 30)
     private String name;
 
     @JsonIgnore

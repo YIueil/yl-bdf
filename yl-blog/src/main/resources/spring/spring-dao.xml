@@ -14,6 +14,8 @@
     <bean id="druidDataSource" class="com.alibaba.druid.pool.DruidDataSource">
         <property name="url" value="${jdbc.url}"/>
         <property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
     </bean>
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
@@ -23,7 +25,7 @@
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
                 <property name="showSql" value="false"/>
                 <property name="generateDdl" value="true"/>
-                <property name="databasePlatform" value="cn.yiueil.dialect.SQLiteDialect"/>
+                <property name="databasePlatform" value="org.hibernate.dialect.MySQL57Dialect"/>
             </bean>
         </property>
     </bean>
