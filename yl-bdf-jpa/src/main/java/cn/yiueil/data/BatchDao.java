@@ -14,7 +14,6 @@ public interface BatchDao extends BaseDao{
      * 批量保存
      * @param entityList entity集合
      * @param <T> entity 类型
-     * @return 批量保存结果
      */
     default <T> void batchSave(Collection<T> entityList) {
         for (T next : entityList) {

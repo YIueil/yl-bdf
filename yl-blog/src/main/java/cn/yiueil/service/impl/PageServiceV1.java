@@ -9,14 +9,15 @@ import cn.yiueil.lang.tree.TreeNode;
 import cn.yiueil.repository.PageRepository;
 import cn.yiueil.service.PageService;
 import cn.yiueil.util.TreeUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
-import java.util.*;
-import java.util.function.Supplier;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
