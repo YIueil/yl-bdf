@@ -22,8 +22,8 @@ public class ORUPController implements LoggedController{
     @GetMapping(value = "currentUser")
     public String currentUser(HttpServletRequest request) {
         HashMap<String, Object> user = new HashMap<>();
-        user.put("id", 1);
-        user.put("name", "张三");
+        user.put("id", -1);
+        user.put("name", "游客");
         return success(getUser(request) == null ? user : getUser(request));
     }
 }

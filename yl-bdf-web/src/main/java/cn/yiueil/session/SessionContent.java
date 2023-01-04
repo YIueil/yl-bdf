@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 public class SessionContent {
-    public static final String SESSION_KEY = "SESSION-CONTENT"; // 会话session名称
+    public static final String SESSION_KEY = "YL-SESSION"; // 会话session名称
 
     private String ip; // 会话ip
     private User user; // 当前会话的用户信息
