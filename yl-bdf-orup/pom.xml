@@ -8,13 +8,15 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <description>用户账户模块</description>
+    <description>用户账户模块-基于jwt实现</description>
 
     <artifactId>yl-bdf-orup</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
+
+        <java-jwt.version>4.2.1</java-jwt.version>
     </properties>
 
     <profiles>
@@ -45,6 +47,16 @@
             <groupId>cn.yiueil</groupId>
             <artifactId>yl-bdf-web</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.yiueil</groupId>
+            <artifactId>yl-bdf-jpa</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>${java-jwt.version}</version>
         </dependency>
     </dependencies>
 

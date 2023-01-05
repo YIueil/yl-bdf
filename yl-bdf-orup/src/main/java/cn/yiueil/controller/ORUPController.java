@@ -1,11 +1,13 @@
 package cn.yiueil.controller;
 
-import cn.yiueil.general.RestURL;
 import cn.yiueil.constant.ORUPRestURL;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import cn.yiueil.data.impl.JpaBaseDao;
+import cn.yiueil.exception.ResourceNotFoundException;
+import cn.yiueil.general.RestURL;
+import cn.yiueil.lang.instance.User;
+import cn.yiueil.util.JWTUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -19,6 +21,19 @@ import java.util.HashMap;
 @RestController
 @RequestMapping(value = RestURL.BASE_PATH + ORUPRestURL.ORUP)
 public class ORUPController implements LoggedController{
+    @Autowired
+    JpaBaseDao baseDao;
+
+    @PostMapping(value = "login")
+    public String login(User user) {
+        return JWTUtil.generateToken(baseDao.findById(User.class, user.getId()).orElseThrow(ResourceNotFoundException::new));
+    }
+
+    @PostMapping(value = "logout")
+    public String logout(User user) {
+        return null;
+    }
+
     @GetMapping(value = "currentUser")
     public String currentUser(HttpServletRequest request) {
         HashMap<String, Object> user = new HashMap<>();

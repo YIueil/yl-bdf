@@ -11,7 +11,17 @@ import java.io.Serializable;
 public interface User extends Serializable {
     Long getId();
 
+    void setId(Long id);
+
     String getGuid();
 
+    void setGuid(String guid);
+
     String getLoginName();
+
+    void setLoginName(String loginName);
+
+    String getUserName();
+
+    void setUserName(String userName);
 }
