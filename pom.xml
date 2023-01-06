@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>cn.yiueil</groupId>
+    <groupId>cc.yiueil</groupId>
     <artifactId>yl-bdf</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <modules>
@@ -25,7 +25,7 @@
             <name>yiueil</name>
             <email>yiueil@163.com</email>
             <organization>nameless</organization>
-            <organizationUrl>https://www.yiueil.cn</organizationUrl>
+            <organizationUrl>https://www.yiueil.cc</organizationUrl>
         </developer>
     </developers>
 

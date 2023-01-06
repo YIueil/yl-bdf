@@ -1,6 +1,6 @@
-import cn.yiueil.data.impl.JpaBaseDao;
-import cn.yiueil.entity.Employee;
-import cn.yiueil.repository.EmployeeRepository;
+import cc.yiueil.data.impl.JpaBaseDao;
+import cc.yiueil.entity.Employee;
+import cc.yiueil.repository.EmployeeRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Commit;

@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>yl-bdf</artifactId>
-        <groupId>cn.yiueil</groupId>
+        <groupId>cc.yiueil</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -42,37 +42,37 @@
 
     <dependencies>
         <dependency>
-            <groupId>cn.yiueil</groupId>
+            <groupId>cc.yiueil</groupId>
             <artifactId>yl-bdf-core</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
-            <groupId>cn.yiueil</groupId>
+            <groupId>cc.yiueil</groupId>
             <artifactId>yl-bdf-jpa</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
-            <groupId>cn.yiueil</groupId>
+            <groupId>cc.yiueil</groupId>
             <artifactId>yl-bdf-web</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
-            <groupId>cn.yiueil</groupId>
+            <groupId>cc.yiueil</groupId>
             <artifactId>yl-bdf-web-swagger</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
-            <groupId>cn.yiueil</groupId>
+            <groupId>cc.yiueil</groupId>
             <artifactId>yl-bdf-web-query</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
-            <groupId>cn.yiueil</groupId>
+            <groupId>cc.yiueil</groupId>
             <artifactId>yl-bdf-orup</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>

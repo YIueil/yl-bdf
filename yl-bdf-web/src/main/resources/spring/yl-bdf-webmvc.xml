@@ -10,7 +10,7 @@
        http://www.springframework.org/schema/mvc
        https://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
     <!-- 自动扫描包，让指定包下的注解生效,由IOC容器统一管理 -->
-    <context:component-scan base-package="cn.yiueil.controller"/>
+    <context:component-scan base-package="cc.yiueil.controller"/>
 
     <!-- 让Spring MVC不处理静态资源 -->
     <mvc:default-servlet-handler />

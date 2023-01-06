@@ -8,7 +8,7 @@
         </encoder>
     </appender>
 
-    <logger name="cn.yiueil" level="trace"/>
+    <logger name="cc.yiueil" level="trace"/>
 
     <root level="debug">
         <appender-ref ref="STDOUT"/>

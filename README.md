@@ -31,6 +31,7 @@
 
 ## 使用yl-bdf
 pom.xml
+
 ```xml
     <repositories>
         <repository>
@@ -42,7 +43,7 @@ pom.xml
 
     <dependencies>
         <dependency>
-            <groupId>cn.yiueil</groupId>
+            <groupId>cc.yiueil</groupId>
             <artifactId>yl-bdf-all</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
@@ -62,7 +63,7 @@ pom.xml
 
     <dependencies>
         <dependency>
-            <groupId>cn.yiueil</groupId>
+            <groupId>cc.yiueil</groupId>
             <artifactId>yl-bdf-web</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
