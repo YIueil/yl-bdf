@@ -74,7 +74,7 @@ public class JpaBaseDao implements BatchDao, SqlDao, GeneratorDao {
 
     @Override
     public <T> void deleteByGuid(Class<T> tClass, String guid) {
-        // todo 完成根据guid删除
+        findByGuid(tClass, guid).ifPresent(this::delete);
     }
 
     @Override
