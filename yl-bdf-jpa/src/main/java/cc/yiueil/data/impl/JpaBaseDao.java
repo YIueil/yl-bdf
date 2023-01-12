@@ -11,6 +11,9 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -28,6 +31,15 @@ public class JpaBaseDao implements BatchDao, SqlDao, GeneratorDao {
     @Override
     public <T> Optional<T> findById(Class<T> tClass, Object id) {
         return Optional.ofNullable(entityManager.find(tClass, id));
+    }
+
+    @Override
+    public <T> Optional<T> findByGuid(Class<T> tClass, String guid) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<T> query = criteriaBuilder.createQuery(tClass);
+        Root<T> root = query.from(tClass);
+        query.where(criteriaBuilder.equal(root.get("guid"), guid));
+        return Optional.ofNullable(entityManager.createQuery(query).getSingleResult());
     }
 
     @Override

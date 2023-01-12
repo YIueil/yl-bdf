@@ -18,6 +18,15 @@ public interface BaseDao {
     <T> Optional<T> findById(Class<T> tClass, Object id);
 
     /**
+     * 通过 guid 查找 bean
+     * @param tClass 目标类型
+     * @param guid bean 的 guid
+     * @param <T> 查找的目标类型
+     * @return
+     */
+    <T> Optional<T> findByGuid(Class<T> tClass, String guid);
+
+    /**
      * 基本保存、更新
      * @param entityObject entity对象
      */
