@@ -3,6 +3,7 @@ package cc.yiueil.query;
 import cc.yiueil.dto.DynamicQueryDTO;
 import cc.yiueil.query.instance.DynamicQuery;
 import cc.yiueil.util.ArrayUtils;
+import cc.yiueil.util.FileUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -54,18 +55,23 @@ public class DynamicQueryPool implements InitializingBean {
     public void afterPropertiesSet() throws Exception {
         for (String location : locations) {
             URL dynamicsql = DynamicQuery.class.getClassLoader().getResource(location);
-            if (dynamicsql != null) {
-                File file = new File(dynamicsql.getFile());
-                if (file.isDirectory()) {
-                    File[] files = file.listFiles();
-                    if (ArrayUtils.isNotEmpty(files)) {
-                        for (File configFile : files) {
-                            dynamicSqlMap.put(
-                                    DEFAULT_CONFIG_PATH + "/" + configFile.getName(),
-                                    configResolver.buildDynamicQueryNode(configFile)
-                            );
-                        }
+            if (dynamicsql == null) {
+                return;
+            }
+            File dynamicsqlDirectory = new File(dynamicsql.getFile());
+            if (!dynamicsqlDirectory.isDirectory()) {
+                return;
+            }
+            File[] files = dynamicsqlDirectory.listFiles();
+            if (ArrayUtils.isNotEmpty(files)) {
+                for (File configFile : files) {
+                    if (!FileUtils.checkExtra(configFile, "xml")) {
+                        continue;
                     }
+                    dynamicSqlMap.put(
+                            DEFAULT_CONFIG_PATH + "/" + configFile.getName(),
+                            configResolver.buildDynamicQueryNode(configFile)
+                    );
                 }
             }
         }

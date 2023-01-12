@@ -23,7 +23,7 @@ public class CustomExceptionHandler {
     }
 
     @ExceptionHandler({RuntimeException.class})
-    public ResultVo runtimeException(BusinessException e) {
+    public ResultVo runtimeException(RuntimeException e) {
         e.printStackTrace();
         return ResultVo.error("未知运行时异常", e);
     }

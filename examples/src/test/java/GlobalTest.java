@@ -1,5 +1,6 @@
 import cc.yiueil.data.impl.JpaBaseDao;
 import cc.yiueil.entity.Employee;
+import cc.yiueil.entity.UserEntity;
 import cc.yiueil.repository.EmployeeRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,5 +106,18 @@ public class GlobalTest {
         HashMap<String, Object> filter = new HashMap<>();
         filter.put("id", 6);
         System.out.println(jpaBaseDao.executeUpdate("delete from t_employee where id = ?1", filter));
+    }
+    
+    /**
+     * 测试：
+     */
+    @Test
+    @Transactional
+    @Commit
+    public void test8(){
+        UserEntity userDTO = new UserEntity();
+        userDTO.setUserName("张三");
+        userDTO.setLoginName("zs");
+        jpaBaseDao.save(userDTO);
     }
 }

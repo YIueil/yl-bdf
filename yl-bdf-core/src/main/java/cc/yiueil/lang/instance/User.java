@@ -7,11 +7,12 @@ import java.io.Serializable;
  * Author:YIueil
  * Date:2022/7/3 21:00
  * Description: 用户门面
+ * @param <T> 用户实体主键类型
  */
-public interface User extends Serializable {
-    Long getId();
+public interface User<T> extends Serializable {
+    T getId();
 
-    void setId(Long id);
+    void setId(T id);
 
     String getGuid();
 
@@ -24,4 +25,8 @@ public interface User extends Serializable {
     String getUserName();
 
     void setUserName(String userName);
+
+    String getPassword();
+
+    void setPassword(String password);
 }

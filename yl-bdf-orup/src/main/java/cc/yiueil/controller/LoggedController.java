@@ -1,8 +1,11 @@
 package cc.yiueil.controller;
 
 
+import cc.yiueil.entity.UserEntity;
 import cc.yiueil.lang.instance.User;
 import cc.yiueil.session.SessionContent;
+import cc.yiueil.util.JWTUtil;
+import cc.yiueil.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,12 +15,11 @@ import javax.servlet.http.HttpServletRequest;
  * Description: 已登录的接口控制器
  */
 public interface LoggedController extends BaseController {
-    default User getUser(HttpServletRequest request){
-        SessionContent sc = (SessionContent) request.getSession().getAttribute(SessionContent.SESSION_KEY);
-        if (sc != null) {
-            return sc.getUser();
-        } else {
-            return null;
+    default UserEntity getUser(HttpServletRequest request){
+        String token = request.getHeader("token");
+        if (StringUtils.isNotEmpty(token)) {
+            return JWTUtil.verifyToken(token);
         }
+        return null;
     }
 }
