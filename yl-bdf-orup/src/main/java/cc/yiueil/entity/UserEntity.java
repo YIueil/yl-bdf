@@ -30,4 +30,8 @@ public class UserEntity implements User<Long>, BaseEntity<Long> {
     private Long createUser;
     private LocalDateTime createTime;
     private LocalDateTime modifyTime;
+    private String extendProperty1;
+    private String extendProperty2;
+    private String extendProperty3;
+    private String extendProperty4;
 }
