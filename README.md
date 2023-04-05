@@ -29,6 +29,10 @@
 </profiles>
 ```
 
+## 发布模块步骤
+- maven环境中勾选snapshot通过deploy打包提交代码会将内容发布到github-pages中进行管理
+- maven环境中勾选release通过deploy打包将将发布到github-packages中进行管理(推荐)
+
 ## 使用yl-bdf
 pom.xml
 
