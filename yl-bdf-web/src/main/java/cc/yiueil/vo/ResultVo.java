@@ -71,4 +71,7 @@ public class ResultVo implements Serializable {
         return new ResultVo(ResultCode.VALIDATE_FAIL, tips, null, body);
     }
 
+    public static ResultVo unauthorized(String tips) {
+        return new ResultVo(ResultCode.UNAUTHORIZED, tips, null, null);
+    }
 }

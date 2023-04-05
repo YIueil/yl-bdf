@@ -1,5 +1,6 @@
 package cc.yiueil.handler;
 
+import cc.yiueil.exception.UnauthorizedException;
 import cc.yiueil.vo.ResultVo;
 import cc.yiueil.exception.BusinessException;
 import org.springframework.validation.ObjectError;
@@ -42,5 +43,10 @@ public class CustomExceptionHandler {
             errorParams.put(objectError.getObjectName(), objectError.getDefaultMessage());
         }
         return ResultVo.validate_fail(errorParams, "入参数校验失败");
+    }
+
+    @ExceptionHandler({UnauthorizedException.class})
+    public ResultVo UnauthorizedExceptionHandler(UnauthorizedException e) {
+        return ResultVo.unauthorized(e.getMessage());
     }
 }

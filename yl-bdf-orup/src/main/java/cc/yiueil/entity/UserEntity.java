@@ -24,6 +24,7 @@ public class UserEntity implements User<Long>, BaseEntity<Long> {
     @SequenceGenerator(name = "generator", sequenceName = "s_user", allocationSize = 1)
     private Long id;
     private String guid;
+    @Column(unique = true)
     private String userName;
     private String loginName;
     private String password;

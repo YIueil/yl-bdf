@@ -5,11 +5,17 @@ import cc.yiueil.data.impl.JpaBaseDao;
 import cc.yiueil.entity.UserEntity;
 import cc.yiueil.exception.ResourceNotFoundException;
 import cc.yiueil.general.RestURL;
+import cc.yiueil.repository.UserRepository;
+import cc.yiueil.service.ORUPService;
 import cc.yiueil.util.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 /**
@@ -24,27 +30,60 @@ public class ORUPController implements LoggedController{
     @Autowired
     JpaBaseDao baseDao;
 
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    ORUPService orupService;
+
     /**
      * 用户登入
-     * @param user 用户登入录入信息
+     *
+     * @param loginName 登陆名
+     * @param password 密码
+     * @param response 响应体
      * @return 登入结果, 成功则返回 token
      */
     @PostMapping(value = "login")
-    public String login(@RequestBody UserEntity user) {
-        UserEntity userEntity = baseDao.findById(UserEntity.class, user.getId()).orElseThrow(ResourceNotFoundException::new);
-        if (userEntity.getPassword().equals(user.getPassword())) {
-            return success(JWTUtil.generateToken(userEntity), "登录成功");
+    public String login(@RequestParam String loginName,
+                        @RequestParam String password,
+                        HttpServletResponse response
+    ) {
+        UserEntity userEntity = userRepository.findUserEntityByLoginName(loginName).orElse(new UserEntity());
+        if (password.equals(userEntity.getPassword())) {
+            String token = JWTUtil.generateToken(userEntity);
+            response.setHeader("yl-token", token);
+            response.addCookie(new Cookie("yl-token", token)); // todo token 名称支持定制
+            return success(token, "登录成功");
         }
         return fail("登录失败, 账号或者密码错误");
     }
 
     /**
+     * 用户注册
+     * @param registerUser 用户信息
+     * @return 新注册用户信息
+     */
+    @PostMapping(value = "register")
+    public String register(@RequestBody UserEntity registerUser) {
+        try {
+            UserEntity userEntity = orupService.registerUser(registerUser);
+            return success(userEntity);
+        } catch (Exception e) {
+            return fail("用户登陆名已存在");
+        }
+    }
+
+    /**
      * 用户登出
-     * @param user 用户信息
+     * @param response 响应体
      * @return 登出结果
      */
     @PostMapping(value = "logout")
-    public String logout(@RequestBody UserEntity user) {
+    public String logout(HttpServletResponse response) {
+        Cookie cookie = new Cookie("yl-token",null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
         return null;
     }
 

@@ -4,6 +4,7 @@ package cc.yiueil.controller;
 import cc.yiueil.entity.UserEntity;
 import cc.yiueil.lang.instance.User;
 import cc.yiueil.session.SessionContent;
+import cc.yiueil.util.CookieUtils;
 import cc.yiueil.util.JWTUtil;
 import cc.yiueil.util.StringUtils;
 
@@ -16,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public interface LoggedController extends BaseController {
     default UserEntity getUser(HttpServletRequest request){
-        String token = request.getHeader("token");
+        String token = CookieUtils.getCookieValue(request, "yl-token");
         if (StringUtils.isNotEmpty(token)) {
             return JWTUtil.verifyToken(token);
         }

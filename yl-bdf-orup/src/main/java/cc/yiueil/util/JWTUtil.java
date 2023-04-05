@@ -8,6 +8,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.extern.slf4j.Slf4j;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,6 +35,7 @@ public class JWTUtil {
             return JWT.create()
                     .withHeader(header)
                     .withClaim("user", JSONUtils.toJSONString(user))
+                    .withClaim("createTime", JSONUtils.toJSONString(LocalDateTime.now()))
                     // .withExpiresAt(date) // 根据是否使用 redis 设置过期时间
                     .sign(algorithm);
         } catch (Exception e) {

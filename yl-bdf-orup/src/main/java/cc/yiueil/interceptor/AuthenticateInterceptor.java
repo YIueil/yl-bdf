@@ -1,24 +1,28 @@
 package cc.yiueil.interceptor;
 
+import cc.yiueil.exception.UnauthorizedException;
 import cc.yiueil.lang.instance.User;
+import cc.yiueil.util.CookieUtils;
 import cc.yiueil.util.JWTUtil;
+import com.auth0.jwt.exceptions.JWTDecodeException;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class AuthenticateInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String authToken = request.getHeader("token");
-        User user = JWTUtil.verifyToken(authToken);
-        if (user != null) {
-            return true;
-        } else {
-            return false;
+        String authToken = CookieUtils.getCookieValue(request, "yl-token");
+        try {
+            User<Long> user = JWTUtil.verifyToken(authToken);
+            //1.判断请求是否有效
+            //2.判断是否需要续期
+            return user != null;
+        } catch (JWTDecodeException jwtDecodeException) {
+            throw new UnauthorizedException("未登陆或授权到期, 请重新登陆");
         }
-        //1.判断请求是否有效
-
-        //2.判断是否需要续期
     }
 }
