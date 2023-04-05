@@ -27,6 +27,7 @@ public class UserEntity implements User<Long>, BaseEntity<Long> {
     private String userName;
     private String loginName;
     private String password;
+    private String phoneNumber;
     private Long createUser;
     private LocalDateTime createTime;
     private LocalDateTime modifyTime;

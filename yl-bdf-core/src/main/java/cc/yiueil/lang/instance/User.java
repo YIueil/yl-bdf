@@ -29,4 +29,8 @@ public interface User<T> extends Serializable {
     String getPassword();
 
     void setPassword(String password);
+
+    String getPhoneNumber();
+
+    String setPhoneNumber(String phoneNumber);
 }
