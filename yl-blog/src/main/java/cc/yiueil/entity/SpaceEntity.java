@@ -35,7 +35,7 @@ public class SpaceEntity implements BaseEntity<Integer>, Serializable {
 
     private LocalDateTime modifyTime;
 
-    private Integer createUser;
+    private Integer createUserId;
 
     @Column(length = 500)
     private String iconUrl;

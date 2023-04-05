@@ -75,7 +75,7 @@ public class PageServiceV1 implements PageService {
         PageEntity pageEntity = new PageEntity();
         pageEntity.setId(pageDTO.getId());
         pageEntity.setGuid(pageDTO.getGuid());
-        pageEntity.setCreateUser(pageDTO.getCreateUser());
+        pageEntity.setCreateUserId(pageDTO.getCreateUser());
         pageEntity.setCreateTime(pageDTO.getCreateTime());
         pageEntity.setModifyTime(pageDTO.getModifyTime());
         pageEntity.setIconUrl(pageDTO.getIconUrl());
@@ -91,7 +91,7 @@ public class PageServiceV1 implements PageService {
         PageDTO pageDTO = new PageDTO();
         pageDTO.setId(pageEntity.getId());
         pageDTO.setGuid(pageEntity.getGuid());
-        pageDTO.setCreateUser(pageEntity.getCreateUser());
+        pageDTO.setCreateUser(pageEntity.getCreateUserId());
         pageDTO.setCreateTime(pageEntity.getCreateTime());
         pageDTO.setModifyTime(pageEntity.getModifyTime());
         pageDTO.setIconUrl(pageEntity.getIconUrl());

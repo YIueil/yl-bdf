@@ -30,7 +30,7 @@ public class PageEntity implements BaseEntity<Integer>, HasParent<Integer>, Seri
 
     private LocalDateTime modifyTime;
 
-    private Integer createUser;
+    private Integer createUserId;
 
     private Integer parentId;
 

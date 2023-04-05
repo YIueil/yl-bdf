@@ -8,8 +8,8 @@ import javax.persistence.Column;
  * @param <T> 主键类型
  */
 public interface HasOwn<T> {
-    void setCreateUser(T id);
+    void setCreateUserId(T id);
 
     @Column(name = "create_user", columnDefinition = "创建用户")
-    T getCreateUser();
+    T getCreateUserId();
 }

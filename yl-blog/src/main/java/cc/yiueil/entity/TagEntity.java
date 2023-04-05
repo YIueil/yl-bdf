@@ -30,7 +30,7 @@ public class TagEntity implements BaseEntity<Integer>, Serializable {
 
     private LocalDateTime modifyTime;
 
-    private Integer createUser;
+    private Integer createUserId;
 
     @Column(length = 30)
     private String name;

@@ -11,9 +11,9 @@ public interface OwnDao {
     default void generatorCreateUser(Object entity) {
         if (entity instanceof HasOwn) {
             HasOwn ownEntity = (HasOwn) entity;
-            if(ownEntity.getCreateUser() == null)
+            if(ownEntity.getCreateUserId() == null)
             {
-                ownEntity.setCreateUser(null);
+                ownEntity.setCreateUserId(null);
             }
         }
     }
