@@ -10,6 +10,7 @@
             <mvc:mapping path="/**"/>
             <!-- 排除路径 -->
             <mvc:exclude-mapping path="/**/login"/>
+            <mvc:exclude-mapping path="/**/register"/>
             <mvc:exclude-mapping path="/**/doc.html"/>
             <mvc:exclude-mapping path="/**/webjars/**"/>
             <mvc:exclude-mapping path="/**/swagger-resources"/>
