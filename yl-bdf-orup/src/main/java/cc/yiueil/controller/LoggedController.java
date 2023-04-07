@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public interface LoggedController extends BaseController {
     default UserEntity getUser(HttpServletRequest request){
-        String token = CookieUtils.getCookieValue(request, "yl-token");
+        String token = request.getHeader("yl-token");
         if (StringUtils.isNotEmpty(token)) {
             return JWTUtil.verifyToken(token);
         }

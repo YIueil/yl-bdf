@@ -52,8 +52,6 @@ public class ORUPController implements LoggedController{
         UserEntity userEntity = userRepository.findUserEntityByLoginName(loginName).orElse(new UserEntity());
         if (password.equals(userEntity.getPassword())) {
             String token = JWTUtil.generateToken(userEntity);
-            response.setHeader("yl-token", token);
-            response.addCookie(new Cookie("yl-token", token)); // todo token 名称支持定制
             return success(token, "登录成功");
         }
         return fail("登录失败, 账号或者密码错误");
@@ -81,10 +79,7 @@ public class ORUPController implements LoggedController{
      */
     @PostMapping(value = "logout")
     public String logout(HttpServletResponse response) {
-        Cookie cookie = new Cookie("yl-token",null);
-        cookie.setMaxAge(0);
-        response.addCookie(cookie);
-        return null;
+        return success();
     }
 
     /**

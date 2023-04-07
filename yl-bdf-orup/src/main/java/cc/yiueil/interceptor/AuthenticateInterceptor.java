@@ -15,9 +15,9 @@ import java.util.concurrent.atomic.AtomicReference;
 public class AuthenticateInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String authToken = CookieUtils.getCookieValue(request, "yl-token");
+        String token = request.getHeader("yl-token");
         try {
-            User<Long> user = JWTUtil.verifyToken(authToken);
+            User<Long> user = JWTUtil.verifyToken(token);
             //1.判断请求是否有效
             //2.判断是否需要续期
             return user != null;

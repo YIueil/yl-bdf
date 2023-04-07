@@ -7,14 +7,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-/**
- * 解决跨域设置
- * （可把此设置放在 nginx 中，但只能设置一处）
- *
- * @author silence
- * @date 2018/12/11 15:19
- */
- 
 @WebFilter(filterName = "requestFilter", urlPatterns = {"/*"})
 public class RequestFilter implements Filter {
  
