@@ -6,7 +6,7 @@ public interface ORUPService {
     /**
      * 注册用户
      * @param registerUser 新注册用户
-     * @return
+     * @return 新注册成功的用户
      */
     UserEntity registerUser(UserEntity registerUser);
 }
