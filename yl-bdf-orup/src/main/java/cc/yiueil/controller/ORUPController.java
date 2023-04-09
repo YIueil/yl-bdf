@@ -88,11 +88,15 @@ public class ORUPController implements LoggedController{
      * @return 获取到用户信息, 未登录则返回游客用户
      */
     @GetMapping(value = "currentUser")
-    public String currentUser(HttpServletRequest request) {
-        return success(Optional.ofNullable(getUser(request)).orElseGet(() -> {
-            UserEntity userEntity = new UserEntity();
-            userEntity.setUserName("游客");
-            return userEntity;
-        }));
+    public String currentUser(@RequestParam(defaultValue = "true") Boolean useCache, HttpServletRequest request) {
+        UserEntity userEntity = Optional.ofNullable(getUser(request)).orElseGet(() -> {
+            UserEntity guest = new UserEntity();
+            guest.setUserName("游客");
+            return guest;
+        });
+        if (!useCache) {
+            userEntity = userRepository.findById(userEntity.getId()).orElseThrow(RuntimeException::new);
+        }
+        return success(userEntity);
     }
 }
