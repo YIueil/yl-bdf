@@ -20,8 +20,8 @@ public class OrderEntity {
     public static final String EXPIRE_PAY = "超期未支付";
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "g_order")
-    @SequenceGenerator(name = "g_order", sequenceName = "g_order", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "s_order")
+    @SequenceGenerator(name = "g_order", sequenceName = "s_order", allocationSize = 1)
     private Long id;
 
     private String payLimit;

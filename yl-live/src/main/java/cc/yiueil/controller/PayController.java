@@ -1,6 +1,7 @@
 package cc.yiueil.controller;
 
 import cc.yiueil.entity.AliPayBean;
+import cc.yiueil.service.PayService;
 import cc.yiueil.utils.StringUtils;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.domain.*;
@@ -21,11 +22,14 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/aliPay")
-public class PayController extends AbstractAliPayApiController{
+public class PayController extends AbstractAliPayApiController implements LoggedController{
     private static final Logger log = LoggerFactory.getLogger(PayController.class);
 
     @Autowired
     private AliPayBean aliPayBean;
+
+    @Autowired
+    private PayService payService;
 
     // 普通公钥模式
 //     private final static String NOTIFY_URL = "/aliPay/notify_url";
@@ -72,7 +76,7 @@ public class PayController extends AbstractAliPayApiController{
     @PostMapping(value = "/pcPay")
     @ApiOperation(value = "PC支付")
     @ResponseBody
-    public void pcPay(@RequestParam String totalAmount, HttpServletResponse response) {
+    public void pcPay(@RequestParam String totalAmount, HttpServletRequest request, HttpServletResponse response) {
         try {
             String outTradeNo = StringUtils.getOutTradeNo();
             log.info("pc outTradeNo>" + outTradeNo);
@@ -80,13 +84,13 @@ public class PayController extends AbstractAliPayApiController{
             String returnUrl = aliPayBean.getDomain() + RETURN_URL;
             String notifyUrl = aliPayBean.getDomain() + NOTIFY_URL;
             AlipayTradePagePayModel model = new AlipayTradePagePayModel();
-
             model.setOutTradeNo(outTradeNo);
             model.setProductCode("FAST_INSTANT_TRADE_PAY");
             model.setTotalAmount(totalAmount);
             model.setSubject("YL-Live充值");
             model.setBody("YL-Live充值, 金额:" + totalAmount);
             model.setPassbackParams("passback_params");
+            payService.createOrder(model, getUser(request)); // 保存订单
             /**
              * 花呗分期相关的设置,测试环境不支持花呗分期的测试
              * hb_fq_num代表花呗分期数，仅支持传入3、6、12，其他期数暂不支持，传入会报错；
