@@ -32,16 +32,14 @@ public class PayController extends AbstractAliPayApiController implements Logged
     private PayService payService;
 
     // 普通公钥模式
-//     private final static String NOTIFY_URL = "/aliPay/notify_url";
+    private final static String NOTIFY_URL = "/aliPay/notify_url";
+    private final static String RETURN_URL = "/aliPay/return_url";
+
     /**
      * 证书模式
      */
-    private final static String NOTIFY_URL = "/aliPay/cert_notify_url";
-//    private final static String RETURN_URL = "/aliPay/return_url";
-    /**
-     * 证书模式
-     */
-    private final static String RETURN_URL = "/aliPay/cert_return_url";
+//    private final static String NOTIFY_URL = "/aliPay/cert_notify_url";
+//    private final static String RETURN_URL = "/aliPay/cert_return_url";
 
     /**
      * config
@@ -245,6 +243,7 @@ public class PayController extends AbstractAliPayApiController implements Logged
         try {
             // 获取支付宝POST过来反馈信息
             Map<String, String> params = AliPayApi.toMap(request);
+            log.error("支付宝回调 :" + params);
 
             for (Map.Entry<String, String> entry : params.entrySet()) {
                 System.out.println(entry.getKey() + " = " + entry.getValue());
@@ -254,6 +253,8 @@ public class PayController extends AbstractAliPayApiController implements Logged
 
             if (verifyResult) {
                 // TODO 请在这里加上商户的业务逻辑程序代码 异步通知可能出现订单重复通知 需要做去重处理
+                String out_trade_no = params.get("out_trade_no");
+                payService.tradeOrderSettle(out_trade_no);
                 System.out.println("notify_url 验证成功succcess");
                 return "success";
             } else {
