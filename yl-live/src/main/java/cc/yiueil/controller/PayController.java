@@ -1,6 +1,8 @@
 package cc.yiueil.controller;
 
 import cc.yiueil.entity.AliPayBean;
+import cc.yiueil.entity.OrderEntity;
+import cc.yiueil.repository.OrderRepository;
 import cc.yiueil.service.PayService;
 import cc.yiueil.utils.StringUtils;
 import com.alipay.api.AlipayApiException;
@@ -30,6 +32,9 @@ public class PayController extends AbstractAliPayApiController implements Logged
 
     @Autowired
     private PayService payService;
+
+    @Autowired
+    OrderRepository orderRepository;
 
     // 普通公钥模式
     private final static String NOTIFY_URL = "/aliPay/notify_url";
@@ -115,7 +120,8 @@ public class PayController extends AbstractAliPayApiController implements Logged
             if (StringUtils.isNotEmpty(tradeNo)) {
                 model.setTradeNo(tradeNo);
             }
-            model.setRefundAmount("86.00");
+            OrderEntity orderEntity = orderRepository.findOrderEntityBySerialNumber(outTradeNo);
+            model.setRefundAmount(orderEntity.getPayLimit());
             model.setRefundReason("正常退款");
             return AliPayApi.tradeRefundToResponse(model).getBody();
         } catch (AlipayApiException e) {

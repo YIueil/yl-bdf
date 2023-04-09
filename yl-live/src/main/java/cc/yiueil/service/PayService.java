@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class PayService {
@@ -44,5 +45,10 @@ public class PayService {
             userEntity.setExtendProperty1(addBalance.toString());
             baseDao.save(userEntity);
         });
+    }
+
+    @Transactional
+    public List<OrderEntity> listOrder(Long userId) {
+        return orderRepository.findOrderEntityByCreateUserId(userId);
     }
 }
