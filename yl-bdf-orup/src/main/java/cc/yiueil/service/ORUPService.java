@@ -9,4 +9,11 @@ public interface ORUPService {
      * @return 新注册成功的用户
      */
     UserEntity registerUser(UserEntity registerUser);
+
+    /**
+     * 修改密码
+     * @param userId 用户id
+     * @param newPassword 新密码
+     */
+    void passwordChange(Long userId, String newPassword);
 }

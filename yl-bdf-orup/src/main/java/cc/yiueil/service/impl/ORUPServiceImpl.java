@@ -30,4 +30,13 @@ public class ORUPServiceImpl implements ORUPService {
         userEntity.setCreateTime(LocalDateTime.now());
         return baseDao.save(userEntity);
     }
+
+    @Override
+    @Transactional
+    public void passwordChange(Long userId, String newPassword) {
+        baseDao.findById(UserEntity.class, userId).ifPresent(userEntity -> {
+            userEntity.setPassword(newPassword);
+            baseDao.save(userEntity);
+        });
+    }
 }

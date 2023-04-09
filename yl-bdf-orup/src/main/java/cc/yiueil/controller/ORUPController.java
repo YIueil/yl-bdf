@@ -73,6 +73,28 @@ public class ORUPController implements LoggedController{
     }
 
     /**
+     * 用户密码修改
+     * @return 新注册用户信息
+     */
+    @PostMapping(value = "passwordChange")
+    public String passwordChange(@RequestParam String oldPassword,
+                                 @RequestParam String newPassword,
+                                 HttpServletRequest request) {
+        UserEntity user = getUser(request);
+        user = userRepository.findById(user.getId()).orElseThrow(RuntimeException::new);
+        if (user.getPassword().equals(oldPassword)) {
+            try {
+                orupService.passwordChange(user.getId(), newPassword);
+                return success(null, "密码修改成功");
+            } catch (Exception e) {
+                return fail("密码修改失败");
+            }
+        } else {
+            return fail("用户原密码错误");
+        }
+    }
+
+    /**
      * 用户登出
      * @param response 响应体
      * @return 登出结果
