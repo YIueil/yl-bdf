@@ -18,6 +18,7 @@ public class OrderEntity {
     public static final String UN_PAY = "未支付";
     public static final String SU_PAY = "已支付";
     public static final String EXPIRE_PAY = "超期未支付";
+    public static final String REFUND = "已退款";
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "s_order")

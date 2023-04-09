@@ -121,9 +121,14 @@ public class PayController extends AbstractAliPayApiController implements Logged
                 model.setTradeNo(tradeNo);
             }
             OrderEntity orderEntity = orderRepository.findOrderEntityBySerialNumber(outTradeNo);
-            model.setRefundAmount(orderEntity.getPayLimit());
-            model.setRefundReason("正常退款");
-            return AliPayApi.tradeRefundToResponse(model).getBody();
+            if (OrderEntity.SU_PAY.equals(orderEntity.getState())) {
+                model.setRefundAmount(orderEntity.getPayLimit());
+                model.setRefundReason("正常退款");
+                payService.tradeRefund(orderEntity);
+                return AliPayApi.tradeRefundToResponse(model).getBody();
+            } else {
+                return fail("未支付或已退款订单不支持退款");
+            }
         } catch (AlipayApiException e) {
             e.printStackTrace();
         }

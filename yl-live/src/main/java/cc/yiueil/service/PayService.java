@@ -51,4 +51,16 @@ public class PayService {
     public List<OrderEntity> listOrder(Long userId) {
         return orderRepository.findOrderEntityByCreateUserId(userId);
     }
+
+    @Transactional
+    public void tradeRefund(OrderEntity orderEntity) {
+        orderEntity.setState(OrderEntity.REFUND);
+        baseDao.save(orderEntity);
+        baseDao.findById(UserEntity.class, orderEntity.getCreateUserId()).ifPresent(userEntity -> {
+            String extendProperty1 = userEntity.getExtendProperty1();
+            BigDecimal oldBalance = new BigDecimal(extendProperty1);
+            userEntity.setExtendProperty1(oldBalance.subtract(new BigDecimal(orderEntity.getPayLimit())).toString());
+            baseDao.save(userEntity);
+        });
+    }
 }
