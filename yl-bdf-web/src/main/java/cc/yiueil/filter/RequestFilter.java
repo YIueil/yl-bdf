@@ -22,7 +22,7 @@ public class RequestFilter implements Filter {
         response.setHeader("Access-Control-Allow-Origin", "*");
         // 解决预请求（发送2次请求），此问题也可在 nginx 中作相似设置解决。
         response.setHeader("Access-Control-Allow-Headers", "x-requested-with,Cache-Control,Pragma,Content-Type,Token, Content-Type, yl-token");
-        response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+        response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE");
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Credentials", "true");
         String method = request.getMethod();
