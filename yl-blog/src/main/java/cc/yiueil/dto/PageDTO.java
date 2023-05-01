@@ -32,5 +32,7 @@ public class PageDTO implements Serializable {
     @NotNull
     private String content;
 
+    private Boolean editable = true;
+
     private List<TagEntity> tags;
 }

@@ -82,6 +82,7 @@ public class PageServiceV1 implements PageService {
         pageEntity.setTitle(pageDTO.getTitle());
         pageEntity.setContent(pageDTO.getContent());
         pageEntity.setParentId(pageDTO.getParentId());
+        pageEntity.setEditable(pageDTO.getEditable());
         pageEntity.setTags(pageDTO.getTags());
         return pageEntity;
     }
@@ -98,6 +99,7 @@ public class PageServiceV1 implements PageService {
         pageDTO.setTitle(pageEntity.getTitle());
         pageDTO.setContent(pageEntity.getContent());
         pageDTO.setParentId(pageEntity.getParentId());
+        pageDTO.setEditable(pageEntity.getEditable());
         pageDTO.setTags(pageEntity.getTags());
         return pageDTO;
     }

@@ -43,6 +43,9 @@ public class PageEntity implements BaseEntity<Integer>, HasParent<Integer>, Seri
     @Column(length = 1024)
     private String content;
 
+    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
+    private Boolean editable = true;
+
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinTable(
             name = "tr_page_tag",
