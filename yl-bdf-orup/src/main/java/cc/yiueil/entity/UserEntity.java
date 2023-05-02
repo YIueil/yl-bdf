@@ -17,11 +17,11 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "t_user")
+@Table(name = "user", schema = "yl_acc")
 public class UserEntity implements User<Long>, BaseEntity<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "generator")
-    @SequenceGenerator(name = "generator", sequenceName = "s_user", allocationSize = 1)
+    @SequenceGenerator(name = "generator", schema = "yl_acc", sequenceName = "s_user", allocationSize = 1)
     private Long id;
     private String guid;
     @Column(unique = true)
