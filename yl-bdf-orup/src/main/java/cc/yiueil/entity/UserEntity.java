@@ -10,9 +10,9 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
- * Author:YIueil
- * Date:2023/1/12 11:09
- * Description: 用户数据传输对象
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/30 21:13
+ * @version 1.0 用户实体
  */
 @Getter
 @Setter

@@ -2,7 +2,7 @@ package cc.yiueil.controller;
 
 
 import cc.yiueil.entity.UserEntity;
-import cc.yiueil.util.JWTUtil;
+import cc.yiueil.util.JwtUtil;
 import cc.yiueil.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +23,7 @@ public interface LoggedController extends BaseController {
             return userEntity;
         }
         if (StringUtils.isNotEmpty(token)) {
-            return JWTUtil.verifyToken(token);
+            return JwtUtil.verifyToken(token);
         }
         return null;
     }

@@ -1,32 +1,29 @@
 package cc.yiueil.controller;
 
-import cc.yiueil.constant.ORUPRestURL;
+import cc.yiueil.constant.OrupRestURL;
 import cc.yiueil.data.impl.JpaBaseDao;
 import cc.yiueil.entity.UserEntity;
-import cc.yiueil.exception.ResourceNotFoundException;
 import cc.yiueil.general.RestURL;
 import cc.yiueil.repository.UserRepository;
-import cc.yiueil.service.ORUPService;
-import cc.yiueil.util.JWTUtil;
+import cc.yiueil.service.OrupService;
+import cc.yiueil.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 /**
- * Author:YIueil
- * Date:2022/11/15 22:23
- * Description: 用户账户控制器
+ * 用户账户控制器
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/30 22:16
+ * @version 1.0
  */
 @CrossOrigin
 @RestController
-@RequestMapping(value = RestURL.BASE_PATH + ORUPRestURL.ORUP)
-public class ORUPController implements LoggedController{
+@RequestMapping(value = RestURL.BASE_PATH + OrupRestURL.ORUP)
+public class OrupController implements LoggedController{
     @Autowired
     JpaBaseDao baseDao;
 
@@ -34,7 +31,7 @@ public class ORUPController implements LoggedController{
     UserRepository userRepository;
 
     @Autowired
-    ORUPService orupService;
+    OrupService orupService;
 
     /**
      * 用户登入
@@ -51,7 +48,7 @@ public class ORUPController implements LoggedController{
     ) {
         UserEntity userEntity = userRepository.findUserEntityByLoginName(loginName).orElse(new UserEntity());
         if (password.equals(userEntity.getPassword())) {
-            String token = JWTUtil.generateToken(userEntity);
+            String token = JwtUtil.generateToken(userEntity);
             return success(token, "登录成功");
         }
         return fail("登录失败, 账号或者密码错误");

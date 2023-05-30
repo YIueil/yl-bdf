@@ -6,6 +6,12 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * 应用管理员实体
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/30 22:10
+ * @version 1.0
+ */
 @Getter
 @Setter
 @Entity

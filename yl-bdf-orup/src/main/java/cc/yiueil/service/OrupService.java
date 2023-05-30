@@ -2,7 +2,13 @@ package cc.yiueil.service;
 
 import cc.yiueil.entity.UserEntity;
 
-public interface ORUPService {
+/**
+ * 核心ORUP接口
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/30 22:17
+ * @version 1.0
+ */
+public interface OrupService {
     /**
      * 注册用户
      * @param registerUser 新注册用户

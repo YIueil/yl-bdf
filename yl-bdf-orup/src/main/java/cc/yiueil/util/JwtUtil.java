@@ -12,9 +12,17 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * JWT 工具类
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/30 22:24
+ * @version 1.0
+ */
 @Slf4j
-public class JWTUtil {
-    //私钥
+public class JwtUtil {
+    /**
+     * JWT 私钥
+     */
     private static final String TOKEN_SECRET = "yl-bdf";
 
     /**
