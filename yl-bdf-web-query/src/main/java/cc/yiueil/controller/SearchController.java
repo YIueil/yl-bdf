@@ -3,7 +3,7 @@ package cc.yiueil.controller;
 import cc.yiueil.constant.SearchRestURL;
 import cc.yiueil.dto.DynamicQueryDTO;
 import cc.yiueil.vo.PageVo;
-import cc.yiueil.general.RestURL;
+import cc.yiueil.general.RestUrl;
 import cc.yiueil.service.SearchService;
 import io.swagger.annotations.ApiOperation;
 import org.dom4j.DocumentException;
@@ -21,7 +21,7 @@ import java.util.Map;
  * Description: 通用查询
  */
 @RestController
-@RequestMapping(value = RestURL.BASE_PATH + SearchRestURL.QUERY)
+@RequestMapping(value = RestUrl.BASE_PATH + SearchRestURL.QUERY)
 public class SearchController implements LoggedController {
     @Autowired
     SearchService searchService;

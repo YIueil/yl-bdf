@@ -1,9 +1,10 @@
 package cc.yiueil.exception;
 
 /**
- * Author:YIueil
- * Date:2022/7/22 23:06
- * Description: 分页异常类
+ * PageException 分页异常类
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/30 22:51
+ * @version 1.0
  */
 public class PageException extends RuntimeException{
     public PageException() {

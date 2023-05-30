@@ -1,5 +1,11 @@
 package cc.yiueil.util;
 
+/**
+ * CharUtils
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/30 23:14
+ * @version 1.0
+ */
 public class CharUtils {
     /**
      * 判断是否为空占位字符,包括空格、换行、制表符

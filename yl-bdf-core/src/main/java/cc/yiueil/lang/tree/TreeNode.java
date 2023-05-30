@@ -8,9 +8,10 @@ import java.io.Serializable;
 import java.util.Map;
 
 /**
- * Author:YIueil
- * Date:2022/7/3 20:03
- * Description: 树形结构封装类
+ * TreeNode 树形结构封装类
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/30 23:12
+ * @version 1.0
  */
 @NoArgsConstructor
 @AllArgsConstructor

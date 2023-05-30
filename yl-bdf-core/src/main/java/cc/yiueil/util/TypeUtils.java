@@ -1,6 +1,6 @@
 package cc.yiueil.util;
 
-import cc.yiueil.lang.reflect.TypeReference;
+import cc.yiueil.lang.reflect.AbstractTypeReference;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -8,9 +8,10 @@ import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
 
 /**
- * Author:YIueil
- * Date:2022/4/21 0:18
- * Description: todo 待完善
+ * TypeUtils 获取对象类型的工具类
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/30 23:38
+ * @version 1.0
  */
 public class TypeUtils {
     /**
@@ -23,8 +24,8 @@ public class TypeUtils {
         if (null != type) {
             if (type instanceof Class) {
                 return (Class<?>) type;
-            } else if (type instanceof TypeReference<?>) {
-                return (Class<?>) ((TypeReference<?>) type).getType();
+            } else if (type instanceof AbstractTypeReference<?>) {
+                return (Class<?>) ((AbstractTypeReference<?>) type).getType();
             } else if (type instanceof ParameterizedType) {
                 return (Class<?>) ((ParameterizedType) type).getRawType();
             } else if (type instanceof TypeVariable) {

@@ -1,16 +1,17 @@
 package cc.yiueil.convert;
 
 import cc.yiueil.convert.impl.base.*;
-import cc.yiueil.lang.reflect.TypeReference;
+import cc.yiueil.lang.reflect.AbstractTypeReference;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.*;
 
 /**
- * Author:YIueil
- * Date:2022/4/13 11:34
- * Description: 类型转换器Holder
+ * ConverterHolder 转换器的持有对象
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/30 22:50
+ * @version 1.0
  */
 public class ConverterHolder {
     private Map<Type, Converter<?>> defaultConverterMap;
@@ -34,9 +35,10 @@ public class ConverterHolder {
         return (getInstance().customConverterMap == null || getInstance().customConverterMap.size() == 0) ? null : (Converter<T>)getInstance().customConverterMap.get(type);
     }
 
-    public static <T> Converter<T> getConverter(TypeReference<T> typeReference) {
-        Type type = typeReference.getType();
-        if (type instanceof ParameterizedType) {// 当泛型T还包含泛型时,需要获取到不包括泛型的Type,否则找不到对应的转换器
+    public static <T> Converter<T> getConverter(AbstractTypeReference<T> abstractTypeReference) {
+        Type type = abstractTypeReference.getType();
+        // 当泛型T还包含泛型时,需要获取到不包括泛型的Type,否则找不到对应的转换器
+        if (type instanceof ParameterizedType) {
             type = ((ParameterizedType) type).getRawType();
         }
         Converter<T> converter;
@@ -45,7 +47,7 @@ public class ConverterHolder {
             converter = getDefaultConverter(type);
         }
         if (converter == null) {
-            throw new RuntimeException("G! 没有找到转换器:" + typeReference.getType().toString());
+            throw new RuntimeException("G! 没有找到转换器:" + abstractTypeReference.getType().toString());
         }
         return converter;
     }
@@ -56,7 +58,7 @@ public class ConverterHolder {
     }
 
     private void loadCustomConverter() {
-        defaultConverterMap = new HashMap<>();
+        defaultConverterMap = new HashMap<>(16);
         defaultConverterMap.put(String.class, new StringConverter());
         defaultConverterMap.put(Date.class, new DateConverter());
         defaultConverterMap.put(Integer.class, new IntegerConverter());
@@ -67,7 +69,7 @@ public class ConverterHolder {
     }
 
     private void loadDefaultConverter() {
-        customConverterMap = new HashMap<>();
+        customConverterMap = new HashMap<>(16);
         // todo 添加对于自定义转换器的扫描添加支持
     }
 }

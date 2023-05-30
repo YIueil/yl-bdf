@@ -107,9 +107,9 @@ public class TextSimilarity {
 	 * @return true表示为非汉字，数字和字母，false反之
 	 */
 	private static boolean isValidChar(char charValue) {
-		return (charValue >= 0x4E00 && charValue <= 0X9FFF) || //
-				(charValue >= 'a' && charValue <= 'z') || //
-				(charValue >= 'A' && charValue <= 'Z') || //
+		return (charValue >= 0x4E00 && charValue <= 0X9FFF) ||
+				(charValue >= 'a' && charValue <= 'z') ||
+				(charValue >= 'A' && charValue <= 'Z') ||
 				(charValue >= '0' && charValue <= '9');
 	}
 

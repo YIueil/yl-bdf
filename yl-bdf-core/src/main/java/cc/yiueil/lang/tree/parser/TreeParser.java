@@ -7,6 +7,12 @@ import cc.yiueil.util.MapUtils;
 
 import java.util.Map;
 
+/**
+ * TreeParser
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/30 23:11
+ * @version 1.0
+ */
 public class TreeParser<T> implements Parser<TreeNode<T>, Tree<T>> {
     @Override
     public void parse(TreeNode<T> treeNode, Tree<T> tree) {

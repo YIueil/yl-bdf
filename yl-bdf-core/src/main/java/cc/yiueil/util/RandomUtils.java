@@ -3,19 +3,20 @@ package cc.yiueil.util;
 import java.util.Random;
 
 /**
- * Author:YIueil
- * Date:2022/7/24 21:51
- * Description: 随机工具类
+ * RandomUtils 随机工具类
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/30 23:37
+ * @version 1.0
  */
 public class RandomUtils {
-    private static final Random random = new Random();
+    private static final Random RANDOM = new Random();
 
     /**
      * 随机生成boolean值
      * @return 随机boolean值
      */
     public static boolean randomBoolean() {
-        return random.nextBoolean();
+        return RANDOM.nextBoolean();
     }
 
     /**

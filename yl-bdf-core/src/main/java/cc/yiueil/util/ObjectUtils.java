@@ -1,9 +1,10 @@
 package cc.yiueil.util;
 
 /**
- * Author:YIueil
- * Date:2022/7/4 22:24
- * Description: todo java对象工具类
+ * ObjectUtils
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/30 23:32
+ * @version 1.0
  */
 public class ObjectUtils {
     /**

@@ -5,9 +5,10 @@ import lombok.*;
 import java.io.Serializable;
 
 /**
- * Author:YIueil
- * Date:2022/7/4 22:20
- * Description: 树属性配置
+ * TreeNodeConfig 树属性配置
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/30 23:12
+ * @version 1.0
  */
 @Getter
 @Setter
@@ -19,7 +20,9 @@ public class TreeNodeConfig implements Serializable {
 
     public static final TreeNodeConfig DEFAULT_CONFIG = new TreeNodeConfig();
 
-    // 属性名配置字段
+    /**
+     * 属性名配置字段
+     */
     private String idKey = "id";
     private String parentIdKey = "parentId";
     private String weightKey = "weight";

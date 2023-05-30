@@ -1,9 +1,10 @@
 package cc.yiueil.lang.regex;
 
 /**
- * Author:YIueil
- * Date:2022/4/22 17:01
- * Description: <a href="https://any86.github.io/any-rule/">https://any86.github.io/any-rule/</a>
+ * RegexPool
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/30 23:07
+ * @version 1.0
  */
 public interface RegexPool {
 

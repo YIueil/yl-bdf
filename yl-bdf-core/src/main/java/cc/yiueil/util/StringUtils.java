@@ -5,9 +5,10 @@ import cc.yiueil.lib.TextSimilarity;
 import java.util.Map;
 
 /**
- * Author:YIueil
- * Date:2022/4/11 21:53
- * Description: 字符串工具类
+ * StringUtils 字符串工具类
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/30 23:38
+ * @version 1.0
  */
 public class StringUtils {
     /**
@@ -21,7 +22,8 @@ public class StringUtils {
         }
         if (str.length() != 0) {
             for (int i = 0; i < str.length(); i++) {
-                if (!CharUtils.isBlankChar(str.charAt(i))) {// 只要其一字符不为空或空白占位字符即为真
+                // 只要其一字符不为空或空白占位字符即为真
+                if (!CharUtils.isBlankChar(str.charAt(i))) {
                     return false;
                 }
             }

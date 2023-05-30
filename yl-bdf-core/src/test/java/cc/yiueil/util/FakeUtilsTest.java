@@ -26,8 +26,8 @@ class FakeUtilsTest {
     void testGetIdCard() {
         String idCard = FakeUtils.getIdCard();
         System.out.println(idCard);
-        System.out.println(CheckUtils.isIDCard(idCard));
-        System.out.println(CheckUtils.isIDCard("511025199711138495"));
+        System.out.println(CheckUtils.isIdCard(idCard));
+        System.out.println(CheckUtils.isIdCard("511025199711138495"));
     }
 
     @Test

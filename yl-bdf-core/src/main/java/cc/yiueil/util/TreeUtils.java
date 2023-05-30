@@ -9,12 +9,12 @@ import cc.yiueil.lang.tree.parser.TreeParser;
 import java.util.List;
 
 /**
- * Author:YIueil
- * Date:2022/7/4 21:38
- * Description: todo 树结构操作工具
+ * TreeUtils 树结构操作工具
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/30 23:38
+ * @version 1.0
  */
 public class TreeUtils {
-
     /**
      * 构建树结构
      *

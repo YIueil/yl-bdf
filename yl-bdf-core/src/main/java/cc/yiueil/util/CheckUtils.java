@@ -5,10 +5,11 @@ import cc.yiueil.lang.regex.PatternPool;
 import java.util.regex.Pattern;
 
 /**
- * Author:YIueil
- * Date:2022/4/22 17:14
- * Description: 验证工具类
+ * CheckUtils 字符串验证工具类
  * @see PatternPool
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/30 23:14
+ * @version 1.0
  */
 public class CheckUtils {
     public static boolean isPhone(String str) {
@@ -19,7 +20,7 @@ public class CheckUtils {
         return validator(PatternPool.EMAIL, str);
     }
 
-    public static boolean isIDCard(String str) {
+    public static boolean isIdCard(String str) {
         return validator(PatternPool.ID_CARD, str);
     }
 

@@ -3,9 +3,10 @@ package cc.yiueil.util;
 import java.util.Collection;
 
 /**
- * Author:YIueil
- * Date:2022/7/22 18:09
- * Description: 集合工具类
+ * CollectionUtils 集合工具类
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/30 23:15
+ * @version 1.0
  */
 public class CollectionUtils {
     public static boolean isEmpty(Collection<?> collection) {

@@ -9,6 +9,12 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+/**
+ * Tree
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/30 23:12
+ * @version 1.0
+ */
 public class Tree<T> extends LinkedHashMap<String, Object> implements Node<T> {
 	private static final long serialVersionUID = 1L;
 

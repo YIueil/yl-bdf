@@ -3,10 +3,11 @@ package cc.yiueil.lang.instance;
 import java.io.Serializable;
 
 /**
- * Author:YIueil
- * Date:2022/7/4 21:47
- * Description: 节点门面
+ * Node 节点门面 作为一个节点具备的标准属性包含了 id, name, parentId, weight. 并且具备根据 weight 进行排序的功能
  * @param <T> id类型
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/30 22:56
+ * @version 1.0
  */
 public interface Node<T> extends Comparable<Node<T>>, Serializable {
 

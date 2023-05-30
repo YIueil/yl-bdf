@@ -8,9 +8,10 @@ import java.io.InputStream;
 import java.util.*;
 
 /**
- * Author:YIueil
- * Date:2022/7/25 14:06
- * Description: 基于dom4j的xml解析工具类
+ * XmlUtils 基于dom4j的xml解析工具类
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/30 23:39
+ * @version 1.0
  */
 public class XmlUtils {
     /**
@@ -58,7 +59,7 @@ public class XmlUtils {
      */
     public static List<Node> selectNodes(Document document, String xpathExpression, String namespace) {
         Element root = document.getRootElement();
-        Map<String, String> map = new HashMap<>();
+        Map<String, String> map = new HashMap<>(16);
         map.put(namespace, root.getNamespaceURI());
         XPath xPath = document.createXPath(xpathExpression);
         xPath.setNamespaceURIs(map);

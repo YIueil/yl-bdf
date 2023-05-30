@@ -6,9 +6,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Author:YIueil
- * Date:2022/4/22 17:42
- * Description: 虚假数据生成工具类
+ * FakeUtils 虚假数据生成工具类
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/30 23:18
+ * @version 1.0
  */
 public class FakeUtils {
     /**
@@ -81,8 +82,10 @@ public class FakeUtils {
      * @return 随机生成的身份证
      */
     public static String getIdCard(boolean male) {
-        long begin = System.currentTimeMillis() - 3153600000000L;//100年内
-        long end = System.currentTimeMillis() - 31536000000L; //1年内
+        // 100年内
+        long begin = System.currentTimeMillis() - 3153600000000L;
+        // 1年内
+        long end = System.currentTimeMillis() - 31536000000L;
         long rtn = begin + (long) (Math.random() * (end - begin));
         Date date = new Date(rtn);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
@@ -131,7 +134,7 @@ public class FakeUtils {
      * @return 随机一个三国人名
      */
     public static String getSgChineseName() {
-        return StringPool.SG_Name[RandomUtils.randomInt(0, StringPool.SG_Name.length)];
+        return StringPool.SG_NAME[RandomUtils.randomInt(0, StringPool.SG_NAME.length)];
     }
 
 }

@@ -8,10 +8,10 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
- * Author:YIueil
- * Date:2022/4/15 15:12
- * Description: Date转换器
- * 依赖项：
+ * DateConverter
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/30 22:47
+ * @version 1.0
  * @see DateUtils
  */
 public class DateConverter implements Converter<Date> {
@@ -20,10 +20,12 @@ public class DateConverter implements Converter<Date> {
         if (o == null) {
             return defaultValue;
         }
-        if (o instanceof Long) { // 时间戳的转换
+        // 时间戳的转换
+        if (o instanceof Long) {
             return new Date((Long) o);
         }
-        if (o instanceof CharSequence) { // 字符串的转换规则
+        // 字符串的转换规则
+        if (o instanceof CharSequence) {
             return DateUtils.str2Date(o.toString());
         }
         if (o instanceof LocalDate) {

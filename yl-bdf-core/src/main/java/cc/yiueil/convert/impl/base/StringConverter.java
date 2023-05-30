@@ -3,9 +3,10 @@ package cc.yiueil.convert.impl.base;
 import cc.yiueil.convert.Converter;
 
 /**
- * Author:YIueil
- * Date:2022/4/15 15:12
- * Description: String转换器
+ * StringConverter
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/30 22:48
+ * @version 1.0
  */
 public class StringConverter implements Converter<String> {
     @Override

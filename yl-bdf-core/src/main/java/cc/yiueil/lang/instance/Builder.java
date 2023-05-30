@@ -3,10 +3,10 @@ package cc.yiueil.lang.instance;
 import java.io.Serializable;
 
 /**
- * Author:YIueil
- * Date:2022/7/4 22:06
- * Description: 建造者模式 门面
- * @param <T> 创建对象类型
+ * Builder 建造者模式 门面
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/30 22:53
+ * @version 1.0
  */
 public interface Builder<T> extends Serializable {
 	/**

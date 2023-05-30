@@ -1,22 +1,22 @@
 package cc.yiueil.util;
 
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * Author:YIueil
- * Date:2022/7/5 22:24
- * Description: json工具类
+ * JSONUtils json工具类
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/30 23:19
+ * @version 1.0
  */
-public class JSONUtils {
+public class JsonUtils {
     private static class SingletonRegistry {
-        private static final ObjectMapper objectMapper;
+        private static final ObjectMapper OBJECT_MAPPER;
         static {
-            objectMapper = new ObjectMapper();
-            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false); // 忽略不能反序列化的字段
-            objectMapper.findAndRegisterModules(); // 注册 jsr 扩展
+            OBJECT_MAPPER = new ObjectMapper();
+            OBJECT_MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false); // 忽略不能反序列化的字段
+            OBJECT_MAPPER.findAndRegisterModules(); // 注册 jsr 扩展
         }
     }
 
@@ -25,10 +25,10 @@ public class JSONUtils {
      * @return objectMapper实例
      */
     public static ObjectMapper getInstance() {
-        return SingletonRegistry.objectMapper;
+        return SingletonRegistry.OBJECT_MAPPER;
     }
 
-    public static String toJSONString(Object obj) {
+    public static String toJsonString(Object obj) {
         try {
             return getInstance().writeValueAsString(obj);
         } catch (JsonProcessingException e) {

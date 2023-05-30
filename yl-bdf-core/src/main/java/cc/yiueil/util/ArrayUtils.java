@@ -3,9 +3,10 @@ package cc.yiueil.util;
 import java.lang.reflect.Array;
 
 /**
- * Author:YIueil
- * Date:2022/4/11 22:19
- * Description: 数组工具类
+ * ArrayUtils 数组工具类
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/30 23:13
+ * @version 1.0
  */
 public class ArrayUtils {
     //region isEmpty
@@ -86,7 +87,7 @@ public class ArrayUtils {
      */
     public static char[] reverse(char[] charArray) {
         if (charArray != null) {
-            for (int i = 0; i < charArray.length/2 ; i++) {
+            for (int i = 0; i < charArray.length / 2; i++) {
                 swap(charArray, i, charArray.length - (i + 1));
             }
         }

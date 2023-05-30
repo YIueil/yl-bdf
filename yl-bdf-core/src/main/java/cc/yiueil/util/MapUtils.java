@@ -5,9 +5,10 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * Author:YIueil
- * Date:2022/7/4 23:33
- * Description: todo map工具类
+ * MapUtils
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/30 23:20
+ * @version 1.0
  */
 public class MapUtils {
     /**

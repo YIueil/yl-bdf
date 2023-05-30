@@ -8,20 +8,26 @@ import java.time.format.FormatStyle;
 import java.util.*;
 
 /**
- * Author:YIueil
- * Date:2022/4/15 15:46
- * Description: 旧日期API工具类
+ * DateUtils 旧日期API工具类
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/30 23:16
+ * @version 1.0
  */
 public class DateUtils {
-    private static final List<SimpleDateFormat> textFormatList;
+    private static final List<SimpleDateFormat> TEXT_FORMAT_LIST;
 
     static {
-        textFormatList = new ArrayList<>();
-        textFormatList.add(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"));// ISO 8601格式
-        textFormatList.add(new SimpleDateFormat("yyyy-MM-dd hh:mm:sss"));// 12小时制 含毫秒
-        textFormatList.add(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));// 24小时制 不含毫秒
-        textFormatList.add(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"));// 12小时制 不含毫秒
-        textFormatList.add(new SimpleDateFormat("yyyy-MM-dd"));// 不含时分秒
+        TEXT_FORMAT_LIST = new ArrayList<>();
+        // ISO 8601格式
+        TEXT_FORMAT_LIST.add(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"));
+        // 12小时制 含毫秒
+        TEXT_FORMAT_LIST.add(new SimpleDateFormat("yyyy-MM-dd hh:mm:sss"));
+        // 24小时制 不含毫秒
+        TEXT_FORMAT_LIST.add(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        // 12小时制 不含毫秒
+        TEXT_FORMAT_LIST.add(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"));
+        // 不含时分秒
+        TEXT_FORMAT_LIST.add(new SimpleDateFormat("yyyy-MM-dd"));
         //todo 适配更多标准日期格式
     }
 
@@ -71,7 +77,9 @@ public class DateUtils {
      * @return 年
      */
     public static int getYear(Date date) {
-        return date.getYear() + 1900; // 必须加上1900
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return cal.get(Calendar.YEAR);
     }
 
     /**
@@ -80,7 +88,9 @@ public class DateUtils {
      * @return 月
      */
     public static int getMouth(Date date) {
-        return date.getMonth() + 1; // 0~11，必须加上1
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return cal.get(Calendar.MONTH);
     }
 
     /**
@@ -89,7 +99,9 @@ public class DateUtils {
      * @return 日
      */
     public static int getDayOfMouth(Date date) {
-        return date.getDate(); // 1~31，不能加1
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return cal.get(Calendar.DAY_OF_MONTH);
     }
 
     /**
@@ -103,13 +115,17 @@ public class DateUtils {
      * <p>e.g. : 2021-2022-2</p>
      */
     public static String getCurrentTerm(Date date) {
+        int topHalfMouth = 2;
+        int bottomHalfMouth = 9;
         int year = getYear(date);
         int month = getMouth(date);
         int term = 1;
-        if (month < 9)
+        if (month < bottomHalfMouth) {
             year = year - 1;
-        if (month > 2 && month < 9)
+        }
+        if (month > topHalfMouth && month < bottomHalfMouth) {
             term = 2;
+        }
         return year + "-" + (year + 1) + "-" + term;
     }
     //endregion
@@ -182,7 +198,7 @@ public class DateUtils {
      * @return 转换结果
      */
     public static Date str2Date(String dateStr) {
-        for (SimpleDateFormat simpleDateFormat : textFormatList) {
+        for (SimpleDateFormat simpleDateFormat : TEXT_FORMAT_LIST) {
             try {
                 return simpleDateFormat.parse(dateStr);
             } catch (ParseException ignored) {}

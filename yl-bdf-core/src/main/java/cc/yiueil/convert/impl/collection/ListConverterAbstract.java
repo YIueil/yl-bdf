@@ -1,16 +1,22 @@
 package cc.yiueil.convert.impl.collection;
 
-import cc.yiueil.convert.CollectionConverter;
+import cc.yiueil.convert.AbstractCollectionConverter;
 import cc.yiueil.convert.ConverterHolder;
-import cc.yiueil.lang.reflect.TypeReference;
+import cc.yiueil.lang.reflect.AbstractTypeReference;
 
 import java.util.*;
 
-public class ListConverter<T> extends CollectionConverter<List<T>> {
-    private final TypeReference<T> typeReference;
+/**
+ * ListConverter
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/30 22:49
+ * @version 1.0
+ */
+public class ListConverterAbstract<T> extends AbstractCollectionConverter<List<T>> {
+    private final AbstractTypeReference<T> abstractTypeReference;
 
-    public ListConverter(TypeReference<T> typeReference) {
-        this.typeReference = typeReference;
+    public ListConverterAbstract(AbstractTypeReference<T> abstractTypeReference) {
+        this.abstractTypeReference = abstractTypeReference;
     }
 
     @Override
@@ -20,7 +26,7 @@ public class ListConverter<T> extends CollectionConverter<List<T>> {
         if (obj instanceof Collection) {
             Collection<?> collection = (Collection<?>) obj;
             for (Object item : collection) {
-                T resultItem = ConverterHolder.getConverter(typeReference).convert(item, null);
+                T resultItem = ConverterHolder.getConverter(abstractTypeReference).convert(item, null);
                 if (resultItem != null) {
                     result.add(resultItem);
                 }

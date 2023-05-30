@@ -1,9 +1,10 @@
 package cc.yiueil.exception;
 
 /**
- * Author:YIueil
- * Date:2022/8/23 21:53
- * Description: 资源未找到异常
+ * ResourceNotFoundException 资源未找到异常
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/30 22:51
+ * @version 1.0
  */
 public class ResourceNotFoundException extends RuntimeException{
     public ResourceNotFoundException() {

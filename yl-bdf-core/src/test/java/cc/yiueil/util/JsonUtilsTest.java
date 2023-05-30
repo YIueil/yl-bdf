@@ -10,11 +10,11 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-class JSONUtilsTest {
+class JsonUtilsTest {
 
     @Test
     void toJSONString() throws JsonProcessingException {
-        ObjectMapper instance = JSONUtils.getInstance();
+        ObjectMapper instance = JsonUtils.getInstance();
         ArrayList<Object> objects = new ArrayList<>();
         objects.add(1);
         objects.add(true);
@@ -38,9 +38,9 @@ class JSONUtilsTest {
     @SuppressWarnings("unchecked")
     void parse() {
         Tree<Object> objectTree = new Tree<>(new TreeNodeConfig());
-        String string = JSONUtils.toJSONString(objectTree);
+        String string = JsonUtils.toJsonString(objectTree);
         System.out.println(string);
-        TreeNode<Integer> parse = JSONUtils.parse(TreeNode.class, string);
+        TreeNode<Integer> parse = JsonUtils.parse(TreeNode.class, string);
         System.out.println(parse);
     }
 }

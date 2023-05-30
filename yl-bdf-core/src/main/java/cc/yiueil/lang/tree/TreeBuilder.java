@@ -12,12 +12,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Author:YIueil
- * Date:2022/7/4 22:41
- * Description: 树形结构 构造器
- * @param <T> id类型
+ * TreeBuilder
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/30 23:12
+ * @version 1.0
  */
-
 public class TreeBuilder<T> implements Builder<Tree<T>>, Serializable {
     private static final long serialVersionUID = 1L;
 

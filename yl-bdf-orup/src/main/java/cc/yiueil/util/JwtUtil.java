@@ -1,7 +1,6 @@
 package cc.yiueil.util;
 
 import cc.yiueil.entity.UserEntity;
-import cc.yiueil.lang.instance.User;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -42,8 +41,8 @@ public class JwtUtil {
 
             return JWT.create()
                     .withHeader(header)
-                    .withClaim("user", JSONUtils.toJSONString(user))
-                    .withClaim("createTime", JSONUtils.toJSONString(LocalDateTime.now()))
+                    .withClaim("user", JsonUtils.toJsonString(user))
+                    .withClaim("createTime", JsonUtils.toJsonString(LocalDateTime.now()))
                     // .withExpiresAt(date) // 根据是否使用 redis 设置过期时间
                     .sign(algorithm);
         } catch (Exception e) {
@@ -64,6 +63,6 @@ public class JwtUtil {
         JWTVerifier verifier = JWT.require(algorithm).build();
         DecodedJWT jwt = verifier.verify(token);
         String userInfo = jwt.getClaim("user").asString();
-        return JSONUtils.parse(UserEntity.class, userInfo);
+        return JsonUtils.parse(UserEntity.class, userInfo);
     }
 }

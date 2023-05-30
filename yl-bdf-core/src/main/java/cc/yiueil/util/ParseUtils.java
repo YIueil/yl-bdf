@@ -1,25 +1,31 @@
 package cc.yiueil.util;
 
 import cc.yiueil.convert.ConverterHolder;
-import cc.yiueil.convert.impl.collection.ListConverter;
-import cc.yiueil.lang.reflect.TypeReference;
+import cc.yiueil.convert.impl.collection.ListConverterAbstract;
+import cc.yiueil.lang.reflect.AbstractTypeReference;
 
 import java.util.*;
 
+/**
+ * ParseUtils
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/30 23:45
+ * @version 1.0
+ */
 public class ParseUtils {
     /**
      * 通用转换方法，适用于自定义类型的转换，需要提前准备转换器
      * PS：内置的转换器的转换也可以用该方法实现
      * <p>ParseUtils.get(String.class, 1, null)</p>
      *
-     * @param typeReference 转换后的类型
+     * @param abstractTypeReference 转换后的类型
      * @param o             需要转换的对象
      * @param defaultValue  转换失败的默认值
      * @param <T>           转换后的类型
      * @return 转换结果
      */
-    public static <T> T get(TypeReference<T> typeReference, Object o, T defaultValue) {
-        return ConverterHolder.getConverter(typeReference).convert(o, defaultValue);
+    public static <T> T get(AbstractTypeReference<T> abstractTypeReference, Object o, T defaultValue) {
+        return ConverterHolder.getConverter(abstractTypeReference).convert(o, defaultValue);
     }
 
     /**
@@ -30,7 +36,7 @@ public class ParseUtils {
      * @return 转换结果
      */
     public static String getString(Object o, String defaultValue) {
-        return get(new TypeReference<String>() {
+        return get(new AbstractTypeReference<String>() {
         }, o, defaultValue);
     }
 
@@ -42,7 +48,7 @@ public class ParseUtils {
      * @return 转换结果
      */
     public static Integer getInteger(Object o, Integer defaultValue) {
-        return get(new TypeReference<Integer>() {
+        return get(new AbstractTypeReference<Integer>() {
         }, o, defaultValue);
     }
 
@@ -54,7 +60,7 @@ public class ParseUtils {
      * @return 转换结果
      */
     public static Float getFloat(Object o, Float defaultValue) {
-        return get(new TypeReference<Float>() {
+        return get(new AbstractTypeReference<Float>() {
         }, o, defaultValue);
     }
 
@@ -66,7 +72,7 @@ public class ParseUtils {
      * @return 转换结果
      */
     public static Double getDouble(Object o, Double defaultValue) {
-        return get(new TypeReference<Double>() {
+        return get(new AbstractTypeReference<Double>() {
         }, o, defaultValue);
     }
 
@@ -78,7 +84,7 @@ public class ParseUtils {
      * @return 转换结果
      */
     public static Long getLong(Object o, Long defaultValue) {
-        return get(new TypeReference<Long>() {
+        return get(new AbstractTypeReference<Long>() {
         }, o, defaultValue);
     }
 
@@ -99,7 +105,7 @@ public class ParseUtils {
      * </pre>
      */
     public static Boolean getBoolean(Object o, Boolean defaultValue) {
-        return get(new TypeReference<Boolean>() {
+        return get(new AbstractTypeReference<Boolean>() {
         }, o, defaultValue);
     }
 
@@ -113,7 +119,7 @@ public class ParseUtils {
      */
     @SuppressWarnings("unchecked")
     public static <T> List<T> getList(Object o , Class<T> classType) {
-        ListConverter<T> listConverter = new ListConverter<T>(TypeReference.of(classType));
+        ListConverterAbstract<T> listConverter = new ListConverterAbstract<T>(AbstractTypeReference.of(classType));
         return listConverter.convert(o, Collections.emptyList());
     }
 

@@ -3,7 +3,7 @@ package cc.yiueil.controller;
 import cc.yiueil.constant.OrupRestURL;
 import cc.yiueil.data.impl.JpaBaseDao;
 import cc.yiueil.entity.UserEntity;
-import cc.yiueil.general.RestURL;
+import cc.yiueil.general.RestUrl;
 import cc.yiueil.repository.UserRepository;
 import cc.yiueil.service.OrupService;
 import cc.yiueil.util.JwtUtil;
@@ -22,7 +22,7 @@ import java.util.Optional;
  */
 @CrossOrigin
 @RestController
-@RequestMapping(value = RestURL.BASE_PATH + OrupRestURL.ORUP)
+@RequestMapping(value = RestUrl.BASE_PATH + OrupRestURL.ORUP)
 public class OrupController implements LoggedController{
     @Autowired
     JpaBaseDao baseDao;

@@ -1,9 +1,10 @@
 package cc.yiueil.convert;
 
 /**
- * Author:YIueil
- * Date:2022/4/15 15:13
- * Description: 转换器接口
+ * Converter 转换器接口
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/30 22:49
+ * @version 1.0
  * <pre>
  *     转换器添加步骤：
  *     1、添加接口实现

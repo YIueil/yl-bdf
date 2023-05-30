@@ -4,9 +4,10 @@ import java.io.File;
 import java.util.Locale;
 
 /**
- * Author:YIueil
- * Date:2023/1/12 11:55
- * Description: 文件处理工具类
+ * FileUtils文件处理工具类
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/1/12 11:55
+ * @version 1.0
  */
 public class FileUtils {
     /**

@@ -1,7 +1,7 @@
 package cc.yiueil.util;
 
-import cc.yiueil.convert.impl.collection.ListConverter;
-import cc.yiueil.lang.reflect.TypeReference;
+import cc.yiueil.convert.impl.collection.ListConverterAbstract;
+import cc.yiueil.lang.reflect.AbstractTypeReference;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ class ParseUtilsTest {
         objects.add(1);
         objects.add("2");
         objects.add("3");
-        ListConverter<String> converter = new ListConverter<>(new TypeReference<String>() {});
+        ListConverterAbstract<String> converter = new ListConverterAbstract<>(new AbstractTypeReference<String>() {});
         List<String> result = converter.convert(objects, Collections.emptyList());
         System.out.println(result);
     }
