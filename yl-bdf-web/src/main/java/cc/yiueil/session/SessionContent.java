@@ -8,18 +8,32 @@ import lombok.Setter;
 import java.util.List;
 
 /**
- * Author:YIueil
- * Date:2022/7/3 21:08
- * Description: 会话信息
+ * SessionContent 会话信息类
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/31 23:21
+ * @version 1.0
  */
 @Getter
 @Setter
 public class SessionContent {
-    public static final String SESSION_KEY = "YL-SESSION"; // 会话session名称
+    /**
+     * 会话session名称
+     */
+    public static final String SESSION_KEY = "YL-SESSION";
 
-    private String ip; // 会话ip
-    private User user; // 当前会话的用户信息
+    /**
+     * 会话ip
+     */
+    private String ip;
 
-    private List<Privilege> privilegeList; // 权限列表
+    /**
+     * 当前会话的用户信息
+     */
+    private User user;
+
+    /**
+     * 权限列表
+     */
+    private List<Privilege> privilegeList;
 
 }

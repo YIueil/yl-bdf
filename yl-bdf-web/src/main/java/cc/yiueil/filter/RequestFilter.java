@@ -1,14 +1,25 @@
 package cc.yiueil.filter;
  
+import cc.yiueil.util.ArrayUtils;
+
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
+/**
+ * RequestFilter 请求过滤器
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/31 23:13
+ * @version 1.0
+ */
 @WebFilter(filterName = "requestFilter", urlPatterns = {"/*"})
 public class RequestFilter implements Filter {
+    private static final String[] ALL_METHOD = {"OPTIONS"};
  
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -26,7 +37,7 @@ public class RequestFilter implements Filter {
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Credentials", "true");
         String method = request.getMethod();
-        if (method.equalsIgnoreCase("OPTIONS")) {
+        if (ArrayUtils.arrayToList(ALL_METHOD).contains(method)) {
             servletResponse.getOutputStream().write("Success".getBytes(StandardCharsets.UTF_8));
         } else {
             filterChain.doFilter(servletRequest, servletResponse);

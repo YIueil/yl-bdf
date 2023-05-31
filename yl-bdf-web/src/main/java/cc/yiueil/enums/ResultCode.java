@@ -4,12 +4,21 @@ import cc.yiueil.lang.instance.CodeStatus;
 import lombok.Getter;
 
 /**
- * Author:YIueil
- * Date:2022/7/4 1:18
- * Description: 状态码类 以后都用这个好吗
+ * ResultCode 状态码类 以此为准
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/31 23:11
+ * @version 1.0
  */
 @Getter
 public enum ResultCode implements CodeStatus {
+    /**
+     * SUCCESS: 成功
+     * FAILED: 失败
+     * ERROR: 错误
+     * UNAUTHORIZED: 未授权
+     * EXPIRED: 授权到期
+     * VALIDATE_FAIL: 认证失败
+     */
     SUCCESS(1200, "success"),
     FAILED(1400, "failed"),
     ERROR(1500, "error"),

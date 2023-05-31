@@ -5,17 +5,20 @@ import cc.yiueil.lang.instance.CodeStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Arrays;
 
 /**
- * Author:YIueil
- * Date:2022/7/3 21:00
- * Description: 接口返回包装视图类
+ * ResultVo 接口返回包装视图类
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/31 23:23
+ * @version 1.0
  */
 @Getter
 @ApiModel(value = "标准返回视图对象")
+@NoArgsConstructor
 public class ResultVo implements Serializable {
     @ApiModelProperty(value = "应用响应状态码")
     private Integer code;
@@ -24,16 +27,13 @@ public class ResultVo implements Serializable {
     private String msg;
 
     @ApiModelProperty(value = "错误请求栈信息(错误时必须)")
-    private String stackTrace;// 错误请求栈信息(错误时必须)
+    private String stackTrace;
 
     @ApiModelProperty(value = "接口提示信息")
-    private String tips; // 接口提示信息(可选)
+    private String tips;
 
     @ApiModelProperty(value = "返回结果体")
-    private Object body;// 返回结果请求体(可选)
-
-    private ResultVo() {
-    }
+    private Object body;
 
     private ResultVo(CodeStatus codeStatus, String tips, String stackTrace, Object body) {
         this.code = codeStatus.getCode();
@@ -67,7 +67,7 @@ public class ResultVo implements Serializable {
         return new ResultVo(ResultCode.ERROR, tips, Arrays.toString(e.getStackTrace()), body);
     }
 
-    public static ResultVo validate_fail(Object body, String tips) {
+    public static ResultVo validateFail(Object body, String tips) {
         return new ResultVo(ResultCode.VALIDATE_FAIL, tips, null, body);
     }
 

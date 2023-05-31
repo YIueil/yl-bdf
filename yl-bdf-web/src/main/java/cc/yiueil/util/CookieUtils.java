@@ -6,9 +6,10 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
 /**
- * Author:YIueil
- * Date:2023/4/5 22:55
- * Description: cookie工具类
+ * CookieUtils cookie工具类
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/31 23:22
+ * @version 1.0
  */
 public final class CookieUtils {
 

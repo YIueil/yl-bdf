@@ -6,9 +6,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Author:YIueil
- * Date:2022/7/4 21:13
- * Description: 接口调用计时器
+ * TimeInterval 接口调用计时器
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/31 23:07
+ * @version 1.0
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.TYPE})

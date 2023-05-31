@@ -12,9 +12,10 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.Method;
 
 /**
- * Author:YIueil
- * Date:2022/7/4 2:28
- * Description: 方法调用日志环绕通知
+ * LogAdvise 方法调用日志环绕通知
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/31 23:06
+ * @version 1.0
  */
 @Aspect
 @Component

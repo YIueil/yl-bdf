@@ -13,7 +13,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * todo 自定义异常处理
+ * CustomExceptionHandler 自定义异常处理
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/31 23:20
+ * @version 1.0
  */
 @RestControllerAdvice
 public class CustomExceptionHandler {
@@ -42,11 +45,11 @@ public class CustomExceptionHandler {
         for (ObjectError objectError : allErrors) {
             errorParams.put(objectError.getObjectName(), objectError.getDefaultMessage());
         }
-        return ResultVo.validate_fail(errorParams, "入参数校验失败");
+        return ResultVo.validateFail(errorParams, "入参数校验失败");
     }
 
     @ExceptionHandler({UnauthorizedException.class})
-    public ResultVo UnauthorizedExceptionHandler(UnauthorizedException e) {
+    public ResultVo unauthorizedExceptionHandler(UnauthorizedException e) {
         return ResultVo.unauthorized(e.getMessage());
     }
 }

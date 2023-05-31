@@ -7,9 +7,10 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 /**
- * Author:YIueil
- * Date:2022/7/26 0:10
- * Description: spring容器工具类
+ * SpringContextUtils spring容器工具类
+ * @author 弋孓 YIueil@163.com
+ * @date 2022/7/26 0:10
+ * @version 1.0
  */
 @Slf4j
 @Component

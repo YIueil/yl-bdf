@@ -1,6 +1,8 @@
 package cc.yiueil.util;
 
 import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * ArrayUtils 数组工具类
@@ -111,5 +113,14 @@ public class ArrayUtils {
 
     private static boolean isArray(Object object) {
         return object != null && object.getClass().isArray();
+    }
+
+    /**
+     * 将数组转换为List
+     * @param arr 数组
+     * @return List集合
+     */
+    public static <T> List<T> arrayToList(T[] arr) {
+        return Arrays.asList(arr);
     }
 }

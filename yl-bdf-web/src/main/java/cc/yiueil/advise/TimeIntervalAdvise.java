@@ -14,9 +14,10 @@ import org.springframework.util.StopWatch;
 import java.lang.reflect.Method;
 
 /**
- * Author:YIueil
- * Date:2022/7/4 2:29
- * Description: 方法耗时环绕通知
+ * TimeIntervalAdvise 方法耗时环绕通知
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/31 23:06
+ * @version 1.0
  */
 @Aspect
 @Component
