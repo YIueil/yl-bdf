@@ -100,7 +100,7 @@
     <build>
         <resources>
             <resource>
-                <directory>src/main/profiles/${profiles.active}</directory>
+                <directory>src/main/profiles/local</directory>
             </resource>
             <resource>
                 <directory>src/main/resources</directory>
