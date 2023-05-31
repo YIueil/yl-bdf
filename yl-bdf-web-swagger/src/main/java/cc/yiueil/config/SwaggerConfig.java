@@ -15,7 +15,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import java.util.Collections;
 
 /**
- * swagger支持
+ * SwaggerConfig swagger支持
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/31 23:43
+ * @version 1.0
  */
 @Configuration
 @EnableSwagger2
@@ -28,7 +31,7 @@ public class SwaggerConfig {
     public Docket docket() {
 	 	String bp = StringUtils.isBlank(basePackage) ? "cc.yiueil" : basePackage;
         return new Docket(DocumentationType.SWAGGER_2)
-          .groupName("default") //  组名
+          .groupName("default")
           .select()
           .apis(RequestHandlerSelectors.basePackage(bp))
           .paths(PathSelectors.any())
@@ -38,14 +41,14 @@ public class SwaggerConfig {
 
 	private ApiInfo apiInfo() {
 		return new ApiInfo(
-				"应用 API", // 大标题
-				"swagger接口管理", // 小标题
-				"1.0", // 接口版本号
-				"www.yiueil.cc", // 团队地址
-				new Contact("YIueil", "www.yiueil.cc", "yiueil@163.com"), // 作者信息
-				"nameless", // 许可证
-				"www.nameless.cn", // 许可地址
-				Collections.emptyList() // 厂家扩展
+				"应用 API",
+				"swagger接口管理",
+				"1.0",
+				"www.yiueil.cc",
+				new Contact("YIueil", "www.yiueil.cc", "yiueil@163.com"),
+				"nameless",
+				"www.nameless.cn",
+				Collections.emptyList()
 		);
 	}
 }
