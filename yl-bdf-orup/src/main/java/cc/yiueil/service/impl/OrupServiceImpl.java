@@ -21,7 +21,7 @@ public class OrupServiceImpl implements OrupService {
     JpaBaseDao baseDao;
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = RuntimeException.class)
     public UserEntity registerUser(UserEntity registerUser) {
         UserEntity userEntity = new UserEntity();
         userEntity.setUserName(registerUser.getUserName());
@@ -37,7 +37,7 @@ public class OrupServiceImpl implements OrupService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = RuntimeException.class)
     public void passwordChange(Long userId, String newPassword) {
         baseDao.findById(UserEntity.class, userId).ifPresent(userEntity -> {
             userEntity.setPassword(newPassword);
