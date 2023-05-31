@@ -5,18 +5,21 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Author:YIueil
- * Date:2022/7/6 16:44
- * Description: 动态查询传输类
+ * DynamicQueryDTO 动态查询传输类
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/31 23:27
+ * @version 1.0
  */
 @Getter
 @Setter
+@ToString
 @ApiModel(value = "动态查询参数")
 public class DynamicQueryDTO {
     @NotNull
@@ -30,7 +33,7 @@ public class DynamicQueryDTO {
     private String configPath;
 
     @ApiModelProperty(value = "查询的过滤条件")
-    private Map<String, Object> filter = new HashMap<>();
+    private Map<String, Object> filter;
 
     @ApiModelProperty(value = "查询配置")
     private DynamicQueryConfig config;

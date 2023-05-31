@@ -15,18 +15,25 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Author:YIueil
- * Date:2022/7/26 0:09
- * Description: 动态查询资源池 资源池包含多个节点，一个文件一个节点
+ * DynamicQueryPool 动态查询资源池 资源池包含多个节点，一个文件一个节点
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/31 23:30
+ * @version 1.0
  */
 @Component
 public class DynamicQueryPool implements InitializingBean {
+    /**
+     * 处理器
+     */
     @Autowired
-    private ConfigResolver configResolver; // 处理器
+    private ConfigResolver configResolver;
 
     private static final String DEFAULT_CONFIG_PATH = "dynamicsql";
 
-    private String[] locations = {DEFAULT_CONFIG_PATH}; // 动态查询目录
+    /**
+     * 动态查询目录
+     */
+    private String[] locations = {DEFAULT_CONFIG_PATH};
 
     private final Map<String, DynamicQueryNode> dynamicSqlMap = new HashMap<>();
 

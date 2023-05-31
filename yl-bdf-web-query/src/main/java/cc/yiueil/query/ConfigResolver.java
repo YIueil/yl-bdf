@@ -17,9 +17,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Author:YIueil
- * Date:2022/7/26 11:04
- * Description: 配置解析器
+ * ConfigResolver 配置解析器
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/31 23:29
+ * @version 1.0
  */
 public interface ConfigResolver {
     /**
@@ -45,7 +46,7 @@ public interface ConfigResolver {
      * @return 动态查询对象Map
      */
     default Map<String, DynamicQuery> buildDynamicQueryNode(Document document) {
-        Map<String, DynamicQuery> dynamicQueryNode = new HashMap<>();
+        Map<String, DynamicQuery> dynamicQueryNode = new HashMap<>(16);
         List<Node> nodes = XmlUtils.selectNodes(document, "/root/yl:config", "yl");
         if (CollectionUtils.isNotEmpty(nodes)) {
             for (Node node : nodes) {

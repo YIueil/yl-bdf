@@ -16,9 +16,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Author:YIueil
- * Date:2022/7/25 19:53
- * Description: 简单实现sql拼接 存在sql注入风险
+ * SimpleConfigResolver 简单实现sql拼接 存在sql注入风险
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/31 23:27
+ * @version 1.0
  */
 @Component
 public class SimpleConfigResolver implements ConfigResolver {
@@ -34,7 +35,7 @@ public class SimpleConfigResolver implements ConfigResolver {
 
     @Override
     public Map<String, Filter> buildFilters(Element element) {
-        Map<String, Filter> filterMap = new HashMap<>();
+        Map<String, Filter> filterMap = new HashMap<>(10);
         Element filters = element.element("filters");
         if (filters == null) {
             return filterMap;
@@ -55,7 +56,7 @@ public class SimpleConfigResolver implements ConfigResolver {
 
     @Override
     public Map<String, Param> buildParams(Element element) {
-        Map<String, Param> elementMap = new HashMap<>();
+        Map<String, Param> elementMap = new HashMap<>(10);
         Element params = element.element("params");
         if (params == null) {
             return elementMap;
@@ -76,7 +77,8 @@ public class SimpleConfigResolver implements ConfigResolver {
     @Override
     public DynamicQueryInst constructInst(DynamicQuery dynamicQuery, Map<String, Object> parameters) {
         DynamicQueryInst dynamicQueryInst = DynamicQueryInst.of(dynamicQuery);
-        buildParameters(dynamicQueryInst, parameters); // 对于没有传入参数的, 取默认值
+        // 对于没有传入参数的, 取默认值
+        buildParameters(dynamicQueryInst, parameters);
         concatFilterExtra(dynamicQueryInst, parameters);
 
         dynamicQueryInst.setSql(buildSql(dynamicQueryInst.getMixSql(), dynamicQueryInst.getEndSql(),
@@ -85,12 +87,13 @@ public class SimpleConfigResolver implements ConfigResolver {
         return dynamicQueryInst;
     }
 
+    @Override
     public void buildParameters(DynamicQueryInst dynamicQueryInst, Map<String, Object> parameters) {
         setDefaultParamValue(dynamicQueryInst, parameters, parameters);
     }
 
     private void concatFilterExtra(DynamicQueryInst dynamicQueryInst, Map<String, Object> parameters) {
-        Map<String, Object> newParameters = new HashMap<>();
+        Map<String, Object> newParameters = new HashMap<>(10);
         Map<String, Filter> filters = dynamicQueryInst.getFilters();
         if (MapUtils.isNotEmpty(filters)) {
             for (String paramKey : filters.keySet()) {
@@ -117,6 +120,7 @@ public class SimpleConfigResolver implements ConfigResolver {
         }
     }
 
+    @Override
     public String buildSql(String mixSql, String endSql, Map<String, Filter> filters, Map<String, Object> parameters) {
         return mixSql + assembleCondition(filters, parameters) + endSql;
     }

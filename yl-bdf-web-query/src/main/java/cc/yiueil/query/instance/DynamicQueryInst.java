@@ -6,9 +6,10 @@ import lombok.Setter;
 import java.util.Map;
 
 /**
- * Author:YIueil
- * Date:2022/7/26 14:37
- * Description: 动态查询实例对象 通过DynamicQuery模板和filter参数构建
+ * DynamicQueryInst 动态查询实例对象 通过DynamicQuery模板和filter参数构建
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/31 23:28
+ * @version 1.0
  */
 @Getter
 @Setter

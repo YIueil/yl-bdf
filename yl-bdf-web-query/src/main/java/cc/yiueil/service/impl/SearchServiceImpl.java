@@ -19,6 +19,12 @@ import java.io.File;
 import java.net.URL;
 import java.util.Map;
 
+/**
+ * SearchServiceImpl 动态查询服务实现
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/31 23:31
+ * @version 1.0
+ */
 @Service
 public class SearchServiceImpl implements SearchService {
     @Autowired
@@ -30,8 +36,16 @@ public class SearchServiceImpl implements SearchService {
     @Autowired
     DynamicQueryPool dynamicQueryPool;
 
+    /**
+     * 动态查询服务
+     * @param dynamicQueryDTO 动态查询参数
+     * @param parameters 过滤条件
+     * @param pageIndex 当前页码
+     * @param pageSize 每页数量
+     * @return PageVo
+     */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = RuntimeException.class)
     public PageVo searchPage(DynamicQueryDTO dynamicQueryDTO, Map<String, Object> parameters, Integer pageIndex, Integer pageSize) {
         PageVo pageVo = new PageVo();
         pageVo.setPageIndex(pageIndex);
@@ -50,14 +64,16 @@ public class SearchServiceImpl implements SearchService {
         String filepath = url.getFile();
         File file = new File(filepath);
         DynamicQueryNode dynamicQueryNode = dynamicQueryPool.findDynamicNode(dynamicQueryDTO).orElseThrow(() -> new BusinessException("没有找到配置节点"));
-        if (file.lastModified() != dynamicQueryNode.getLastModified()) { // 文件已更新, 需要重新加载节点
+        // 文件已更新, 需要重新加载节点
+        if (file.lastModified() != dynamicQueryNode.getLastModified()) {
             dynamicQueryNode = configResolver.buildDynamicQueryNode(file);
         }
         DynamicQuery dynamicQuery = dynamicQueryNode.getDynamicQueryMap().get(dynamicQueryDTO.getConfigId());
         if (dynamicQuery == null) {
             throw new BusinessException("没有找到对应配置服务: " + dynamicQueryDTO.getConfigId());
         }
-        DynamicQueryInst dynamicQueryInst = configResolver.constructInst(dynamicQuery, parameters); // 仅construct时使用外部parameters
+        // 仅construct时使用外部parameters
+        DynamicQueryInst dynamicQueryInst = configResolver.constructInst(dynamicQuery, parameters);
         pageVo.setBody(baseDao.sqlAsMap(dynamicQueryInst.getSql(), dynamicQueryInst.getParameters(), pageIndex, pageSize));
         pageVo.setItemCounts(baseDao.countSize(dynamicQueryInst.getCountSql(), dynamicQueryInst.getParameters()));
         pageVo.setPageTotal((pageVo.getItemCounts() / pageSize) + 1);

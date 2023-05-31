@@ -9,9 +9,10 @@ import java.io.File;
 import java.util.Map;
 
 /**
- * Author:YIueil
- * Date:2022/7/26 11:10
- * Description: 动态查询节点 每个文件生成一个节点, 每个节点持有查询服务
+ * DynamicQueryNode 动态查询节点 每个文件生成一个节点, 每个节点持有查询服务
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/31 23:30
+ * @version 1.0
  */
 @Getter
 @Setter

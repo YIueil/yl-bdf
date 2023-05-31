@@ -8,9 +8,10 @@ import java.io.FileNotFoundException;
 import java.util.Map;
 
 /**
- * Author:YIueil
- * Date:2022/7/4 1:49
- * Description: 查询服务
+ * SearchService 查询服务
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/31 23:38
+ * @version 1.0
  */
 public interface SearchService {
 
@@ -21,6 +22,8 @@ public interface SearchService {
      * @param pageIndex 当前页码
      * @param pageSize 每页数量
      * @return 分页查询结果
+     * @throws FileNotFoundException fileNotFoundException
+     * @throws DocumentException documentException
      */
     PageVo searchPage(DynamicQueryDTO dynamicQueryDTO, Map<String, Object> parameters, Integer pageIndex, Integer pageSize) throws FileNotFoundException, DocumentException;
 }

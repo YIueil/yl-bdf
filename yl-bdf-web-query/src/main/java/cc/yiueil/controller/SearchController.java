@@ -1,6 +1,6 @@
 package cc.yiueil.controller;
 
-import cc.yiueil.constant.SearchRestURL;
+import cc.yiueil.constant.SearchRestUrl;
 import cc.yiueil.dto.DynamicQueryDTO;
 import cc.yiueil.vo.PageVo;
 import cc.yiueil.general.RestUrl;
@@ -16,12 +16,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Author:YIueil
- * Date:2022/7/4 1:48
- * Description: 通用查询
+ * SearchController 通用查询
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/31 23:26
+ * @version 1.0
  */
 @RestController
-@RequestMapping(value = RestUrl.BASE_PATH + SearchRestURL.QUERY)
+@RequestMapping(value = RestUrl.BASE_PATH + SearchRestUrl.QUERY)
 public class SearchController implements LoggedController {
     @Autowired
     SearchService searchService;

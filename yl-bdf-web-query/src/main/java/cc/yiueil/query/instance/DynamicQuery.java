@@ -6,9 +6,10 @@ import lombok.Setter;
 import java.util.Map;
 
 /**
- * Author:YIueil
- * Date:2022/7/6 17:34
- * Description: 动态查询
+ * DynamicQuery 动态查询
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/31 23:28
+ * @version 1.0
  */
 @Getter
 @Setter

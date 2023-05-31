@@ -7,7 +7,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 /**
  * WebConfig
  * @author 弋孓 YIueil@163.com
- * @date 2023/5/31 23:07
+ * @date 2023/5/31 23:28
  * @version 1.0
  */
 @Configuration

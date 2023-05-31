@@ -6,9 +6,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Author:YIueil
- * Date:2022/7/6 17:07
- * Description: 动态查询配置
+ * DynamicQueryConfig 动态查询配置
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/31 23:29
+ * @version 1.0
  */
 @Getter
 @Setter
