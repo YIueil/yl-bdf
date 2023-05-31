@@ -19,9 +19,10 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Author:YIueil
- * Date:2022/7/22 17:50
- * Description: jpa基础查询实现
+ * JpaBaseDao jpa基础查询实现
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/31 22:31
+ * @version 1.0
  */
 @Repository
 public class JpaBaseDao implements BatchDao, SqlDao, GeneratorDao {

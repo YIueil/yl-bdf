@@ -311,7 +311,9 @@ class PropertyContainer {
         else if ( p.isAnnotationPresent( Type.class ) ) {
             return true;
         }
-        else return p.isAnnotationPresent(Target.class);
+        else {
+            return p.isAnnotationPresent(Target.class);
+        }
     }
 
     private static boolean mustBeSkipped(XProperty property) {

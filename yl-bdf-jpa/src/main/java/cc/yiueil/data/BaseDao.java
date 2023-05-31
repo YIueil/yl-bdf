@@ -3,9 +3,10 @@ package cc.yiueil.data;
 import java.util.Optional;
 
 /**
- * Author:YIueil
- * Date:2022/7/22 17:48
- * Description: 基础dao, 持有 save delete 基础功能
+ * BaseDao 基础dao, 持有 save delete 基础功能
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/31 22:31
+ * @version 1.0
  */
 public interface BaseDao {
     /**

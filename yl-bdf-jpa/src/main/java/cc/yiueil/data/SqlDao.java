@@ -11,23 +11,67 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * Author:YIueil
- * Date:2022/7/22 18:01
- * Description: 原生sql执行 查询相关内容
+ * SqlDao 原生sql执行 查询相关内容
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/31 22:34
+ * @version 1.0
  */
 public interface SqlDao {
+    /**
+     * 执行sql查询返回map
+     * @param sql sql
+     * @return map
+     */
     List<Map<String, Object>> sqlAsMap(String sql);
 
+    /**
+     * 执行sql分页查询返回map
+     * @param sql sql
+     * @param pageIndex 页码
+     * @param pageSize 单页数量
+     * @return map
+     */
     List<Map<String, Object>> sqlAsMap(String sql, int pageIndex, int pageSize);
 
+    /**
+     * 执行sql查询返回map
+     * @param sql sql
+     * @param parameters 执行参数
+     * @return map
+     */
     List<Map<String, Object>> sqlAsMap(String sql, Map<String, Object> parameters);
 
+    /**
+     * 执行sql分页查询返回map
+     * @param sql sql
+     * @param parameters 参数
+     * @param pageIndex 页码
+     * @param pageSize 单页数量
+     * @return map
+     */
     List<Map<String, Object>> sqlAsMap(String sql, Map<String, Object> parameters, int pageIndex, int pageSize);
 
+    /**
+     * 执行sql
+     * @param sql sql
+     * @param parameters 参数
+     * @return 更新数量
+     */
     int executeUpdate(String sql, Map<String, Object> parameters);
 
+    /**
+     * 获取sql执行结果数量
+     * @param sql sql
+     * @param parameters 参数
+     * @return 结果集行数
+     */
     int countSize(String sql, Map<String, Object> parameters);
 
+    /**
+     * 设置查询参数
+     * @param query query
+     * @param args 参数集
+     */
     default void setParameters(Query query, Map<String, Object> args) {
         // 获取到真实的参数列表
         List<String> parameters = query.getParameters().stream().map(Parameter::getName).collect(Collectors.toList());

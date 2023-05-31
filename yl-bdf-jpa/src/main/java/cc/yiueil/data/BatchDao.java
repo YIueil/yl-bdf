@@ -3,9 +3,10 @@ package cc.yiueil.data;
 import java.util.*;
 
 /**
- * Author:YIueil
- * Date:2022/7/22 17:59
- * Description: 批处理dao,持有 批量保存,批量删除 功能
+ * BatchDao 批处理dao,持有 批量保存,批量删除 功能
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/31 22:31
+ * @version 1.0
  */
 public interface BatchDao extends BaseDao{
     /**

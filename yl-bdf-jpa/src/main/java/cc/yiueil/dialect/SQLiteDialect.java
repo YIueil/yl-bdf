@@ -8,6 +8,12 @@ import org.hibernate.type.StandardBasicTypes;
 
 import java.sql.Types;
 
+/**
+ * SQLiteDialect 方言配置类
+ * @author 弋孓 YIueil@163.com
+ * @date 2023/5/31 22:58
+ * @version 1.0
+ */
 public class SQLiteDialect extends Dialect {
     public SQLiteDialect() {
         super();
