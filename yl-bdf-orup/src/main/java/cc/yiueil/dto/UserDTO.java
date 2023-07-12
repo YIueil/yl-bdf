@@ -1,30 +1,25 @@
-package cc.yiueil.entity;
+package cc.yiueil.dto;
 
-import cc.yiueil.lang.instance.BaseEntity;
-import cc.yiueil.lang.instance.HasGuid;
-import cc.yiueil.lang.instance.User;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
-import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
+ * UserDTO 用户 DTO
+ *
  * @author 弋孓 YIueil@163.com
- * @date 2023/5/30 21:13
- * @version 1.0 用户实体
+ * @version 1.0
+ * @date 2023/6/22 15:30
  */
 @Getter
 @Setter
-@Entity
-@Table(name = "user", schema = "yl_acc")
-public class UserEntity implements User<Long>, BaseEntity<Long> {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "generator")
-    @SequenceGenerator(name = "generator", schema = "yl_acc", sequenceName = "s_user", allocationSize = 1)
+@ToString
+public class UserDTO implements Serializable {
     private Long id;
     private String guid;
-    @Column(unique = true)
     private String userName;
     private String loginName;
     private String password;

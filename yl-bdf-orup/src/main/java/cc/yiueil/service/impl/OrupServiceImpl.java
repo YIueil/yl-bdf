@@ -1,8 +1,12 @@
 package cc.yiueil.service.impl;
 
 import cc.yiueil.data.impl.JpaBaseDao;
+import cc.yiueil.dto.UserDTO;
 import cc.yiueil.entity.UserEntity;
+import cc.yiueil.enums.UserStateEnum;
+import cc.yiueil.exception.BusinessException;
 import cc.yiueil.service.OrupService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,6 +45,48 @@ public class OrupServiceImpl implements OrupService {
     public void passwordChange(Long userId, String newPassword) {
         baseDao.findById(UserEntity.class, userId).ifPresent(userEntity -> {
             userEntity.setPassword(newPassword);
+            baseDao.save(userEntity);
+        });
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public UserEntity getUser(Number userId) {
+        return baseDao.findById(UserEntity.class, userId).orElseThrow(() -> {
+            throw new BusinessException("用户未找到");
+        });
+    }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public UserEntity addUser(UserDTO userDTO, UserEntity currentUser) {
+        UserEntity userEntity = new UserEntity();
+        BeanUtils.copyProperties(userDTO, userEntity);
+        userEntity.setCreateUserId(currentUser.getId());
+        baseDao.save(userEntity);
+        return userEntity;
+    }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public UserEntity modifyUser(UserDTO userDTO, UserEntity currentUser) {
+        UserEntity userEntity = new UserEntity();
+        BeanUtils.copyProperties(userDTO, userEntity);
+        baseDao.save(userEntity);
+        return userEntity;
+    }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void delUser(Number userId, UserEntity currentUser) {
+        baseDao.deleteById(UserEntity.class, userId);
+    }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void suspendUser(Number userId, UserEntity currentUser) {
+        baseDao.findById(UserEntity.class, userId).ifPresent(userEntity -> {
+            userEntity.setState(UserStateEnum.normal.getState());
             baseDao.save(userEntity);
         });
     }
