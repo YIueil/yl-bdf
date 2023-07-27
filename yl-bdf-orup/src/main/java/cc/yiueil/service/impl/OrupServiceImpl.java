@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.function.Supplier;
 
 /**
  * 核心ORUP服务
@@ -52,9 +53,7 @@ public class OrupServiceImpl implements OrupService {
     @Override
     @Transactional(readOnly = true)
     public UserEntity getUser(Number userId) {
-        return baseDao.findById(UserEntity.class, userId).orElseThrow(() -> {
-            throw new BusinessException("用户未找到");
-        });
+        return baseDao.findById(UserEntity.class, userId).orElseThrow(() -> new BusinessException("用户未找到"));
     }
 
     @Override
