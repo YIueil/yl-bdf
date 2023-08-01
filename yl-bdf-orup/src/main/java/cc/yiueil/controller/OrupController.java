@@ -203,6 +203,7 @@ public class OrupController implements LoggedController {
      * @param request 请求体
      * @return 用户实体信息
      */
+    @ApiOperation(value = "获取用户")
     @GetMapping(value = "getUser")
     public String getUser(@RequestParam Number userId, HttpServletRequest request) {
         UserEntity userEntity = orupService.getUser(userId);
