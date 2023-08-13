@@ -312,12 +312,24 @@ var KisBpmTaskListenersPopupCtrl = [ '$scope', '$q', '$translate', function($sco
         $scope.close();
     };
 
-    $scope.cancel = function() {
+    $scope.cancel = function () {
         $scope.close();
     };
 
+
+    // Click handler for add button
+    $scope.addDefaultListener = function () {
+        $scope.taskListeners.push({
+            event: 'create',
+            implementation: 'com.dist.dcc.activiti.listener.TaskCandidateUsersListener',
+            className: 'com.dist.dcc.activiti.listener.TaskCandidateUsersListener',
+            expression: '',
+            delegateExpression: ''
+        });
+    };
+
     // Close button handler
-    $scope.close = function() {
+    $scope.close = function () {
         $scope.property.mode = 'read';
         $scope.$hide();
     };

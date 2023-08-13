@@ -1959,7 +1959,8 @@ ORYX.CONFIG.EVENT_KEYDOWN =				"keydown";
 ORYX.CONFIG.EVENT_KEYUP =				"keyup";
 
 ORYX.CONFIG.EVENT_LOADED =				"editorloaded";
-ORYX.CONFIG.EVENT_SAVED =				"editorSaved";
+ORYX.CONFIG.EVENT_SAVED = "editorSaved";
+ORYX.CONFIG.EVENT_DEPLOYED = "editorDeployed";
 	
 ORYX.CONFIG.EVENT_EXECUTE_COMMANDS =		"executeCommands";
 ORYX.CONFIG.EVENT_STENCIL_SET_LOADED =		"stencilSetLoaded";
@@ -2123,7 +2124,7 @@ ORYX = Object.extend(ORYX, {
 			{ 
 				append: function(message) {
 					if(typeof(console) !== "undefined" && console.log !== undefined) {
-						console.log(message); 
+
 					}
 				}
 			}
@@ -12615,15 +12616,40 @@ if(!ORYX) {var ORYX = {};}
 if(!ORYX.Core) {ORYX.Core = {};}
 
 
-new function(){
-	
-	ORYX.Core.UIEnableDrag = function(event, uiObj, option) {
-	
+new function() {
+	var OnMessage = function (e) {
+		var data = eval("(" + e.data + ")")
+		var svgId = 'svg-' + data.id
+		var el = jQuery("#" + svgId)
+		if (null == el) {
+			el = jQuery(svgId)
+		}
+		var tspan = el.find('tspan')
+		if (tspan.length < 1) {
+			tspan = el.find('text')
+		}
+		tspan.text(data.activityName)
+		var selectedShapes = _this.facade.getSelection()
+		selectedShapes.first().properties['oryx-name'] = data.activityName
+		//_this.updateValueFunction(data.activityName, _this.oldValueText);
+	};
+	//添加监听
+	if (window.addEventListener) { // all browsers except IE before version 9
+		window.addEventListener("message", OnMessage, false);
+	} else {
+		if (window.attachEvent) { // IE before version 9
+			window.attachEvent("onmessage", OnMessage);
+		}
+	}
+
+
+	ORYX.Core.UIEnableDrag = function (event, uiObj, option) {
+
 		this.uiObj = uiObj;
 		var upL = uiObj.bounds.upperLeft();
-	
+
 		var a = uiObj.node.getScreenCTM();
-		this.faktorXY= {x: a.a, y: a.d};
+		this.faktorXY = {x: a.a, y: a.d};
 		
 		this.scrollNode = uiObj.node.ownerSVGElement.parentNode.parentNode;
 		
@@ -12758,8 +12784,10 @@ new function(){
 			})
 		}
 	});
-	
+
 }();
+
+
 /*
  * Copyright 2005-2014 Alfresco Software, Ltd. All rights reserved.
  * License rights for this program may be obtained from Alfresco Software, Ltd.
@@ -18615,7 +18643,7 @@ ORYX.Plugins.RenameShapes = Clazz.extend({
 	},
 	
 	actOnDBLClick: function(evt, shape){
-		
+
 		if( !(shape instanceof ORYX.Core.Shape) ){ return; }
 		
 		// Destroys the old input, if there is one
@@ -18688,15 +18716,20 @@ ORYX.Plugins.RenameShapes = Clazz.extend({
 			}
 		}
 		// Get the particular property for the label
-		var prop 			= props.find(function(item){ return item.refToView().any(function(toView){ return nearestLabel.id == shape.id + toView; });});
-		
+		var prop = props.find(function (item) {
+			return item.refToView().any(function (toView) {
+				return nearestLabel.id == shape.id + toView;
+			});
+		});
+
 		// Get the center position from the nearest label
-		var width		= Math.min(Math.max(100, shape.bounds.width()), 200);
-		var center 		= this.getCenterPosition( nearestLabel.node, shape );
-		center.x		-= (width/2);
-		var propId		= prop.prefix() + "-" + prop.id();
+		var width = Math.min(Math.max(100, shape.bounds.width()), 200);
+		var center = this.getCenterPosition(nearestLabel.node, shape);
+		center.x -= (width / 2);
+		var propId = prop.prefix() + "-" + prop.id();
 		var textInput = document.createElement("textarea");
 		textInput.id = 'shapeTextInput';
+		//textInput.disabled = 'disabled';
 		textInput.style.position = 'absolute';
 		textInput.style.width = width + 'px';
 		textInput.style.left = (center.x < 10) ? 10 : center.x + 'px';
@@ -18704,15 +18737,15 @@ ORYX.Plugins.RenameShapes = Clazz.extend({
 		textInput.className = 'x-form-textarea x-form-field x_form_text_set_absolute';
 		textInput.value = shape.properties[propId];
 		this.oldValueText = shape.properties[propId];
-		document.getElementById('canvasSection').appendChild(textInput);
+		//document.getElementById('canvasSection').appendChild(textInput);
 		this.shownTextField = textInput;
-		
-		
+
+
 		// Value change listener needs to be defined now since we reference it in the text field
-		this.updateValueFunction = function(newValue, oldValue) {
-			var currentEl 	= shape;
-			var facade		= this.facade;
-			
+		this.updateValueFunction = function (newValue, oldValue) {
+			var currentEl = shape;
+			var facade = this.facade;
+
 			if (oldValue != newValue) {
 				// Implement the specific command for property change
 				var commandClass = ORYX.Core.Command.extend({
@@ -18745,14 +18778,40 @@ ORYX.Plugins.RenameShapes = Clazz.extend({
 				this.facade.executeCommands([command]);
 			}
 		}.bind(this);
-			
+
 		jQuery("#shapeTextInput").focus();
-		
+
 		jQuery("#shapeTextInput").autogrow();
-			
+
 		// Disable the keydown in the editor (that when hitting the delete button, the shapes not get deleted)
 		this.facade.disableEvent(ORYX.CONFIG.EVENT_KEYDOWN);
-		
+
+		var ctltype = "";
+		if (shape._stencil._jsonStencil.groups) {
+			ctltype = shape._stencil._jsonStencil.groups[0];
+		}
+		msg = '{"name":"ActivityNodeDblClick","data":' + JSON.stringify({
+			id: shape.resourceId,
+			label: this.oldValueText,
+			bpmn2TaskType: "",
+			serviceType: "",
+			type: ctltype,
+			operateObj: this,
+			engineType: "activiti",
+		}) + '}';
+		facade = this.facade
+		_this = this
+
+		if (ctltype) {
+			if (ctltype == '活动' || ctltype == '开始事件' || ctltype == '结束事件') {
+				window.parent.postMessage(msg, '*');
+			} else {
+				window.parent.parent.$.messager.show({title: '提示', msg: '非人员活动不需要配置！'});
+			}
+		} else {
+			window.parent.postMessage(msg, '*');
+		}
+
 	},
 	
 	getCenterPosition: function(svgNode, shape){
@@ -23108,7 +23167,8 @@ if(!ORYX.Plugins)
 	ORYX.Plugins = new Object();
 
 new function(){
-	
+
+
 	ORYX.Plugins.BPMN2_0 = {
 	
 		/**
@@ -24497,14 +24557,14 @@ new function(){
                         newParent       : parent,
                         newPosition : pos,
                         newHeight       : newHeight
-                };
-                       
-                return changes;
-        }
-       
+				};
+
+			return changes;
+		}
+
 	});
 
-		
+
 	ORYX.Plugins.BPMN2_0 = ORYX.Plugins.AbstractPlugin.extend(ORYX.Plugins.BPMN2_0);
-	
-}()	
+
+}()

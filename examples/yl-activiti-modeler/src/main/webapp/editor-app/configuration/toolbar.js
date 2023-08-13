@@ -22,22 +22,29 @@ var KISBPM = KISBPM || {};
 KISBPM.TOOLBAR_CONFIG = {
     "items" : [
         {
-            "type" : "button",
-            "title" : "TOOLBAR.ACTION.SAVE",
-            "cssClass" : "editor-icon editor-icon-save",
-            "action" : "KISBPM.TOOLBAR.ACTIONS.saveModel"
+            "type": "button",
+            "title": "TOOLBAR.ACTION.SAVE",
+            "cssClass": "editor-icon editor-icon-save",
+            "action": "KISBPM.TOOLBAR.ACTIONS.saveModel"
         },
         {
-            "type" : "separator",
-            "title" : "",
-            "cssClass" : "toolbar-separator"
+            "type": "button",
+            "title": "TOOLBAR.ACTION.DEPLOY",
+            "cssClass": "editor-icon editor-icon-save",
+            "bgColor": '#1f0052',
+            "action": "KISBPM.TOOLBAR.ACTIONS.deployModel"
         },
         {
-            "type" : "button",
-            "title" : "TOOLBAR.ACTION.CUT",
-            "cssClass" : "editor-icon editor-icon-cut",
-            "action" : "KISBPM.TOOLBAR.ACTIONS.cut",
-            "enabled" : false,
+            "type": "separator",
+            "title": "",
+            "cssClass": "toolbar-separator"
+        },
+        {
+            "type": "button",
+            "title": "TOOLBAR.ACTION.CUT",
+            "cssClass": "editor-icon editor-icon-cut",
+            "action": "KISBPM.TOOLBAR.ACTIONS.cut",
+            "enabled": false,
             "enabledAction" : "element"
         },
         {
@@ -165,11 +172,11 @@ KISBPM.TOOLBAR_CONFIG = {
     ],
     
     "secondaryItems" : [
-		{
-		    "type" : "button",
-		    "title" : "Close",
-		    "cssClass" : "editor-icon editor-icon-close",
-		    "action" : "KISBPM.TOOLBAR.ACTIONS.closeEditor"
-		}
+        // {
+        //     "type" : "button",
+        //     "title" : "关闭",
+        //     "cssClass" : "editor-icon editor-icon-close",
+        //     "action" : "KISBPM.TOOLBAR.ACTIONS.closeEditor"
+        // }
     ]
 };
