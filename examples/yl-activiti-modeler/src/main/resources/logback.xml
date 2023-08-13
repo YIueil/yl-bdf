@@ -1,0 +1,16 @@
+<configuration>
+    <property name="logPattern"
+              value="%cyan(LOGBACK)| %magenta(%d{yyyy-MM-dd HH:mm:ss.SSS}) | %highlight(%thread | %-5level | %logger{26}) - %msg%n"/>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${logPattern}</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="cc.yiueil" level="trace"/>
+
+    <root level="debug">
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>
