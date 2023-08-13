@@ -8,6 +8,7 @@
                     ng-switch on="item.type"
                     class="btn btn-inverse" ng-class="{'separator': item.type == 'separator'}"
                     ng-disabled="item.type == 'separator' || item.enabled == false"
+                    style="{{ (item.bgColor ? 'background-color:' + item.bgColor: '')+ '' }}" 
                     ng-click="toolbarButtonClicked($index)">
         		<i ng-switch-when="button" ng-class="item.cssClass" class="toolbar-button" data-toggle="tooltip" title="{{item.title | translate}}"></i>
 	            <div ng-switch-when="separator" ng-class="item.cssClass"></div>
