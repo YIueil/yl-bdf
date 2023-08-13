@@ -330,7 +330,6 @@ activitiModeler
              * event of the event bus. This way, it gets much easier to attach custom logic
              * to any event.
              */
-
             $rootScope.editorFactory.promise.then(function() {
 
                 KISBPM.eventBus.editor = $rootScope.editor;
@@ -342,7 +341,6 @@ activitiModeler
                     { oryxType : ORYX.CONFIG.EVENT_MOUSEOVER, kisBpmType : KISBPM.eventBus.EVENT_TYPE_MOUSE_OVER }
 
                 ];
-
                 eventMappings.forEach(function(eventMapping) {
                     $rootScope.editor.registerOnEvent(eventMapping.oryxType, function(event) {
                         KISBPM.eventBus.dispatch(eventMapping.kisBpmType, event);

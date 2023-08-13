@@ -12630,7 +12630,7 @@ new function() {
 		}
 		tspan.text(data.activityName)
 		var selectedShapes = _this.facade.getSelection()
-		selectedShapes.first().properties['oryx-name'] = data.activityName
+		// selectedShapes.first().properties['oryx-name'] = data.activityName
 		//_this.updateValueFunction(data.activityName, _this.oldValueText);
 	};
 	//添加监听
@@ -18746,17 +18746,17 @@ ORYX.Plugins.RenameShapes = Clazz.extend({
 			var currentEl = shape;
 			var facade = this.facade;
 
-			if (oldValue != newValue) {
+			if (oldValue !== newValue && newValue) {
 				// Implement the specific command for property change
 				var commandClass = ORYX.Core.Command.extend({
-					construct: function(){
+					construct: function () {
 						this.el = currentEl;
 						this.propId = propId;
 						this.oldValue = oldValue;
 						this.newValue = newValue;
 						this.facade = facade;
 					},
-					execute: function(){
+					execute: function () {
 						this.el.setProperty(this.propId, this.newValue);
 						//this.el.update();
 						this.facade.setSelection([this.el]);
@@ -18802,11 +18802,12 @@ ORYX.Plugins.RenameShapes = Clazz.extend({
 		facade = this.facade
 		_this = this
 
+		console.log('接受消息', msg)
 		if (ctltype) {
 			if (ctltype == '活动' || ctltype == '开始事件' || ctltype == '结束事件') {
 				window.parent.postMessage(msg, '*');
 			} else {
-				window.parent.parent.$.messager.show({title: '提示', msg: '非人员活动不需要配置！'});
+				window.alert('非人员活动不需要配置');
 			}
 		} else {
 			window.parent.postMessage(msg, '*');
