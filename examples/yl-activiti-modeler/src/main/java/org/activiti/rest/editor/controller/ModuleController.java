@@ -28,7 +28,7 @@ public class ModuleController {
 
     @RequestMapping(value = "create")
     public void create(@RequestParam("name") String name, @RequestParam("key") String key,
-                               @RequestParam("description") String description, HttpServletRequest request, HttpServletResponse response) {
+                       @RequestParam("description") String description, HttpServletRequest request, HttpServletResponse response) {
         try {
             ModelAndView modelAndView = new ModelAndView();
             ObjectMapper objectMapper = new ObjectMapper();
