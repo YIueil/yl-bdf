@@ -21,5 +21,5 @@ public interface PermissionRepository extends CrudRepository<PermissionEntity, L
      * @return 用户权限集合
      */
     @Query("select distinct p from PermissionEntity p left join  RolePermissionEntity rp on rp.permissionId = p.id left join UserRoleEntity ur on ur.roleId = rp.roleId  where ur.id = :userId")
-    List<PermissionEntity> findPermissionsByUser(@Param(value = "userId") Long userId);
+    List<PermissionEntity> findPermissionsByUserId(@Param(value = "userId") Long userId);
 }

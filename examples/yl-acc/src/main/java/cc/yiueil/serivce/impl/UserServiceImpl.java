@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public List<PermissionEntity> getUserPermissions(UserEntity user) {
-        return permissionRepository.findPermissionsByUser(user.getId());
+        return permissionRepository.findPermissionsByUserId(user.getId());
     }
 
     @Override

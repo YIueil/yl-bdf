@@ -3,6 +3,7 @@ package cc.yiueil.repository;
 import cc.yiueil.entity.RoleEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -20,5 +21,5 @@ public interface RoleRepository extends CrudRepository<RoleEntity, Long> {
      * @return 角色集合
      */
     @Query("select r from RoleEntity r left join UserRoleEntity ur on ur.roleId = r.id where ur.userId = :userId")
-    List<RoleEntity> findRolesByUserId(Long userId);
+    List<RoleEntity> findRolesByUserId(@Param(value = "userId") Long userId);
 }
