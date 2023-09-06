@@ -1,6 +1,7 @@
 package cc.yiueil.serivce;
 
 import cc.yiueil.entity.PermissionEntity;
+import cc.yiueil.entity.RoleEntity;
 import cc.yiueil.entity.UserEntity;
 
 import java.util.List;
@@ -25,4 +26,11 @@ public interface UserService {
      * @return 权限集合
      */
     List<PermissionEntity> getUserPermissions(UserEntity user);
+
+    /**
+     * 获取用户所有角色
+     * @param user 操作用户
+     * @return 角色集合
+     */
+    List<RoleEntity> getUserRoles(UserEntity user);
 }

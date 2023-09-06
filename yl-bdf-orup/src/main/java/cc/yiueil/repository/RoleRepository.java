@@ -19,6 +19,6 @@ public interface RoleRepository extends CrudRepository<RoleEntity, Long> {
      * @param userId 用户id
      * @return 角色集合
      */
-    @Query("select r from RoleEntity r left join UserRoleEntity ur on ur.roleId = r.id left join UserEntity u on ur.userId = u.id where u.id = :userId")
+    @Query("select r from RoleEntity r left join UserRoleEntity ur on ur.roleId = r.id where ur.userId = :userId")
     List<RoleEntity> findRolesByUserId(Long userId);
 }

@@ -1,8 +1,10 @@
 package cc.yiueil.serivce.impl;
 
 import cc.yiueil.entity.PermissionEntity;
+import cc.yiueil.entity.RoleEntity;
 import cc.yiueil.entity.UserEntity;
 import cc.yiueil.repository.PermissionRepository;
+import cc.yiueil.repository.RoleRepository;
 import cc.yiueil.repository.UserRepository;
 import cc.yiueil.serivce.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     PermissionRepository permissionRepository;
 
+    @Autowired
+    RoleRepository roleRepository;
+
     @Override
     @Transactional(readOnly = true)
     public Iterable<UserEntity> getAllUser() {
@@ -36,5 +41,11 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public List<PermissionEntity> getUserPermissions(UserEntity user) {
         return permissionRepository.findPermissionsByUser(user.getId());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<RoleEntity> getUserRoles(UserEntity user) {
+        return roleRepository.findRolesByUserId(user.getId());
     }
 }

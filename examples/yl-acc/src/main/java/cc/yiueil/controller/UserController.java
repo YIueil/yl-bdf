@@ -32,8 +32,15 @@ public class UserController implements LoggedController {
 
     @ApiOperation(value = "获取用户所有权限集合")
     @GetMapping(value = "permissions")
-    public String getUserPermission(HttpServletRequest request) {
+    public String getUserPermissions(HttpServletRequest request) {
         UserEntity user = getUser(request);
         return success(userService.getUserPermissions(user));
+    }
+
+    @ApiOperation(value = "获取用户所有角色集合")
+    @GetMapping(value = "roles")
+    public String getUserRoles(HttpServletRequest request) {
+        UserEntity user = getUser(request);
+        return success(userService.getUserRoles(user));
     }
 }
