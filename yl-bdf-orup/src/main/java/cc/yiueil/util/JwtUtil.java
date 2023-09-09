@@ -1,6 +1,6 @@
 package cc.yiueil.util;
 
-import cc.yiueil.entity.UserEntity;
+import cc.yiueil.dto.UserDto;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -30,7 +30,7 @@ public class JwtUtil {
      * @param user 用户信息
      * @return 根据用户信息生成 jwt token
      */
-    public static String generateToken(UserEntity user) {
+    public static String generateToken(UserDto user) {
         try {
             // 私钥和加密算法
             Algorithm algorithm = Algorithm.HMAC256(TOKEN_SECRET);
@@ -58,11 +58,11 @@ public class JwtUtil {
      * @param token 待校验的 jwt token 信息
      * @return 校验结果
      */
-    public static UserEntity verifyToken(String token) {
+    public static UserDto verifyToken(String token) {
         Algorithm algorithm = Algorithm.HMAC256(TOKEN_SECRET);
         JWTVerifier verifier = JWT.require(algorithm).build();
         DecodedJWT jwt = verifier.verify(token);
         String userInfo = jwt.getClaim("user").asString();
-        return JsonUtils.parse(UserEntity.class, userInfo);
+        return JsonUtils.parse(UserDto.class, userInfo);
     }
 }

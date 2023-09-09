@@ -24,8 +24,10 @@ public class PermissionEntity implements BaseEntity<Long> {
     private Long id;
     private String guid;
     private String name;
+    private String rightName;
     private String description;
     private LocalDateTime createTime;
     private LocalDateTime modifyTime;
     private Long createUserId;
+    private Long parentId;
 }

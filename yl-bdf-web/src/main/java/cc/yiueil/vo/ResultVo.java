@@ -21,10 +21,10 @@ import java.util.Arrays;
 @NoArgsConstructor
 public class ResultVo implements Serializable {
     @ApiModelProperty(value = "应用响应状态码")
-    private Integer code;
+    private Integer statusCode;
 
     @ApiModelProperty(value = "接口返回状态信息")
-    private String msg;
+    private String statusMsg;
 
     @ApiModelProperty(value = "错误请求栈信息(错误时必须)")
     private String stackTrace;
@@ -36,8 +36,8 @@ public class ResultVo implements Serializable {
     private Object body;
 
     private ResultVo(CodeStatus codeStatus, String tips, String stackTrace, Object body) {
-        this.code = codeStatus.getCode();
-        this.msg = codeStatus.getMsg();
+        this.statusCode = codeStatus.getCode();
+        this.statusMsg = codeStatus.getMsg();
         this.stackTrace = stackTrace;
         this.tips = tips;
         this.body = body;

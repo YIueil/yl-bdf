@@ -1,7 +1,10 @@
 package cc.yiueil.service;
 
-import cc.yiueil.dto.UserDTO;
-import cc.yiueil.entity.UserEntity;
+import cc.yiueil.dto.PermissionDto;
+import cc.yiueil.dto.RoleDto;
+import cc.yiueil.dto.UserDto;
+
+import java.util.List;
 
 /**
  * 核心ORUP接口
@@ -17,15 +20,16 @@ public interface OrupService {
      * @param registerUser 新注册用户
      * @return 新注册成功的用户
      */
-    UserEntity registerUser(UserEntity registerUser);
+    UserDto registerUser(UserDto registerUser);
 
     /**
      * 修改密码
      *
-     * @param userId      用户id
+     * @param userDto     用户DTO
+     * @param oldPassword 旧密码
      * @param newPassword 新密码
      */
-    void passwordChange(Long userId, String newPassword);
+    void passwordChange(UserDto userDto, String oldPassword, String newPassword);
 
     /**
      * 获取用户信息
@@ -33,25 +37,25 @@ public interface OrupService {
      * @param userId 用户id
      * @return 用户实体信息
      */
-    UserEntity getUser(Number userId);
+    UserDto getUser(Number userId);
 
     /**
      * 添加用户
      *
-     * @param userDTO     用户DTO
+     * @param userDto     用户DTO
      * @param currentUser 请求体
      * @return 用户实体信息
      */
-    UserEntity addUser(UserDTO userDTO, UserEntity currentUser);
+    UserDto addUser(UserDto userDto, UserDto currentUser);
 
     /**
      * 修改用户信息
      *
-     * @param userDTO     用户实体
+     * @param userDto     用户实体
      * @param currentUser 当前用户
      * @return 编辑后的用户信息
      */
-    UserEntity modifyUser(UserDTO userDTO, UserEntity currentUser);
+    UserDto modifyUser(UserDto userDto, UserDto currentUser);
 
     /**
      * 删除用户信息
@@ -59,7 +63,7 @@ public interface OrupService {
      * @param userId      用户id
      * @param currentUser 当前用户
      */
-    void delUser(Number userId, UserEntity currentUser);
+    void delUser(Number userId, UserDto currentUser);
 
     /**
      * 挂起用户
@@ -67,5 +71,29 @@ public interface OrupService {
      * @param userId      用户id
      * @param currentUser 当前用户
      */
-    void suspendUser(Number userId, UserEntity currentUser);
+    void suspendUser(Number userId, UserDto currentUser);
+
+    /**
+     * 根据登陆名查找用户
+     *
+     * @param loginName 用户登陆名
+     * @return 用户数据传输类
+     */
+    UserDto findUserByLoginName(String loginName);
+
+    /**
+     * 获取用户所有权限
+     *
+     * @param user 操作用户
+     * @return 权限集合
+     */
+    List<PermissionDto> getUserPermissions(UserDto user);
+
+    /**
+     * 获取用户所有角色
+     *
+     * @param user 操作用户
+     * @return 角色集合
+     */
+    List<RoleDto> getUserRoles(UserDto user);
 }

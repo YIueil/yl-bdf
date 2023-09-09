@@ -1,26 +1,28 @@
 package cc.yiueil.controller;
 
 
-import cc.yiueil.entity.UserEntity;
+import cc.yiueil.dto.UserDto;
 import cc.yiueil.util.JwtUtil;
 import cc.yiueil.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * Author:YIueil
- * Date:2022/7/3 20:25
- * Description: 已登录的接口控制器
+ * LoggedController
+ *
+ * @author 弋孓 YIueil@163.com
+ * @version 1.0
+ * @date 2022/7/3 20:25
  */
 public interface LoggedController extends BaseController {
-    default UserEntity getUser(HttpServletRequest request){
+    default UserDto getUser(HttpServletRequest request) {
         String token = request.getHeader("yl-token");
         if ("Fk12345.".equals(token)) {
-            UserEntity userEntity = new UserEntity();
-            userEntity.setId(0L);
-            userEntity.setUserName("测试用户");
-            userEntity.setLoginName("测试用户");
-            return userEntity;
+            UserDto userDto = new UserDto();
+            userDto.setId(0L);
+            userDto.setUserName("测试用户");
+            userDto.setLoginName("测试用户");
+            return userDto;
         }
         if (StringUtils.isNotEmpty(token)) {
             return JwtUtil.verifyToken(token);

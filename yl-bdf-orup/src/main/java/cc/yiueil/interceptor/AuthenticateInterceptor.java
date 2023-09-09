@@ -1,7 +1,7 @@
 package cc.yiueil.interceptor;
 
+import cc.yiueil.dto.UserDto;
 import cc.yiueil.exception.UnauthorizedException;
-import cc.yiueil.lang.instance.User;
 import cc.yiueil.util.JwtUtil;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -31,10 +31,10 @@ public class AuthenticateInterceptor implements HandlerInterceptor {
             return true;
         }
         try {
-            User<Long> user = JwtUtil.verifyToken(token);
+            UserDto userDto = JwtUtil.verifyToken(token);
             //1.判断请求是否有效
             //2.判断是否需要续期
-            return user != null;
+            return userDto != null;
         } catch (JWTDecodeException jwtDecodeException) {
             throw new UnauthorizedException("未登陆或授权到期, 请重新登陆");
         }
