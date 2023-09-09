@@ -2,6 +2,8 @@ package cc.yiueil.controller;
 
 import cc.yiueil.constant.OrupRestUrl;
 import cc.yiueil.data.impl.JpaBaseDao;
+import cc.yiueil.dto.ApplicationDto;
+import cc.yiueil.dto.FunctionDto;
 import cc.yiueil.dto.UserDto;
 import cc.yiueil.general.RestUrl;
 import cc.yiueil.service.OrupService;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -36,6 +39,7 @@ public class OrupController implements LoggedController {
     OrupService orupService;
 
     //region 用户注册登陆
+
     /**
      * 用户登入
      *
@@ -173,7 +177,7 @@ public class OrupController implements LoggedController {
     /**
      * 用户管理: 挂起用户
      *
-     * @param userId 用户id
+     * @param userId  用户id
      * @param request 请求体
      * @return 新用户实体
      */
@@ -243,4 +247,60 @@ public class OrupController implements LoggedController {
         return success(orupService.getUserRoles(userDto));
     }
     //endregion
+
+    //region 应用管理
+
+    /**
+     * 获取应用集合
+     *
+     * @return 应用集合
+     */
+    @GetMapping(value = "getAllApplicationList")
+    public String getAllApplications() {
+        return success(orupService.getAllApplications());
+    }
+
+    /**
+     * 添加应用
+     *
+     * @param applicationDto 应用Dto
+     * @param request        请求体
+     * @return 新添加的应用
+     */
+    @PostMapping(value = "addApplication")
+    public String addApplication(@RequestBody ApplicationDto applicationDto, HttpServletRequest request) {
+        UserDto user = getUser(request);
+        return success(orupService.addApplication(applicationDto, user));
+    }
+
+    /**
+     * 添加应用管理员
+     *
+     * @param applicationId 应用id
+     * @param userIds       用户id集合
+     * @param request       请求体
+     * @return 响应结果对象
+     */
+    @PostMapping(value = "addApplicationManager")
+    public String addApplicationManager(@RequestParam Long applicationId, @RequestBody List<Long> userIds, HttpServletRequest request) {
+        UserDto currentUser = getUser(request);
+        orupService.addApplicationManager(applicationId, userIds, currentUser);
+        return success();
+    }
+
+    /**
+     * 添加应用功能
+     *
+     * @param functionDto 应用功能数据传输类
+     * @param request
+     * @return
+     */
+    @PostMapping(value = "addApplicationFunction")
+    public String addApplicationFunction(@RequestBody FunctionDto functionDto, HttpServletRequest request) {
+        UserDto currentUser = getUser(request);
+        return success(orupService.addApplicationFunction(functionDto, currentUser));
+    }
+
+    //endregion
+
 }

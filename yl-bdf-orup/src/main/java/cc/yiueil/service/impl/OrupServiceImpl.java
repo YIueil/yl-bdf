@@ -1,14 +1,11 @@
 package cc.yiueil.service.impl;
 
 import cc.yiueil.data.impl.JpaBaseDao;
-import cc.yiueil.dto.PermissionDto;
-import cc.yiueil.dto.RoleDto;
-import cc.yiueil.dto.UserDto;
-import cc.yiueil.entity.PermissionEntity;
-import cc.yiueil.entity.RoleEntity;
-import cc.yiueil.entity.UserEntity;
+import cc.yiueil.dto.*;
+import cc.yiueil.entity.*;
 import cc.yiueil.enums.UserStateEnum;
 import cc.yiueil.exception.BusinessException;
+import cc.yiueil.repository.ApplicationRepository;
 import cc.yiueil.repository.PermissionRepository;
 import cc.yiueil.repository.RoleRepository;
 import cc.yiueil.repository.UserRepository;
@@ -21,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * 核心ORUP服务
@@ -42,6 +40,9 @@ public class OrupServiceImpl implements OrupService {
 
     @Autowired
     RoleRepository roleRepository;
+
+    @Autowired
+    ApplicationRepository applicationRepository;
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
@@ -137,5 +138,41 @@ public class OrupServiceImpl implements OrupService {
         return roleEntityList.stream()
                 .map(roleEntity -> BeanUtils.copyProperties(roleEntity, new RoleDto()))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ApplicationDto> getAllApplications() {
+        Iterable<ApplicationEntity> applicationEntities = applicationRepository.findAll();
+        return StreamSupport.stream(applicationEntities.spliterator(), false)
+                .map(applicationEntity -> BeanUtils.copyProperties(applicationEntity, new ApplicationDto()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public ApplicationDto addApplication(ApplicationDto applicationDto, UserDto currentUser) {
+        ApplicationEntity newApplicationEntity = baseDao.save(BeanUtils.copyProperties(applicationDto, new ApplicationEntity()));
+        return BeanUtils.copyProperties(newApplicationEntity, new ApplicationDto());
+    }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void addApplicationManager(Long applicationId, List<Long> userIds, UserDto currentUser) {
+        for (Long userId : userIds) {
+            ApplicationManagerEntity applicationManagerEntity = new ApplicationManagerEntity();
+            applicationManagerEntity.setApplicationId(applicationId);
+            applicationManagerEntity.setManagerId(userId);
+            applicationManagerEntity.setCreateUserId(currentUser.getId());
+            baseDao.save(applicationManagerEntity);
+        }
+    }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public FunctionDto addApplicationFunction(FunctionDto functionDto, UserDto currentUser) {
+        ApplicationEntity applicationEntity = BeanUtils.copyProperties(functionDto, new ApplicationEntity());
+        ApplicationEntity newApplicationFunction = baseDao.save(applicationEntity);
+        return BeanUtils.copyProperties(newApplicationFunction, new FunctionDto());
     }
 }

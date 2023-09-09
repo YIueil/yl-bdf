@@ -1,8 +1,6 @@
 package cc.yiueil.service;
 
-import cc.yiueil.dto.PermissionDto;
-import cc.yiueil.dto.RoleDto;
-import cc.yiueil.dto.UserDto;
+import cc.yiueil.dto.*;
 
 import java.util.List;
 
@@ -96,4 +94,38 @@ public interface OrupService {
      * @return 角色集合
      */
     List<RoleDto> getUserRoles(UserDto user);
+
+    /**
+     * 获取所有应用集合
+     *
+     * @return 应用集合
+     */
+    List<ApplicationDto> getAllApplications();
+
+    /**
+     * 添加应用
+     *
+     * @param applicationDto 应用Dto
+     * @param currentUser    当前用户
+     * @return 新增的应用
+     */
+    ApplicationDto addApplication(ApplicationDto applicationDto, UserDto currentUser);
+
+    /**
+     * 给应用批量设置应用管理员
+     *
+     * @param applicationId 应用id
+     * @param userIds       用户id集合
+     * @param currentUser   当前用户
+     */
+    void addApplicationManager(Long applicationId, List<Long> userIds, UserDto currentUser);
+
+    /**
+     * 添加应用功能
+     *
+     * @param functionDto 应用功能Dto
+     * @param currentUser 当前用户
+     * @return 新添加的应用功能
+     */
+    FunctionDto addApplicationFunction(FunctionDto functionDto, UserDto currentUser);
 }
