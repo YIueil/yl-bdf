@@ -1,6 +1,6 @@
 package cc.yiueil.controller;
 
-import cc.yiueil.constant.OrupRestURL;
+import cc.yiueil.constant.OrupRestUrl;
 import cc.yiueil.data.impl.JpaBaseDao;
 import cc.yiueil.dto.UserDto;
 import cc.yiueil.general.RestUrl;
@@ -27,7 +27,7 @@ import java.util.Optional;
 @Api(value = "ORUP-用户角色账户权限控制")
 @CrossOrigin
 @RestController
-@RequestMapping(value = RestUrl.BASE_PATH + OrupRestURL.ORUP)
+@RequestMapping(value = RestUrl.BASE_PATH + OrupRestUrl.ORUP)
 public class OrupController implements LoggedController {
     @Autowired
     JpaBaseDao baseDao;
