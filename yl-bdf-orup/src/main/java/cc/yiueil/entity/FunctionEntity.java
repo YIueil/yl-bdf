@@ -8,10 +8,11 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
- * 功能实体
+ * 应用功能实体
+ *
  * @author 弋孓 YIueil@163.com
- * @date 2023/5/30 22:10
  * @version 1.0
+ * @date 2023/5/30 22:10
  */
 @Getter
 @Setter
@@ -24,6 +25,7 @@ public class FunctionEntity implements BaseEntity<Long> {
     private Long id;
     private String guid;
     private String name;
+    private String rightName;
     private String description;
     private String url;
     private String type;

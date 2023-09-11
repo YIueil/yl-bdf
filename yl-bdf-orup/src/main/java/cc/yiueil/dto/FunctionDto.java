@@ -22,6 +22,8 @@ public class FunctionDto {
     private String guid;
     @ApiModelProperty(value = "名称")
     private String name;
+    @ApiModelProperty(value = "唯一标识名称")
+    private String rightName;
     @ApiModelProperty(value = "描述")
     private String description;
     @ApiModelProperty(value = "资源地址")

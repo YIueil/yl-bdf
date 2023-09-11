@@ -6,9 +6,11 @@ import cc.yiueil.dto.ApplicationDto;
 import cc.yiueil.dto.FunctionDto;
 import cc.yiueil.dto.UserDto;
 import cc.yiueil.general.RestUrl;
+import cc.yiueil.lang.tree.TreeNode;
 import cc.yiueil.service.OrupService;
 import cc.yiueil.util.BeanUtils;
 import cc.yiueil.util.JwtUtil;
+import cc.yiueil.util.TreeUtils;
 import cc.yiueil.vo.UserVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -17,8 +19,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * 用户账户控制器
@@ -261,7 +266,7 @@ public class OrupController implements LoggedController {
     }
 
     /**
-     * 添加应用
+     * 添加或编辑应用
      *
      * @param applicationDto 应用Dto
      * @param request        请求体
@@ -269,8 +274,15 @@ public class OrupController implements LoggedController {
      */
     @PostMapping(value = "addApplication")
     public String addApplication(@RequestBody ApplicationDto applicationDto, HttpServletRequest request) {
-        UserDto user = getUser(request);
-        return success(orupService.addApplication(applicationDto, user));
+        UserDto currentUser = getUser(request);
+        return success(orupService.addApplication(applicationDto, currentUser));
+    }
+
+    @PostMapping(value = "delApplication")
+    public String delApplication(@RequestParam Long applicationId, HttpServletRequest request) {
+        UserDto currentUser = getUser(request);
+        orupService.delApplication(applicationId, currentUser);
+        return success();
     }
 
     /**
@@ -279,7 +291,7 @@ public class OrupController implements LoggedController {
      * @param applicationId 应用id
      * @param userIds       用户id集合
      * @param request       请求体
-     * @return 响应结果对象
+     * @return ResultVo
      */
     @PostMapping(value = "addApplicationManager")
     public String addApplicationManager(@RequestParam Long applicationId, @RequestBody List<Long> userIds, HttpServletRequest request) {
@@ -289,17 +301,63 @@ public class OrupController implements LoggedController {
     }
 
     /**
+     * 获取应用功能列表树
+     *
+     * @param applicationId 应用id
+     * @param request       请求体
+     * @return ResultVo
+     */
+    @GetMapping(value = "getApplicationFunctionList")
+    public String getApplicationFunctionList(@RequestParam Long applicationId, HttpServletRequest request) {
+        List<FunctionDto> functionDtoList = orupService.getApplicationFunctionList(applicationId, request);
+        return success(
+                TreeUtils.build(functionDtoList.stream().map(functionDto -> {
+                    Map<String, Object> extra = new HashMap<>();
+                    extra.put("id", functionDto.getId());
+                    extra.put("guid", functionDto.getGuid());
+                    extra.put("parentId", functionDto.getParentId());
+                    extra.put("applicationId", functionDto.getApplicationId());
+                    extra.put("description", functionDto.getDescription());
+                    extra.put("method", functionDto.getMethod());
+                    extra.put("rightName", functionDto.getRightName());
+                    extra.put("name", functionDto.getName());
+                    extra.put("type", functionDto.getType());
+                    extra.put("url", functionDto.getUrl());
+                    return new TreeNode<>(functionDto.getId(), functionDto.getParentId(), functionDto.getName(), 1, extra);
+                })
+                        .collect(Collectors.toList()), 0L)
+        );
+    }
+
+
+    /**
      * 添加应用功能
      *
      * @param functionDto 应用功能数据传输类
-     * @param request
-     * @return
+     * @param request     请求体
+     * @return ResultVo
      */
     @PostMapping(value = "addApplicationFunction")
     public String addApplicationFunction(@RequestBody FunctionDto functionDto, HttpServletRequest request) {
         UserDto currentUser = getUser(request);
         return success(orupService.addApplicationFunction(functionDto, currentUser));
     }
+
+    /**
+     * 应用功能授权
+     *
+     * @param request 请求体
+     * @return ResultVo
+     */
+    @PostMapping(value = "applicationAuthorization")
+    public String applicationAuthorization(@RequestParam Long functionId,
+                                           @RequestBody List<Long> roleIds,
+                                           HttpServletRequest request) {
+        UserDto currentUser = getUser(request);
+        orupService.applicationAuthorization(functionId, roleIds, currentUser);
+        return success();
+    }
+
 
     //endregion
 

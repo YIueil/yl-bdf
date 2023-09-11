@@ -5,16 +5,14 @@ import cc.yiueil.dto.*;
 import cc.yiueil.entity.*;
 import cc.yiueil.enums.UserStateEnum;
 import cc.yiueil.exception.BusinessException;
-import cc.yiueil.repository.ApplicationRepository;
-import cc.yiueil.repository.PermissionRepository;
-import cc.yiueil.repository.RoleRepository;
-import cc.yiueil.repository.UserRepository;
+import cc.yiueil.repository.*;
 import cc.yiueil.service.OrupService;
 import cc.yiueil.util.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,6 +41,9 @@ public class OrupServiceImpl implements OrupService {
 
     @Autowired
     ApplicationRepository applicationRepository;
+
+    @Autowired
+    FunctionRepository functionRepository;
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
@@ -174,5 +175,35 @@ public class OrupServiceImpl implements OrupService {
         ApplicationEntity applicationEntity = BeanUtils.copyProperties(functionDto, new ApplicationEntity());
         ApplicationEntity newApplicationFunction = baseDao.save(applicationEntity);
         return BeanUtils.copyProperties(newApplicationFunction, new FunctionDto());
+    }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void applicationAuthorization(Long functionId, List<Long> roleIds, UserDto currentUser) {
+        List<RoleFunctionEntity> roleFunctionEntityList = roleIds.stream()
+                .map(roleId -> {
+                    RoleFunctionEntity roleFunctionEntity = new RoleFunctionEntity();
+                    roleFunctionEntity.setFunctionId(functionId);
+                    roleFunctionEntity.setRoleId(roleId);
+                    roleFunctionEntity.setCreateUserId(currentUser.getId());
+                    return roleFunctionEntity;
+                })
+                .collect(Collectors.toList());
+        baseDao.batchSave(roleFunctionEntityList);
+    }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void delApplication(Long applicationId, UserDto currentUser) {
+        baseDao.deleteById(ApplicationEntity.class, applicationId);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<FunctionDto> getApplicationFunctionList(Long applicationId, HttpServletRequest request) {
+        List<FunctionEntity> functionEntities = functionRepository.findFunctionEntitiesByApplicationId(applicationId);
+        return functionEntities.stream()
+                .map(functionEntity -> BeanUtils.copyProperties(functionEntity, new FunctionDto()))
+                .collect(Collectors.toList());
     }
 }

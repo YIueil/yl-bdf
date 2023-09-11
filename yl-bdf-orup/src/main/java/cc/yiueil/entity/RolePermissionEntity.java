@@ -8,10 +8,11 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
- * 角色权限关联实体
+ * 角色系统权限关联实体
+ *
  * @author 弋孓 YIueil@163.com
- * @date 2023/5/30 22:13
  * @version 1.0
+ * @date 2023/5/30 22:13
  */
 @Getter
 @Setter
