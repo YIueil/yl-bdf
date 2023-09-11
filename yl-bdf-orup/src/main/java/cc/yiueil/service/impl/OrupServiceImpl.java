@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -179,6 +178,12 @@ public class OrupServiceImpl implements OrupService {
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
+    public void delFunction(Long functionId, UserDto currentUser) {
+        baseDao.deleteById(FunctionEntity.class, functionId);
+    }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
     public void applicationAuthorization(Long functionId, List<Long> roleIds, UserDto currentUser) {
         List<RoleFunctionEntity> roleFunctionEntityList = roleIds.stream()
                 .map(roleId -> {
@@ -200,7 +205,7 @@ public class OrupServiceImpl implements OrupService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<FunctionDto> getApplicationFunctionList(Long applicationId, HttpServletRequest request) {
+    public List<FunctionDto> getApplicationFunctionList(Long applicationId) {
         List<FunctionEntity> functionEntities = functionRepository.findFunctionEntitiesByApplicationId(applicationId);
         return functionEntities.stream()
                 .map(functionEntity -> BeanUtils.copyProperties(functionEntity, new FunctionDto()))

@@ -307,12 +307,13 @@ public class OrupController implements LoggedController {
      * @param request       请求体
      * @return ResultVo
      */
-    @GetMapping(value = "getApplicationFunctionList")
-    public String getApplicationFunctionList(@RequestParam Long applicationId, HttpServletRequest request) {
-        List<FunctionDto> functionDtoList = orupService.getApplicationFunctionList(applicationId, request);
+    @GetMapping(value = "getApplicationFunctionTree")
+    public String getApplicationFunctionTree(@RequestParam Long applicationId, HttpServletRequest request) {
+        UserDto currentUser = getUser(request);
+        List<FunctionDto> functionDtoList = orupService.getApplicationFunctionList(applicationId);
         return success(
                 TreeUtils.build(functionDtoList.stream().map(functionDto -> {
-                    Map<String, Object> extra = new HashMap<>();
+                    Map<String, Object> extra = new HashMap<>(functionDtoList.size());
                     extra.put("id", functionDto.getId());
                     extra.put("guid", functionDto.getGuid());
                     extra.put("parentId", functionDto.getParentId());
@@ -341,6 +342,13 @@ public class OrupController implements LoggedController {
     public String addApplicationFunction(@RequestBody FunctionDto functionDto, HttpServletRequest request) {
         UserDto currentUser = getUser(request);
         return success(orupService.addApplicationFunction(functionDto, currentUser));
+    }
+
+    @PostMapping(value = "delApplicationFunction")
+    public String delApplicationFunction(@RequestParam Long functionId, HttpServletRequest request) {
+        UserDto currentUser = getUser(request);
+        orupService.delFunction(functionId, currentUser);
+        return success();
     }
 
     /**

@@ -2,7 +2,6 @@ package cc.yiueil.service;
 
 import cc.yiueil.dto.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -151,8 +150,15 @@ public interface OrupService {
      * 获取应用的所有应用功能
      *
      * @param applicationId 应用id
-     * @param request       请求体
      * @return 应用下的素有应用功能集合
      */
-    List<FunctionDto> getApplicationFunctionList(Long applicationId, HttpServletRequest request);
+    List<FunctionDto> getApplicationFunctionList(Long applicationId);
+
+    /**
+     * 删除应用功能
+     *
+     * @param functionId  应用功能id
+     * @param currentUser 当前用户
+     */
+    void delFunction(Long functionId, UserDto currentUser);
 }
