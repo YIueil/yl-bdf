@@ -12,15 +12,15 @@ import lombok.Getter;
 @Getter
 public enum ResultCode implements CodeStatus {
     /**
-     * SUCCESS: 成功
-     * FAILED: 失败
-     * ERROR: 错误
+     * SUCCESS: 请求成功
+     * FAILED: 请求失败
+     * ERROR: 服务器错误
      * UNAUTHORIZED: 未授权
      * EXPIRED: 授权到期
      * VALIDATE_FAIL: 认证失败
      */
     SUCCESS(1200, "success"),
-    FAILED(1400, "failed"),
+    FAILED(0, "failed"),
     ERROR(1500, "error"),
     UNAUTHORIZED(1401,"unauthorized"),
     EXPIRED(1409,"expired"),
