@@ -260,6 +260,7 @@ public class OrupController implements LoggedController {
      *
      * @return 应用集合
      */
+    @ApiOperation(value = "获取所有应用")
     @GetMapping(value = "getAllApplicationList")
     public String getAllApplications() {
         return success(orupService.getAllApplications());
@@ -272,12 +273,14 @@ public class OrupController implements LoggedController {
      * @param request        请求体
      * @return 新添加的应用
      */
+    @ApiOperation(value = "添加应用")
     @PostMapping(value = "addApplication")
     public String addApplication(@RequestBody ApplicationDto applicationDto, HttpServletRequest request) {
         UserDto currentUser = getUser(request);
         return success(orupService.addApplication(applicationDto, currentUser));
     }
 
+    @ApiOperation(value = "删除应用")
     @PostMapping(value = "delApplication")
     public String delApplication(@RequestParam Long applicationId, HttpServletRequest request) {
         UserDto currentUser = getUser(request);
@@ -293,6 +296,7 @@ public class OrupController implements LoggedController {
      * @param request       请求体
      * @return ResultVo
      */
+    @ApiOperation(value = "添加应用管理员")
     @PostMapping(value = "addApplicationManager")
     public String addApplicationManager(@RequestParam Long applicationId, @RequestBody List<Long> userIds, HttpServletRequest request) {
         UserDto currentUser = getUser(request);
@@ -307,6 +311,7 @@ public class OrupController implements LoggedController {
      * @param request       请求体
      * @return ResultVo
      */
+    @ApiOperation(value = "获取应用功能树")
     @GetMapping(value = "getApplicationFunctionTree")
     public String getApplicationFunctionTree(@RequestParam Long applicationId, HttpServletRequest request) {
         UserDto currentUser = getUser(request);
@@ -338,12 +343,20 @@ public class OrupController implements LoggedController {
      * @param request     请求体
      * @return ResultVo
      */
+    @ApiOperation(value = "添加应用功能")
     @PostMapping(value = "addApplicationFunction")
     public String addApplicationFunction(@RequestBody FunctionDto functionDto, HttpServletRequest request) {
         UserDto currentUser = getUser(request);
         return success(orupService.addApplicationFunction(functionDto, currentUser));
     }
 
+    /**
+     * 删除应用功能
+     * @param functionId 应用功能id
+     * @param request 请求体
+     * @return ResultVo
+     */
+    @ApiOperation(value = "删除应用功能")
     @PostMapping(value = "delApplicationFunction")
     public String delApplicationFunction(@RequestParam Long functionId, HttpServletRequest request) {
         UserDto currentUser = getUser(request);
@@ -357,6 +370,7 @@ public class OrupController implements LoggedController {
      * @param request 请求体
      * @return ResultVo
      */
+    @ApiOperation(value = "应用功能授权")
     @PostMapping(value = "applicationAuthorization")
     public String applicationAuthorization(@RequestParam Long functionId,
                                            @RequestBody List<Long> roleIds,
