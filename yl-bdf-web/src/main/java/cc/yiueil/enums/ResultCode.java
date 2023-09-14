@@ -2,6 +2,7 @@ package cc.yiueil.enums;
 
 import cc.yiueil.lang.instance.CodeStatus;
 import lombok.Getter;
+import lombok.ToString;
 
 /**
  * ResultCode 状态码类 以此为准
@@ -10,6 +11,7 @@ import lombok.Getter;
  * @version 1.0
  */
 @Getter
+@ToString
 public enum ResultCode implements CodeStatus {
     /**
      * SUCCESS: 请求成功
