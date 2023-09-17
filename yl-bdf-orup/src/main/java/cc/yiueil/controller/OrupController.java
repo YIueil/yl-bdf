@@ -5,6 +5,7 @@ import cc.yiueil.data.impl.JpaBaseDao;
 import cc.yiueil.dto.ApplicationDto;
 import cc.yiueil.dto.FunctionDto;
 import cc.yiueil.dto.UserDto;
+import cc.yiueil.exception.BusinessException;
 import cc.yiueil.general.RestUrl;
 import cc.yiueil.lang.tree.TreeNode;
 import cc.yiueil.service.OrupService;
@@ -57,10 +58,14 @@ public class OrupController implements LoggedController {
     public String login(@RequestParam String loginName,
                         @RequestParam String password
     ) {
-        UserDto userDto = orupService.findUserByLoginName(loginName);
-        if (password.equals(userDto.getPassword())) {
-            String token = JwtUtil.generateToken(userDto);
-            return success(token, "登录成功");
+        try {
+            UserDto userDto = orupService.findUserByLoginName(loginName);
+            if (password.equals(userDto.getPassword())) {
+                String token = JwtUtil.generateToken(userDto);
+                return success(token, "登录成功");
+            }
+        } catch (BusinessException e) {
+            return fail(e.getMessage());
         }
         return fail("登录失败, 账号或者密码错误");
     }

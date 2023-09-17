@@ -1,8 +1,9 @@
 package cc.yiueil.handler;
 
-import cc.yiueil.exception.UnauthorizedException;
-import cc.yiueil.vo.ResultVo;
 import cc.yiueil.exception.BusinessException;
+import cc.yiueil.exception.UnauthorizedException;
+import cc.yiueil.util.StringUtils;
+import cc.yiueil.vo.ResultVo;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -29,13 +30,21 @@ public class CustomExceptionHandler {
     @ExceptionHandler({RuntimeException.class})
     public ResultVo runtimeException(RuntimeException e) {
         e.printStackTrace();
-        return ResultVo.error("未知运行时异常", e);
+        if (StringUtils.isBlank(e.getMessage())) {
+            return ResultVo.error("未知运行时异常", e);
+        } else {
+            return ResultVo.error(e.getMessage(), e);
+        }
     }
 
     @ExceptionHandler({BusinessException.class})
     public ResultVo businessExceptionHandler(BusinessException e) {
         e.printStackTrace();
-        return ResultVo.error("未知业务功能异常", e);
+        if (StringUtils.isBlank(e.getMessage())) {
+            return ResultVo.error("未知业务功能异常", e);
+        } else {
+            return ResultVo.error(e.getMessage(), e);
+        }
     }
 
     @ExceptionHandler({MethodArgumentNotValidException.class})

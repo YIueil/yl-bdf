@@ -117,7 +117,7 @@ public class OrupServiceImpl implements OrupService {
     @Override
     public UserDto findUserByLoginName(String loginName) {
         return BeanUtils.copyProperties(
-                userRepository.findUserEntityByLoginName(loginName).orElseThrow(() -> new BusinessException("用户未找到")),
+                userRepository.findUserEntityByLoginName(loginName).orElseThrow(() -> new BusinessException("登录失败, 账号或者密码错误")),
                 new UserDto()
         );
     }
