@@ -6,6 +6,7 @@ import cc.yiueil.util.StringUtils;
 import cc.yiueil.vo.ResultVo;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -47,7 +48,7 @@ public class CustomExceptionHandler {
         }
     }
 
-    @ExceptionHandler({MethodArgumentNotValidException.class})
+    @ExceptionHandler({MethodArgumentNotValidException.class, MissingServletRequestParameterException.class})
     public ResultVo methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
         Map<String, String> errorParams = new HashMap<>();
         List<ObjectError> allErrors = e.getBindingResult().getAllErrors();
