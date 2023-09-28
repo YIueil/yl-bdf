@@ -33,6 +33,8 @@ public class UserDto implements Serializable {
     private String phoneNumber;
     @ApiModelProperty(value = "邮箱")
     private String email;
+    @ApiModelProperty(value = "头像地址")
+    private String avatarUrl;
     @ApiModelProperty(value = "用户状态")
     private String state;
     @ApiModelProperty(value = "创建用户id")

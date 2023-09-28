@@ -34,6 +34,8 @@ public class UserVo {
     private String phoneNumber;
     @ApiModelProperty(value = "邮箱")
     private String email;
+    @ApiModelProperty(value = "头像地址")
+    private String avatarUrl;
     @ApiModelProperty(value = "扩展1")
     private String extendProperty1;
     @ApiModelProperty(value = "扩展2")
