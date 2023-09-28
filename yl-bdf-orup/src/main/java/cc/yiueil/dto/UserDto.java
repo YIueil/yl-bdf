@@ -15,6 +15,8 @@ import java.time.LocalDateTime;
  * @author 弋孓 YIueil@163.com
  * @version 1.0
  * @date 2023/6/22 15:30
+ * @see cc.yiueil.entity.UserEntity
+ * @see cc.yiueil.vo.UserVo
  */
 @Getter
 @Setter
@@ -35,6 +37,8 @@ public class UserDto implements Serializable {
     private String email;
     @ApiModelProperty(value = "头像地址")
     private String avatarUrl;
+    @ApiModelProperty(value = "个性签名")
+    private String signature;
     @ApiModelProperty(value = "用户状态")
     private String state;
     @ApiModelProperty(value = "创建用户id")

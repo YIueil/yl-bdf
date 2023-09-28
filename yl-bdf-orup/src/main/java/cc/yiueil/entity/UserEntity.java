@@ -1,7 +1,6 @@
 package cc.yiueil.entity;
 
 import cc.yiueil.lang.instance.BaseEntity;
-import cc.yiueil.lang.instance.HasGuid;
 import cc.yiueil.lang.instance.User;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,6 +12,8 @@ import java.time.LocalDateTime;
  * @author 弋孓 YIueil@163.com
  * @date 2023/5/30 21:13
  * @version 1.0 用户实体
+ * @see cc.yiueil.dto.UserDto
+ * @see cc.yiueil.vo.UserVo
  */
 @Getter
 @Setter
@@ -32,6 +33,7 @@ public class UserEntity implements User<Long>, BaseEntity<Long> {
     private String email;
     @Column(columnDefinition = "TEXT")
     private String avatarUrl;
+    private String signature;
     private String state;
     private Long createUserId;
     private LocalDateTime createTime;

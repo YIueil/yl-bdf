@@ -16,6 +16,8 @@ import java.util.List;
  * @author 弋孓 YIueil@163.com
  * @version 1.0
  * @date 2023/9/10 1:40
+ * @see cc.yiueil.entity.UserEntity
+ * @see cc.yiueil.dto.UserDto
  */
 @Getter
 @Setter
@@ -36,6 +38,8 @@ public class UserVo {
     private String email;
     @ApiModelProperty(value = "头像地址")
     private String avatarUrl;
+    @ApiModelProperty(value = "个性签名")
+    private String signature;
     @ApiModelProperty(value = "扩展1")
     private String extendProperty1;
     @ApiModelProperty(value = "扩展2")
