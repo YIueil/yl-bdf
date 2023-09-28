@@ -30,6 +30,8 @@ public class UserEntity implements User<Long>, BaseEntity<Long> {
     private String password;
     private String phoneNumber;
     private String email;
+    @Column(columnDefinition = "TEXT")
+    private String avatarUrl;
     private String state;
     private Long createUserId;
     private LocalDateTime createTime;
