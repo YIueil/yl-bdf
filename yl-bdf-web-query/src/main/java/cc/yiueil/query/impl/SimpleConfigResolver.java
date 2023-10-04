@@ -89,32 +89,31 @@ public class SimpleConfigResolver implements ConfigResolver {
 
     @Override
     public void buildParameters(DynamicQueryInst dynamicQueryInst, Map<String, Object> parameters) {
-        setDefaultParamValue(dynamicQueryInst, parameters, parameters);
+        // setDefaultParamValue(dynamicQueryInst, parameters);
     }
 
     private void concatFilterExtra(DynamicQueryInst dynamicQueryInst, Map<String, Object> parameters) {
-        Map<String, Object> newParameters = new HashMap<>(10);
         Map<String, Filter> filters = dynamicQueryInst.getFilters();
         if (MapUtils.isNotEmpty(filters)) {
             for (String paramKey : filters.keySet()) {
                 if (parameters.containsKey(paramKey)) {
                     Filter filter = filters.get(paramKey);
-                    newParameters.put(paramKey,
+                    parameters.put(paramKey,
                             ParseUtils.getString(filter.getLeft(), "")
                             + ParseUtils.getString(parameters.get(paramKey), "")
                             + ParseUtils.getString(filter.getRight(), ""));
                 }
             }
         }
-        dynamicQueryInst.setParameters(newParameters);
+        dynamicQueryInst.setParameters(parameters);
     }
 
-    private void setDefaultParamValue(DynamicQueryInst dynamicQueryInst, Map<String, Object> parameters, Map<String, Object> newParameters) {
+    private void setDefaultParamValue(DynamicQueryInst dynamicQueryInst, Map<String, Object> parameters) {
         Map<String, Param> params = dynamicQueryInst.getParams();
         if (MapUtils.isNotEmpty(params)) {
             for (String paramKey : params.keySet()) {
                 if (!parameters.containsKey(paramKey)) {
-                    newParameters.put(paramKey, params.get(paramKey));
+
                 }
             }
         }
