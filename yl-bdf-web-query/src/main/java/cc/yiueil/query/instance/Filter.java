@@ -20,6 +20,8 @@ public class Filter {
 
     private String text;
 
+    private String type;
+
     @Override
     public String toString() {
         return text;

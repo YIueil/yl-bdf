@@ -47,6 +47,7 @@ public class SimpleConfigResolver implements ConfigResolver {
                 filter.setName(filterElement.attributeValue("name"));
                 filter.setLeft(filterElement.attributeValue("left"));
                 filter.setRight(filterElement.attributeValue("right"));
+                filter.setType(filterElement.attributeValue("type"));
                 filter.setText(filterElement.getText());
                 filterMap.put(filter.getName(), filter);
             });
@@ -98,10 +99,30 @@ public class SimpleConfigResolver implements ConfigResolver {
             for (String paramKey : filters.keySet()) {
                 if (parameters.containsKey(paramKey)) {
                     Filter filter = filters.get(paramKey);
-                    parameters.put(paramKey,
-                            ParseUtils.getString(filter.getLeft(), "")
-                            + ParseUtils.getString(parameters.get(paramKey), "")
-                            + ParseUtils.getString(filter.getRight(), ""));
+                    String type = ParseUtils.getString(filter.getType(), "text");
+                    String content = ParseUtils.getString(parameters.get(paramKey), "");
+                    String replaceContent;
+                    // 根据不同的type执行不同的参数赋值逻辑
+                    switch (type) {
+                        case "text":
+                            parameters.put(paramKey,
+                                    ParseUtils.getString(filter.getLeft(), "")
+                                            + content
+                                            + ParseUtils.getString(filter.getRight(), ""));
+                            break;
+                        case "numberArray":
+                            replaceContent = content.replace("[", "").replace("]", "");
+                            List<Long> longList = ParseUtils.getList(replaceContent, Long.class);
+                            parameters.put(paramKey, longList);
+                            break;
+                        case "stringArray":
+                            replaceContent = content.replace("[", "").replace("]", "");
+                            List<String> stringList = ParseUtils.getList(replaceContent, String.class);
+                            parameters.put(paramKey, stringList);
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
         }

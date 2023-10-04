@@ -39,21 +39,15 @@
         <sql>
             <![CDATA[
                 select u.id,
-                       u.createtime,
-                       u.createuserid,
+                       uo.createtime "createTime",
+                       u.createuserid "createUserId",
                        u.email,
-                       u.extendproperty1,
-                       u.extendproperty2,
-                       u.extendproperty3,
-                       u.extendproperty4,
                        u.guid,
-                       u.loginname,
-                       u.modifytime,
                        u.password,
-                       u.phonenumber,
-                       u.username,
+                       u.phonenumber "phoneNumber",
+                       u.username "userName",
                        u.state,
-                       u.avatarurl
+                       u.avatarurl "avatarUrl"
                 from yl_acc."user" u
                          left join yl_acc.user_org uo on uo.userid = u.id
                 where uo.orgid = :orgId
@@ -71,22 +65,27 @@
 
     <config id="addAbleUserList">
         <sql><![CDATA[
-            select u.id,
+            select distinct u.id,
                    u.guid,
                    u.username "userName",
                    u.state,
-                   u.avatarurl "avatarUrl"
+                   u.avatarurl "avatarUrl",
+                   u.createtime
             from yl_acc."user" u
                      left join yl_acc.user_org uo on uo.userid = u.id
             where 1 = 1
         ]]></sql>
         <filters>
-            <filter name="notInOrgIds" type="array"><![CDATA[
-                and uo.orgid not in :notInOrgIds
+            <filter name="notInOrgIds" type="numberArray"><![CDATA[
+                and not exists (
+                    select 1
+                    from yl_acc.user_org uo2
+                    where uo2.userid = u.id and uo2.orgid in (:notInOrgIds)
+                )
             ]]></filter>
         </filters>
         <endSql><![CDATA[
-            order by uo.createTime
+            order by u.createTime
         ]]></endSql>
     </config>
 </root>
