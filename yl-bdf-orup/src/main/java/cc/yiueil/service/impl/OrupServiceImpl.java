@@ -44,6 +44,9 @@ public class OrupServiceImpl implements OrupService {
     @Autowired
     FunctionRepository functionRepository;
 
+    @Autowired
+    OrgRepository orgRepository;
+
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
     public UserDto registerUser(UserDto registerUser) {
@@ -210,5 +213,57 @@ public class OrupServiceImpl implements OrupService {
         return functionEntities.stream()
                 .map(functionEntity -> BeanUtils.copyProperties(functionEntity, new FunctionDto()))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public OrgDto addOrganization(OrgDto orgDto, UserDto user) {
+        OrgEntity orgEntity = BeanUtils.copyProperties(orgDto, new OrgEntity());
+        return BeanUtils.copyProperties(baseDao.save(orgEntity), new OrgDto());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<OrgDto> getOrgList() {
+        Iterable<OrgEntity> orgEntityList = orgRepository.findAll();
+        return StreamSupport.stream(orgEntityList.spliterator(), false)
+                .map(orgEntity -> BeanUtils.copyProperties(orgEntity, new OrgDto()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public OrgDto findOrgById(Long id) {
+        return BeanUtils.copyProperties(orgRepository.findById(id), new OrgDto());
+    }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public OrgDto modifyOrg(OrgDto orgDto) {
+        if (orgDto.getId() == null) {
+            throw new BusinessException("修改接口传入的实体需要具有id");
+        }
+        OrgEntity orgEntity = BeanUtils.copyProperties(orgDto, new OrgEntity());
+        return BeanUtils.copyProperties(baseDao.save(orgEntity), new OrgDto());
+    }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void delOrgById(Long id, UserDto user) {
+        orgRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void addOrgUser(Long orgId, List<Long> userIds, UserDto user) {
+        List<UserOrgEntity> userOrgEntities = userIds.stream()
+                .map(userId -> {
+                    UserOrgEntity userOrgEntity = new UserOrgEntity();
+                    userOrgEntity.setUserId(userId);
+                    userOrgEntity.setCreateUserId(user.getId());
+                    userOrgEntity.setOrgId(orgId);
+                    return userOrgEntity;
+                }).collect(Collectors.toList());
+        baseDao.batchSave(userOrgEntities);
     }
 }

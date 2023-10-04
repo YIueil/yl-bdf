@@ -1,5 +1,6 @@
 package cc.yiueil.entity;
 
+import cc.yiueil.lang.instance.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,7 +17,7 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @Table(name = "org", schema = "yl_acc")
-public class OrgEntity {
+public class OrgEntity implements BaseEntity<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "generator")
     @SequenceGenerator(name = "generator", schema = "yl_acc", sequenceName = "s_org", allocationSize = 1)

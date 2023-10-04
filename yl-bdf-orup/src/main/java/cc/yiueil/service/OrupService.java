@@ -161,4 +161,48 @@ public interface OrupService {
      * @param currentUser 当前用户
      */
     void delFunction(Long functionId, UserDto currentUser);
+
+    /**
+     * 添加机构
+     * @param orgDto 机构Dto
+     * @param user 当前用户
+     * @return 添加好的机构Dto
+     */
+    OrgDto addOrganization(OrgDto orgDto, UserDto user);
+
+    /**
+     * 获取机构列表
+     * @return 机构列表
+     */
+    List<OrgDto> getOrgList();
+
+    /**
+     * 通过id获取机构
+     * @param id 机构id
+     * @return 机构Dto
+     */
+    OrgDto findOrgById(Long id);
+
+    /**
+     * 修改机构实体
+     * @param orgDto 机构Dto
+     * @return 修改后的机构dto
+     */
+    OrgDto modifyOrg(OrgDto orgDto);
+
+    /**
+     * 通过id删除机构
+     * @param id 删除机构
+     * @param user 当前用户
+     */
+    void delOrgById(Long id, UserDto user);
+
+    /**
+     * 添加机构用户
+     * @param orgId 机构id
+     * @param userIds 用户id集合
+     * @param user 当前用户
+     * @return 添加的机构用户对象
+     */
+    void addOrgUser(Long orgId, List<Long> userIds, UserDto user);
 }

@@ -2,9 +2,7 @@ package cc.yiueil.controller;
 
 import cc.yiueil.constant.OrupRestUrl;
 import cc.yiueil.data.impl.JpaBaseDao;
-import cc.yiueil.dto.ApplicationDto;
-import cc.yiueil.dto.FunctionDto;
-import cc.yiueil.dto.UserDto;
+import cc.yiueil.dto.*;
 import cc.yiueil.exception.BusinessException;
 import cc.yiueil.general.RestUrl;
 import cc.yiueil.lang.tree.TreeNode;
@@ -357,8 +355,9 @@ public class OrupController implements LoggedController {
 
     /**
      * 删除应用功能
+     *
      * @param functionId 应用功能id
-     * @param request 请求体
+     * @param request    请求体
      * @return ResultVo
      */
     @ApiOperation(value = "删除应用功能")
@@ -388,4 +387,62 @@ public class OrupController implements LoggedController {
 
     //endregion
 
+    //region 机构管理
+
+    @ApiOperation(value = "创建机构")
+    @PostMapping(value = "addOrg")
+    public String addOrganization(@RequestBody OrgDto orgDto, HttpServletRequest request) {
+        UserDto user = getUser(request);
+        return success(orupService.addOrganization(orgDto, user));
+    }
+
+    @ApiOperation(value = "查询机构列表")
+    @GetMapping(value = "getOrgTree")
+    public String getOrgTree() {
+        List<OrgDto> orgDtoList = orupService.getOrgList();
+        return success(
+                TreeUtils.build(orgDtoList.stream().map(orgDto -> {
+                    Map<String, Object> extra = new HashMap<>(orgDtoList.size());
+                    extra.put("id", orgDto.getId());
+                    extra.put("guid", orgDto.getGuid());
+                    extra.put("parentId", orgDto.getParentId());
+                    extra.put("description", orgDto.getDescription());
+                    extra.put("name", orgDto.getName());
+                    extra.put("code", orgDto.getCode());
+                    extra.put("type", orgDto.getType());
+                    return new TreeNode<>(orgDto.getId(), orgDto.getParentId(), orgDto.getName(), 1, extra);
+                }).collect(Collectors.toList()), 0L)
+        );
+    }
+
+    @ApiOperation(value = "根据ID查询机构信息")
+    @GetMapping(value = "getOrg")
+    public String getOrgById(@RequestParam Long id) {
+        OrgDto orgDto = orupService.findOrgById(id);
+        return success(orgDto);
+    }
+
+    @ApiOperation(value = "更新机构信息")
+    @PostMapping(value = "updateOrg")
+    public String updateOrg(@RequestBody OrgDto orgDto,
+                            HttpServletRequest request) {
+        return success(orupService.modifyOrg(orgDto));
+    }
+
+    @ApiOperation(value = "删除机构")
+    @PostMapping(value = "deleteOrg")
+    public String deleteOrg(@RequestParam Long id, HttpServletRequest request) {
+        UserDto user = getUser(request);
+        orupService.delOrgById(id, user);
+        return success();
+    }
+
+    @ApiOperation(value = "向机构添加用户")
+    @PostMapping(value = "addOrgUser")
+    public String addOrgUser(@RequestParam Long orgId, @RequestBody List<Long> userIds, HttpServletRequest request) {
+        UserDto user = getUser(request);
+        orupService.addOrgUser(orgId, userIds, user);
+        return success();
+    }
+    //endregion
 }

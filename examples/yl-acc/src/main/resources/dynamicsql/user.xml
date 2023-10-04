@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root cache="true"
+      xmlns="http://www.yiueil.cc"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.yiueil.cc https://yiueil.github.io/static-repo/static/xsd/yl-dynamic-sql.xsd">
+    <config id="getUserList">
+        <sql>
+            <![CDATA[
+                select id,
+                       createtime   "createTime",
+                       createuserid "createUserId",
+                       email,
+                       guid,
+                       loginname    "loginName",
+                       modifytime   "modifyTime",
+                       phonenumber  "phoneNumber",
+                       username     "userName",
+                       state,
+                       avatarurl    "avatarUrl"
+                from yl_acc.user
+                where 1 = 1
+            ]]>
+        </sql>
+        <filters>
+            <filter name="guid">
+                <![CDATA[
+                    and guid = :guid
+                ]]>
+            </filter>
+        </filters>
+        <endSql>
+            <![CDATA[
+                order by id
+            ]]>
+        </endSql>
+    </config>
+
+    <config id="getOrgUserList">
+        <sql>
+            <![CDATA[
+                select u.id,
+                       u.createtime,
+                       u.createuserid,
+                       u.email,
+                       u.extendproperty1,
+                       u.extendproperty2,
+                       u.extendproperty3,
+                       u.extendproperty4,
+                       u.guid,
+                       u.loginname,
+                       u.modifytime,
+                       u.password,
+                       u.phonenumber,
+                       u.username,
+                       u.state,
+                       u.avatarurl
+                from yl_acc."user" u
+                         left join yl_acc.user_org uo on uo.userid = u.id
+                where uo.orgid = :orgId
+            ]]>
+        </sql>
+        <params>
+            <param name="orgId"/>
+        </params>
+        <endSql>
+            <![CDATA[
+                order by uo.createTime desc
+            ]]>
+        </endSql>
+    </config>
+
+    <config id="addAbleUserList">
+        <sql><![CDATA[
+            select u.id,
+                   u.guid,
+                   u.username "userName",
+                   u.state,
+                   u.avatarurl "avatarUrl"
+            from yl_acc."user" u
+                     left join yl_acc.user_org uo on uo.userid = u.id
+            where 1 = 1
+        ]]></sql>
+        <filters>
+            <filter name="notInOrgIds" type="array"><![CDATA[
+                and uo.orgid not in :notInOrgIds
+            ]]></filter>
+        </filters>
+        <endSql><![CDATA[
+            order by uo.createTime
+        ]]></endSql>
+    </config>
+</root>
