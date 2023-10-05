@@ -276,7 +276,7 @@ public class OrupController implements LoggedController {
 
     @ApiOperation(value = "添加角色用户")
     @PostMapping(value="addRoleUser")
-    public String addRoleUser(@RequestParam Long roleId, @RequestParam List<Long> userIds, HttpServletRequest request){
+    public String addRoleUser(@RequestParam Long roleId, @RequestBody List<Long> userIds, HttpServletRequest request){
         UserDto user = getUser(request);
         orupService.addRoleUser(roleId, userIds, user);
         return success();

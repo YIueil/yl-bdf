@@ -38,7 +38,7 @@
     <config id="getOrgUserList">
         <sql>
             <![CDATA[
-                select u.id,
+                select distinct u.id,
                        uo.createtime "createTime",
                        u.createuserid "createUserId",
                        u.email,
@@ -59,6 +59,34 @@
         <endSql>
             <![CDATA[
                 order by uo.createTime desc
+            ]]>
+        </endSql>
+    </config>
+
+    <config id="getRoleUserList">
+        <sql>
+            <![CDATA[
+                select distinct u.id,
+                                ur.createtime  "createTime",
+                                u.createuserid "createUserId",
+                                u.email,
+                                u.guid,
+                                u.password,
+                                u.phonenumber  "phoneNumber",
+                                u.username     "userName",
+                                u.state,
+                                u.avatarurl    "avatarUrl"
+                from yl_acc."user" u
+                         left join yl_acc.user_role ur on ur.userid = u.id
+                where ur.roleid = :roleId
+            ]]>
+        </sql>
+        <params>
+            <param name="roleId"/>
+        </params>
+        <endSql>
+            <![CDATA[
+                order by ur.createTime desc
             ]]>
         </endSql>
     </config>
