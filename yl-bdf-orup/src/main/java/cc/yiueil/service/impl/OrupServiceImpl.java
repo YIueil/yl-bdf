@@ -268,4 +268,57 @@ public class OrupServiceImpl implements OrupService {
                 }).collect(Collectors.toList());
         baseDao.batchSave(userOrgEntities);
     }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public RoleDto addRole(RoleDto roleDto, UserDto userDto) {
+        RoleEntity roleEntity = BeanUtils.copyProperties(roleDto, new RoleEntity());
+        return BeanUtils.copyProperties(baseDao.save(roleEntity), new RoleDto());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public RoleDto findRoleById(Long id) {
+        RoleEntity roleEntity = roleRepository.findById(id).orElseThrow(() -> new BusinessException("没有查询到该角色"));
+        return BeanUtils.copyProperties(roleEntity, new RoleDto());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<RoleDto> getRoleList() {
+        Iterable<RoleEntity> roleEntityIterable = roleRepository.findAll();
+        return StreamSupport.stream(roleEntityIterable.spliterator(), false)
+                .map(roleEntity -> BeanUtils.copyProperties(roleEntity, new RoleDto()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public RoleDto modifyRole(RoleDto roleDto, UserDto user) {
+        if (roleDto.getId() == null) {
+            throw new BusinessException("修改接口传入的实体需要具有id");
+        }
+        RoleEntity roleEntity = roleRepository.findById(roleDto.getId()).orElseThrow(() -> new BusinessException("没有查询到该角色"));
+        RoleEntity modifyRoleEntity = BeanUtils.copyProperties(roleDto, roleEntity, true);
+        return BeanUtils.copyProperties(baseDao.save(modifyRoleEntity), new RoleDto());
+    }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void delRole(Long roleId, UserDto user) {
+        roleRepository.deleteById(roleId);
+    }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void addRoleUser(Long roleId, List<Long> userIds, UserDto user) {
+        List<UserRoleEntity> userRoleEntities = userIds.stream().map(userId -> {
+            UserRoleEntity userRoleEntity = new UserRoleEntity();
+            userRoleEntity.setUserId(userId);
+            userRoleEntity.setRoleId(roleId);
+            userRoleEntity.setCreateUserId(user.getId());
+            return userRoleEntity;
+        }).collect(Collectors.toList());
+        baseDao.batchSave(userRoleEntities);
+    }
 }

@@ -205,4 +205,49 @@ public interface OrupService {
      * @return 添加的机构用户对象
      */
     void addOrgUser(Long orgId, List<Long> userIds, UserDto user);
+
+    /**
+     * 添加角色
+     * @param roleDto 角色Dto
+     * @param userDto 当前用户
+     * @return 新增的RoleDto
+     */
+    RoleDto addRole(RoleDto roleDto, UserDto userDto);
+
+
+    /**
+     * 获取角色
+     * @param id 角色id
+     * @return RoleDto
+     */
+    RoleDto findRoleById(Long id);
+
+    /**
+     * 获取角色机构
+     * @return RoleList
+     */
+    List<RoleDto> getRoleList();
+
+    /**
+     * 修改角色
+     * @param roleDto roleDto
+     * @param user 当前用户
+     * @return 修改后的RoleDto
+     */
+    RoleDto modifyRole(RoleDto roleDto, UserDto user);
+
+    /**
+     * 删除角色
+     * @param roleId 角色id
+     * @param user 当前用户
+     */
+    void delRole(Long roleId, UserDto user);
+
+    /**
+     * 向角色中添加用户
+     * @param roleId 角色id
+     * @param userIds 用户id集合
+     * @param user 当前用户
+     */
+    void addRoleUser(Long roleId, List<Long> userIds, UserDto user);
 }

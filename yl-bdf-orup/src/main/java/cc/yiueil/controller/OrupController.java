@@ -229,6 +229,59 @@ public class OrupController implements LoggedController {
 
     //region 角色权限
 
+    @ApiOperation(value = "添加角色")
+    @PostMapping(value="addRole")
+    public String addRole(@RequestBody RoleDto roleDto, HttpServletRequest request){
+        UserDto user = getUser(request);
+        return success(orupService.addRole(roleDto, user));
+    }
+
+    @ApiOperation(value = "查询角色")
+    @GetMapping(value="getRole")
+    public String getRole(@RequestParam Long id){
+        return success(orupService.findRoleById(id));
+    }
+
+    @ApiOperation(value = "获取角色树")
+    @GetMapping(value="getRoleTree")
+    public String getRoleTree(){
+        List<RoleDto> roleDtoList = orupService.getRoleList();
+        return success(
+                TreeUtils.build(roleDtoList.stream().map(roleDto -> {
+                    Map<String, Object> extra = new HashMap<>(roleDtoList.size());
+                    extra.put("id", roleDto.getId());
+                    extra.put("guid", roleDto.getGuid());
+                    extra.put("name", roleDto.getName());
+                    extra.put("description", roleDto.getDescription());
+                    extra.put("parentId", roleDto.getParentId());
+                    return new TreeNode<>(roleDto.getId(), roleDto.getParentId(), roleDto.getName(), 1, extra);
+                }).collect(Collectors.toList()), 0L)
+        );
+    }
+
+    @ApiOperation(value = "更新角色")
+    @PostMapping(value="updateRole")
+    public String updateRole(@RequestBody RoleDto roleDto, HttpServletRequest request){
+        UserDto user = getUser(request);
+        return success(orupService.modifyRole(roleDto, user));
+    }
+
+    @ApiOperation(value = "删除角色")
+    @PostMapping(value="deleteRole")
+    public String deleteRole(@RequestParam Long roleId, HttpServletRequest request){
+        UserDto user = getUser(request);
+        orupService.delRole(roleId, user);
+        return success();
+    }
+
+    @ApiOperation(value = "添加角色用户")
+    @PostMapping(value="addRoleUser")
+    public String addRoleUser(@RequestParam Long roleId, @RequestParam List<Long> userIds, HttpServletRequest request){
+        UserDto user = getUser(request);
+        orupService.addRoleUser(roleId, userIds, user);
+        return success();
+    }
+
     /**
      * 角色权限: 获取用户所有权限集合
      *
