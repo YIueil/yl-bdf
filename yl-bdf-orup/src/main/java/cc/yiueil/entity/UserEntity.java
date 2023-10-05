@@ -4,6 +4,7 @@ import cc.yiueil.lang.instance.BaseEntity;
 import cc.yiueil.lang.instance.User;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -18,6 +19,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
+@DynamicUpdate
 @Table(name = "user", schema = "yl_acc")
 public class UserEntity implements User<Long>, BaseEntity<Long> {
     @Id

@@ -97,9 +97,10 @@ public class OrupServiceImpl implements OrupService {
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
     public UserDto modifyUser(UserDto userDto, UserDto currentUser) {
-        UserEntity userEntity = BeanUtils.copyProperties(userDto, new UserEntity());
-        baseDao.save(userEntity);
-        return BeanUtils.copyProperties(userEntity, new UserDto());
+        UserEntity userEntity = userRepository.findById(userDto.getId()).orElseThrow(() -> new BusinessException("用户未找到"));
+        UserEntity modifyUser = BeanUtils.copyProperties(userDto, userEntity, true);
+        baseDao.save(modifyUser);
+        return BeanUtils.copyProperties(modifyUser, new UserDto());
     }
 
     @Override
@@ -243,8 +244,9 @@ public class OrupServiceImpl implements OrupService {
         if (orgDto.getId() == null) {
             throw new BusinessException("修改接口传入的实体需要具有id");
         }
-        OrgEntity orgEntity = BeanUtils.copyProperties(orgDto, new OrgEntity());
-        return BeanUtils.copyProperties(baseDao.save(orgEntity), new OrgDto());
+        OrgEntity orgEntity = orgRepository.findById(orgDto.getId()).orElseThrow(() -> new BusinessException("没有查询到该机构"));
+        OrgEntity modifyOrgEntity = BeanUtils.copyProperties(orgDto, orgEntity);
+        return BeanUtils.copyProperties(baseDao.save(modifyOrgEntity), new OrgDto());
     }
 
     @Override
