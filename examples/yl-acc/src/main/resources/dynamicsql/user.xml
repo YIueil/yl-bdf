@@ -91,16 +91,19 @@
         </endSql>
     </config>
 
+    <!--弹窗查询可加入用户集合-->
     <config id="addAbleUserList">
         <sql><![CDATA[
             select distinct u.id,
-                   u.guid,
-                   u.username "userName",
-                   u.state,
-                   u.avatarurl "avatarUrl",
-                   u.createtime
+                            u.guid,
+                            u.username  "userName",
+                            u.state,
+                            u.avatarurl "avatarUrl",
+                            u.createtime
             from yl_acc."user" u
                      left join yl_acc.user_org uo on uo.userid = u.id
+                     left join yl_acc.user_role ur on ur.userid = u.id
+                     left join yl_acc.application_manager am on am.managerid = u.id
             where 1 = 1
         ]]></sql>
         <filters>
@@ -110,6 +113,22 @@
                     from yl_acc.user_org uo2
                     where uo2.userid = u.id and uo2.orgid in (:notInOrgIds)
                 )
+            ]]></filter>
+            <filter name="notInRoleIds" type="numberArray"><![CDATA[
+                and not exists(
+                        select 1
+                        from yl_acc.user_role ur2
+                        where ur2.userid = u.id
+                          and ur2.roleid in (:notInRoleIds)
+                    )
+            ]]></filter>
+            <filter name="notInAppIds" type="numberArray"><![CDATA[
+                and not exists(
+                        select 1
+                        from yl_acc.application_manager ur2
+                        where ur2.managerid = u.id
+                          and ur2.applicationid in (:notInAppIds)
+                    )
             ]]></filter>
         </filters>
         <endSql><![CDATA[

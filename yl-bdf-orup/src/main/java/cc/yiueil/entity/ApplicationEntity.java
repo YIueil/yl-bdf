@@ -26,6 +26,8 @@ public class ApplicationEntity implements BaseEntity<Long> {
     private String name;
     private String description;
     private String url;
+    private String iconUrl;
+    private String status;
     private LocalDateTime createTime;
     private LocalDateTime modifyTime;
     private Long createUserId;

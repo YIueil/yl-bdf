@@ -157,6 +157,7 @@ public class OrupServiceImpl implements OrupService {
     @Transactional(rollbackFor = RuntimeException.class)
     public ApplicationDto addApplication(ApplicationDto applicationDto, UserDto currentUser) {
         ApplicationEntity newApplicationEntity = baseDao.save(BeanUtils.copyProperties(applicationDto, new ApplicationEntity()));
+        newApplicationEntity.setCreateUserId(currentUser.getId());
         return BeanUtils.copyProperties(newApplicationEntity, new ApplicationDto());
     }
 

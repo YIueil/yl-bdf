@@ -12,6 +12,7 @@ import lombok.ToString;
  * @author 弋孓 YIueil@163.com
  * @version 1.0
  * @date 2023/9/10 3:50
+ * @see cc.yiueil.entity.ApplicationEntity
  */
 @Getter
 @Setter
@@ -26,4 +27,8 @@ public class ApplicationDto {
     private String description;
     @ApiModelProperty(value = "访问地址")
     private String url;
+    @ApiModelProperty(value = "图标地址")
+    private String iconUrl;
+    @ApiModelProperty(value = "运行状态")
+    private String status;
 }
