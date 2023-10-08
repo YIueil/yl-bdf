@@ -176,9 +176,20 @@ public class OrupServiceImpl implements OrupService {
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
     public FunctionDto addApplicationFunction(FunctionDto functionDto, UserDto currentUser) {
-        ApplicationEntity applicationEntity = BeanUtils.copyProperties(functionDto, new ApplicationEntity());
-        ApplicationEntity newApplicationFunction = baseDao.save(applicationEntity);
-        return BeanUtils.copyProperties(newApplicationFunction, new FunctionDto());
+        FunctionEntity functionEntity = BeanUtils.copyProperties(functionDto, new FunctionEntity());
+        FunctionEntity newFunctionEntity = baseDao.save(functionEntity);
+        return BeanUtils.copyProperties(newFunctionEntity, new FunctionDto());
+    }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public FunctionDto modifyFunction(FunctionDto functionDto, UserDto currentUser) {
+        if (functionDto.getId() == null) {
+            throw new RuntimeException("修改接口传入的实体需要具有id");
+        }
+        FunctionEntity functionEntity = functionRepository.findById(functionDto.getId()).orElseThrow(() -> new BusinessException("没有查询到该功能"));
+        FunctionEntity modifyFunctionEntity = BeanUtils.copyProperties(functionDto, functionEntity, true);
+        return BeanUtils.copyProperties(baseDao.save(modifyFunctionEntity), new FunctionDto());
     }
 
     @Override

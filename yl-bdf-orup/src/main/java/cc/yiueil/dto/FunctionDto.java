@@ -12,6 +12,7 @@ import lombok.ToString;
  * @author 弋孓 YIueil@163.com
  * @version 1.0
  * @date 2023/9/10 4:22
+ * @see cc.yiueil.entity.FunctionEntity
  */
 @Getter
 @Setter

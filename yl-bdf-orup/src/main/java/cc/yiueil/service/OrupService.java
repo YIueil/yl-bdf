@@ -245,9 +245,19 @@ public interface OrupService {
 
     /**
      * 向角色中添加用户
-     * @param roleId 角色id
+     *
+     * @param roleId  角色id
      * @param userIds 用户id集合
-     * @param user 当前用户
+     * @param user    当前用户
      */
     void addRoleUser(Long roleId, List<Long> userIds, UserDto user);
+
+    /**
+     * 修改应用功能
+     *
+     * @param functionDto 功能dto
+     * @param currentUser 当前用户
+     * @return 修改后的 FunctionDto
+     */
+    FunctionDto modifyFunction(FunctionDto functionDto, UserDto currentUser);
 }

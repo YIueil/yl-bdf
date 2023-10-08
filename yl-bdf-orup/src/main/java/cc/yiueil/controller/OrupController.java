@@ -406,6 +406,13 @@ public class OrupController implements LoggedController {
         return success(orupService.addApplicationFunction(functionDto, currentUser));
     }
 
+    @ApiOperation(value = "修改应用功能")
+    @PostMapping(value = "modifyApplicationFunction")
+    public String modifyApplicationFunction(@RequestBody FunctionDto functionDto, HttpServletRequest request) {
+        UserDto currentUser = getUser(request);
+        return success(orupService.modifyFunction(functionDto, currentUser));
+    }
+
     /**
      * 删除应用功能
      *
