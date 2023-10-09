@@ -23,13 +23,14 @@ public interface BaseDao {
      * @param tClass 目标类型
      * @param guid bean 的 guid
      * @param <T> 查找的目标类型
-     * @return
+     * @return Optional
      */
     <T> Optional<T> findByGuid(Class<T> tClass, String guid);
 
     /**
      * 基本保存、更新
      * @param entityObject entity对象
+     * @return T
      */
     <T> T save(T entityObject);
 

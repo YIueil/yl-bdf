@@ -244,8 +244,8 @@ public class OrupController implements LoggedController {
 
     @ApiOperation(value = "获取角色树")
     @GetMapping(value="getRoleTree")
-    public String getRoleTree(){
-        List<RoleDto> roleDtoList = orupService.getRoleList();
+    public String getRoleTree(@RequestParam(required = false) Long functionId, @RequestParam(required = false) Long permissionId){
+        List<RoleDto> roleDtoList = orupService.getRoleList(functionId, permissionId);
         return success(
                 TreeUtils.build(roleDtoList.stream().map(roleDto -> {
                     Map<String, Object> extra = new HashMap<>(roleDtoList.size());

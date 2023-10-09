@@ -1,6 +1,12 @@
 package cc.yiueil.util;
 
+import cc.yiueil.convert.Converter;
+import cc.yiueil.convert.ConverterHolder;
+import cc.yiueil.lang.reflect.AbstractTypeReference;
+
+import java.lang.reflect.Field;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -49,5 +55,49 @@ public class MapUtils {
         }
         map.entrySet().stream().sorted(entryComparator).forEachOrdered(e -> result.put(e.getKey(), e.getValue()));
         return result;
+    }
+
+    /**
+     * Map转换为实体
+     * @param map map对象
+     * @param clazz 实例class类型
+     * @param <T> class泛型
+     * @return 转换后的实体
+     * @throws Exception 转换异常
+     */
+    @SuppressWarnings("all")
+    public static <T> T mapToEntity(Map<String, Object> map, Class<T> clazz) throws Exception {
+        T entity = clazz.newInstance();
+        for (Field field : clazz.getDeclaredFields()) {
+            String fieldName = field.getName();
+            Object value = map.get(fieldName);
+            if (value != null) {
+                field.setAccessible(true);
+                AbstractTypeReference abstractTypeReference = AbstractTypeReference.of(field.getType());
+                Converter converter = ConverterHolder.getConverter(abstractTypeReference);
+                if (ObjectUtils.isNull(converter)) {
+                    continue;
+                }
+                field.set(entity, converter.convert(value, null));
+            }
+        }
+        return entity;
+    }
+
+    /**
+     * 实体转换为Map
+     * @param entity 实体
+     * @param <T> class泛型
+     * @return 转换后的Map
+     * @throws Exception 转换报错
+     */
+    public static <T> Map<String, Object> entityToMap(T entity) throws Exception {
+        Map<String, Object> map = new HashMap<>(16);
+        for (Field field : entity.getClass().getDeclaredFields()) {
+            field.setAccessible(true);
+            Object value = field.get(entity);
+            map.put(field.getName(), value);
+        }
+        return map;
     }
 }

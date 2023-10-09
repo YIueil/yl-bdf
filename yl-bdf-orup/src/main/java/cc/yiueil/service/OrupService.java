@@ -223,10 +223,18 @@ public interface OrupService {
     RoleDto findRoleById(Long id);
 
     /**
-     * 获取角色机构
+     * 获取角色集合
      * @return RoleList
      */
     List<RoleDto> getRoleList();
+
+    /**
+     * 获取角色集合
+     * @param functionId 功能id权限加载
+     * @param permissionId 权限id权限加载
+     * @return RoleList
+     */
+    List<RoleDto> getRoleList(Long functionId, Long permissionId);
 
     /**
      * 修改角色

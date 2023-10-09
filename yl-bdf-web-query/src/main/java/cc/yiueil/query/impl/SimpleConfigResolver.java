@@ -7,6 +7,7 @@ import cc.yiueil.query.instance.Filter;
 import cc.yiueil.query.instance.Param;
 import cc.yiueil.util.CollectionUtils;
 import cc.yiueil.util.MapUtils;
+import cc.yiueil.util.ObjectUtils;
 import cc.yiueil.util.ParseUtils;
 import org.dom4j.Element;
 import org.springframework.stereotype.Component;
@@ -142,7 +143,7 @@ public class SimpleConfigResolver implements ConfigResolver {
 
     @Override
     public String buildSql(String mixSql, String endSql, Map<String, Filter> filters, Map<String, Object> parameters) {
-        return mixSql + assembleCondition(filters, parameters) + endSql;
+        return mixSql + assembleCondition(filters, parameters) + ObjectUtils.defaultIfNull(endSql, "");
     }
 
     private String assembleCondition(Map<String, Filter> filters, Map<String, Object> params) {

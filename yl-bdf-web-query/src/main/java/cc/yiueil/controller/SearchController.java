@@ -1,7 +1,7 @@
 package cc.yiueil.controller;
 
 import cc.yiueil.constant.SearchRestUrl;
-import cc.yiueil.dto.DynamicQueryDTO;
+import cc.yiueil.dto.DynamicQueryDto;
 import cc.yiueil.vo.PageVo;
 import cc.yiueil.general.RestUrl;
 import cc.yiueil.service.SearchService;
@@ -23,7 +23,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping(value = RestUrl.BASE_PATH + SearchRestUrl.QUERY)
-public class SearchController implements LoggedController {
+public class SearchController implements BaseController {
     @Autowired
     SearchService searchService;
 
@@ -31,7 +31,7 @@ public class SearchController implements LoggedController {
     @ApiOperation(value = "分页动态查询", notes = "通过配置查询分页结构", response = PageVo.class)
     public String searchPage(@RequestParam(defaultValue = "1") Integer pageIndex,
                              @RequestParam(defaultValue = "10") Integer pageSize,
-                             @RequestBody @Validated DynamicQueryDTO dynamicQueryDTO) {
+                             @RequestBody @Validated DynamicQueryDto dynamicQueryDTO) {
         // 1、构建查询参数
         Map<String, Object> filter = new HashMap<>(dynamicQueryDTO.getFilter());
         try {
@@ -46,8 +46,7 @@ public class SearchController implements LoggedController {
 
     @PostMapping(value = "searchOne")
     @ApiOperation(value = "动态查询对象", notes = "通过配置查询对象结构", response = PageVo.class)
-    public String searchOne(@RequestBody @Validated DynamicQueryDTO dynamicQueryDTO) {
+    public String searchOne(@RequestBody @Validated DynamicQueryDto dynamicQueryDTO) {
         return success();
     }
-
 }

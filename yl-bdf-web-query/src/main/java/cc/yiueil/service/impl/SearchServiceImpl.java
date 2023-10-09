@@ -1,7 +1,7 @@
 package cc.yiueil.service.impl;
 
 import cc.yiueil.data.impl.JpaBaseDao;
-import cc.yiueil.dto.DynamicQueryDTO;
+import cc.yiueil.dto.DynamicQueryDto;
 import cc.yiueil.exception.BusinessException;
 import cc.yiueil.query.ConfigResolver;
 import cc.yiueil.query.instance.DynamicQuery;
@@ -36,9 +36,25 @@ public class SearchServiceImpl implements SearchService {
     @Autowired
     DynamicQueryPool dynamicQueryPool;
 
+    @Override
+    public DynamicQueryInst buildQueryInst(DynamicQueryDto dynamicQueryDto, Map<String, Object> parameters) {
+        URL url = SearchServiceImpl.class.getClassLoader().getResource(dynamicQueryDto.getFullPath());
+        if (url == null) {
+            throw new RuntimeException("没有找到配置文件:" + dynamicQueryDto.getFullPath());
+        }
+        File file = new File(url.getFile());
+        DynamicQueryNode dynamicQueryNode = dynamicQueryPool.findDynamicNode(dynamicQueryDto).orElseThrow(() -> new BusinessException("没有找到配置节点"));
+        // 文件已更新, 需要重新加载节点
+        if (file.lastModified() != dynamicQueryNode.getLastModified()) {
+            dynamicQueryNode = configResolver.buildDynamicQueryNode(file);
+        }
+        DynamicQuery dynamicQuery = dynamicQueryNode.getDynamicQueryMap().get(dynamicQueryDto.getConfigId());
+        return configResolver.constructInst(dynamicQuery, parameters);
+    }
+
     /**
      * 动态查询服务
-     * @param dynamicQueryDTO 动态查询参数
+     * @param dynamicQueryDto 动态查询参数
      * @param parameters 过滤条件
      * @param pageIndex 当前页码
      * @param pageSize 每页数量
@@ -46,31 +62,31 @@ public class SearchServiceImpl implements SearchService {
      */
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public PageVo searchPage(DynamicQueryDTO dynamicQueryDTO, Map<String, Object> parameters, Integer pageIndex, Integer pageSize) {
+    public PageVo searchPage(DynamicQueryDto dynamicQueryDto, Map<String, Object> parameters, Integer pageIndex, Integer pageSize) {
         PageVo pageVo = new PageVo();
         pageVo.setPageIndex(pageIndex);
         pageVo.setPageSize(pageSize);
-        if (StringUtils.isEmpty(dynamicQueryDTO.getConfigPath())) {
-            dynamicQueryDTO.setConfigPath("dynamicsql");
+        if (StringUtils.isEmpty(dynamicQueryDto.getConfigPath())) {
+            dynamicQueryDto.setConfigPath("dynamicsql");
         }
-        if (StringUtils.isEmpty(dynamicQueryDTO.getConfigFile())) {
-            dynamicQueryDTO.setConfigFile("database.xml");
+        if (StringUtils.isEmpty(dynamicQueryDto.getConfigFile())) {
+            dynamicQueryDto.setConfigFile("database.xml");
         }
         // todo 判断文件是否已经变更过
-        URL url = SearchServiceImpl.class.getClassLoader().getResource(dynamicQueryDTO.getFullPath());
+        URL url = SearchServiceImpl.class.getClassLoader().getResource(dynamicQueryDto.getFullPath());
         if (url == null) {
-            throw new RuntimeException("没有找到配置文件:" + dynamicQueryDTO.getFullPath());
+            throw new RuntimeException("没有找到配置文件:" + dynamicQueryDto.getFullPath());
         }
         String filepath = url.getFile();
         File file = new File(filepath);
-        DynamicQueryNode dynamicQueryNode = dynamicQueryPool.findDynamicNode(dynamicQueryDTO).orElseThrow(() -> new BusinessException("没有找到配置节点"));
+        DynamicQueryNode dynamicQueryNode = dynamicQueryPool.findDynamicNode(dynamicQueryDto).orElseThrow(() -> new BusinessException("没有找到配置节点"));
         // 文件已更新, 需要重新加载节点
         if (file.lastModified() != dynamicQueryNode.getLastModified()) {
             dynamicQueryNode = configResolver.buildDynamicQueryNode(file);
         }
-        DynamicQuery dynamicQuery = dynamicQueryNode.getDynamicQueryMap().get(dynamicQueryDTO.getConfigId());
+        DynamicQuery dynamicQuery = dynamicQueryNode.getDynamicQueryMap().get(dynamicQueryDto.getConfigId());
         if (dynamicQuery == null) {
-            throw new BusinessException("没有找到对应配置服务: " + dynamicQueryDTO.getConfigId());
+            throw new BusinessException("没有找到对应配置服务: " + dynamicQueryDto.getConfigId());
         }
         // 仅construct时使用外部parameters
         DynamicQueryInst dynamicQueryInst = configResolver.constructInst(dynamicQuery, parameters);

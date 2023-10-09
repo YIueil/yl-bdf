@@ -24,5 +24,9 @@ public class RoleDto {
     private String name;
     @ApiModelProperty(value = "描述")
     private String description;
+    @ApiModelProperty(value = "已关联到功能")
+    private Boolean hasFunction;
+    @ApiModelProperty(value = "已关联到权限")
+    private Boolean hasPermission;
     private Long parentId;
 }

@@ -5,15 +5,20 @@ import cc.yiueil.dto.*;
 import cc.yiueil.entity.*;
 import cc.yiueil.enums.UserStateEnum;
 import cc.yiueil.exception.BusinessException;
+import cc.yiueil.query.instance.DynamicQueryInst;
 import cc.yiueil.repository.*;
 import cc.yiueil.service.OrupService;
+import cc.yiueil.service.SearchService;
 import cc.yiueil.util.BeanUtils;
+import cc.yiueil.util.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -28,6 +33,9 @@ import java.util.stream.StreamSupport;
 public class OrupServiceImpl implements OrupService {
     @Autowired
     JpaBaseDao baseDao;
+
+    @Autowired
+    SearchService searchService;
 
     @Autowired
     UserRepository userRepository;
@@ -293,6 +301,20 @@ public class OrupServiceImpl implements OrupService {
     public RoleDto findRoleById(Long id) {
         RoleEntity roleEntity = roleRepository.findById(id).orElseThrow(() -> new BusinessException("没有查询到该角色"));
         return BeanUtils.copyProperties(roleEntity, new RoleDto());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<RoleDto> getRoleList(Long functionId, Long permissionId) {
+        if (ObjectUtils.isAllNull(functionId, permissionId)) {
+            return getRoleList();
+        }
+        Map<String, Object> parameters = new HashMap<>(2);
+        parameters.put("functionId", ObjectUtils.defaultIfNull(functionId, -1));
+        parameters.put("permissionId", ObjectUtils.defaultIfNull(permissionId, -1));
+        DynamicQueryDto dynamicQueryDto = new DynamicQueryDto("dynamicsql", "role.xml", "getRoleListWithAuth");
+        DynamicQueryInst dynamicQueryInst = searchService.buildQueryInst(dynamicQueryDto, parameters);
+        return baseDao.sqlAsEntity(dynamicQueryInst.getSql(), dynamicQueryInst.getParameters(), RoleDto.class);
     }
 
     @Override

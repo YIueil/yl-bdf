@@ -1,8 +1,8 @@
 package cc.yiueil.entity;
 
+import cc.yiueil.lang.instance.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -17,8 +17,8 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "role_permission", schema = "yl_acc")
-public class RoleFunctionEntity {
+@Table(name = "role_function", schema = "yl_acc")
+public class RoleFunctionEntity implements BaseEntity<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "generator")
     @SequenceGenerator(name = "generator", schema = "yl_acc", sequenceName = "s_role_function", allocationSize = 1)

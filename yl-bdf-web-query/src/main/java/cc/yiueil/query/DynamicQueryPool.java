@@ -1,6 +1,6 @@
 package cc.yiueil.query;
 
-import cc.yiueil.dto.DynamicQueryDTO;
+import cc.yiueil.dto.DynamicQueryDto;
 import cc.yiueil.query.instance.DynamicQuery;
 import cc.yiueil.util.ArrayUtils;
 import cc.yiueil.util.FileUtils;
@@ -42,7 +42,7 @@ public class DynamicQueryPool implements InitializingBean {
      * @param dynamicQueryDTO 动态查询数据传输对象
      * @return 动态查询节点
      */
-    public Optional<DynamicQueryNode> findDynamicNode(DynamicQueryDTO dynamicQueryDTO) {
+    public Optional<DynamicQueryNode> findDynamicNode(DynamicQueryDto dynamicQueryDTO) {
         DynamicQueryNode dynamicQueryNode = null;
         if (dynamicSqlMap.containsKey(dynamicQueryDTO.getFullPath())) {
             dynamicQueryNode = dynamicSqlMap.get(dynamicQueryDTO.getFullPath());

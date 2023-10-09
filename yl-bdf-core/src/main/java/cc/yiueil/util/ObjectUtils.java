@@ -17,4 +17,22 @@ public class ObjectUtils {
     public static <T> T defaultIfNull(T t, T defaultValue) {
         return t != null ? t : defaultValue;
     }
+
+    /**
+     * 判断传入的对象是否全部为null,
+     * @param objects 对象集合
+     * @return 是则返回true, 否则返回false
+     */
+    public static boolean isAllNull(Object... objects) {
+        for (Object obj : objects) {
+            if (obj != null) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean isNull(Object obj) {
+        return obj == null;
+    }
 }

@@ -58,6 +58,12 @@
             <artifactId>java-jwt</artifactId>
             <version>${java-jwt.version}</version>
         </dependency>
+        <dependency>
+            <groupId>cc.yiueil</groupId>
+            <artifactId>yl-bdf-web-query</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
 </project>

@@ -3,6 +3,7 @@ package cc.yiueil.data.impl;
 import cc.yiueil.data.*;
 import cc.yiueil.exception.PageException;
 import cc.yiueil.lang.instance.HasId;
+import cc.yiueil.util.MapUtils;
 import cc.yiueil.util.ParseUtils;
 import org.hibernate.query.internal.NativeQueryImpl;
 import org.hibernate.transform.Transformers;
@@ -17,12 +18,14 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * JpaBaseDao jpa基础查询实现
+ *
  * @author 弋孓 YIueil@163.com
- * @date 2023/5/31 22:31
  * @version 1.0
+ * @date 2023/5/31 22:31
  */
 @Repository
 public class JpaBaseDao implements BatchDao, SqlDao, GeneratorDao {
@@ -60,7 +63,6 @@ public class JpaBaseDao implements BatchDao, SqlDao, GeneratorDao {
         }
         return entityObject;
     }
-
 
 
     @Override
@@ -124,5 +126,31 @@ public class JpaBaseDao implements BatchDao, SqlDao, GeneratorDao {
         Query query = entityManager.createNativeQuery(sql);
         setParameters(query, parameters);
         return query.executeUpdate();
+    }
+
+    @Override
+    public <T> List<T> sqlAsEntity(String sql, Class<T> clazz) {
+        List<Map<String, Object>> entityMaps = sqlAsMap(sql);
+        return entityMaps.stream().map(entityMap -> {
+            try {
+                return MapUtils.mapToEntity(entityMap, clazz);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public <T> List<T> sqlAsEntity(String sql, Map<String, Object> parameters, Class<T> clazz) {
+        List<Map<String, Object>> entityMaps = sqlAsMap(sql, parameters);
+        return entityMaps.stream().map(entityMap -> {
+            try {
+                return MapUtils.mapToEntity(entityMap, clazz);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }).collect(Collectors.toList());
     }
 }
