@@ -89,13 +89,17 @@ public class MapUtils {
      * @param entity 实体
      * @param <T> class泛型
      * @return 转换后的Map
-     * @throws Exception 转换报错
      */
-    public static <T> Map<String, Object> entityToMap(T entity) throws Exception {
+    public static <T> Map<String, Object> entityToMap(T entity) {
         Map<String, Object> map = new HashMap<>(16);
         for (Field field : entity.getClass().getDeclaredFields()) {
             field.setAccessible(true);
-            Object value = field.get(entity);
+            Object value = null;
+            try {
+                value = field.get(entity);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
             map.put(field.getName(), value);
         }
         return map;

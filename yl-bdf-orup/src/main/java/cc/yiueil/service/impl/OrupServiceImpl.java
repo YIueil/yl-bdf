@@ -53,6 +53,9 @@ public class OrupServiceImpl implements OrupService {
     FunctionRepository functionRepository;
 
     @Autowired
+    RoleFunctionRepository roleFunctionRepository;
+
+    @Autowired
     OrgRepository orgRepository;
 
     @Override
@@ -209,6 +212,8 @@ public class OrupServiceImpl implements OrupService {
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
     public void applicationAuthorization(Long functionId, List<Long> roleIds, UserDto currentUser) {
+        // 树结构保存, 先清除整个的功能下的权限然后重新复制
+        roleFunctionRepository.removeRoleFunctionEntitiesByFunctionId(functionId);
         List<RoleFunctionEntity> roleFunctionEntityList = roleIds.stream()
                 .map(roleId -> {
                     RoleFunctionEntity roleFunctionEntity = new RoleFunctionEntity();

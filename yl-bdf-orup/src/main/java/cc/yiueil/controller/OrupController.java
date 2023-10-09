@@ -9,6 +9,7 @@ import cc.yiueil.lang.tree.TreeNode;
 import cc.yiueil.service.OrupService;
 import cc.yiueil.util.BeanUtils;
 import cc.yiueil.util.JwtUtil;
+import cc.yiueil.util.MapUtils;
 import cc.yiueil.util.TreeUtils;
 import cc.yiueil.vo.UserVo;
 import io.swagger.annotations.Api;
@@ -248,12 +249,7 @@ public class OrupController implements LoggedController {
         List<RoleDto> roleDtoList = orupService.getRoleList(functionId, permissionId);
         return success(
                 TreeUtils.build(roleDtoList.stream().map(roleDto -> {
-                    Map<String, Object> extra = new HashMap<>(roleDtoList.size());
-                    extra.put("id", roleDto.getId());
-                    extra.put("guid", roleDto.getGuid());
-                    extra.put("name", roleDto.getName());
-                    extra.put("description", roleDto.getDescription());
-                    extra.put("parentId", roleDto.getParentId());
+                    Map<String, Object> extra = MapUtils.entityToMap(roleDto);
                     return new TreeNode<>(roleDto.getId(), roleDto.getParentId(), roleDto.getName(), 1, extra);
                 }).collect(Collectors.toList()), 0L)
         );
