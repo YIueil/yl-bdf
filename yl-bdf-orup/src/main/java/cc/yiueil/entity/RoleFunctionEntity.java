@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Setter
-@ToString
+@Entity
 @Table(name = "role_permission", schema = "yl_acc")
 public class RoleFunctionEntity {
     @Id
