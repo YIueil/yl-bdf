@@ -192,9 +192,17 @@ public class OrupController implements LoggedController {
      */
     @ApiOperation(value = "挂起用户")
     @PostMapping(value = "suspendUser")
-    public String suspendUser(@RequestBody Number userId, HttpServletRequest request) {
+    public String suspendUser(@RequestParam Long userId, HttpServletRequest request) {
         UserDto currentUser = getUser(request);
         orupService.suspendUser(userId, currentUser);
+        return success();
+    }
+
+    @ApiOperation(value = "批量挂起用户")
+    @PostMapping(value = "suspendUserByIds")
+    public String suspendUserByIds(@RequestBody List<Long> userIds, HttpServletRequest request) {
+        UserDto currentUser = getUser(request);
+        orupService.suspendUserByIds(userIds, currentUser);
         return success();
     }
 
@@ -207,9 +215,17 @@ public class OrupController implements LoggedController {
      */
     @ApiOperation(value = "删除用户信息")
     @PostMapping(value = "delUser")
-    public String delUser(@RequestParam Number userId, HttpServletRequest request) {
+    public String delUser(@RequestParam Long userId, HttpServletRequest request) {
         UserDto currentUser = getUser(request);
         orupService.delUser(userId, currentUser);
+        return success();
+    }
+
+    @ApiOperation(value = "批量删除用户信息")
+    @PostMapping(value = "delUserByIds")
+    public String delUserByIds(@RequestBody List<Long> userIds, HttpServletRequest request) {
+        UserDto currentUser = getUser(request);
+        orupService.delUserByIds(userIds, currentUser);
         return success();
     }
 
@@ -222,7 +238,7 @@ public class OrupController implements LoggedController {
      */
     @ApiOperation(value = "获取用户")
     @GetMapping(value = "getUser")
-    public String getUser(@RequestParam Number userId, HttpServletRequest request) {
+    public String getUser(@RequestParam Long userId, HttpServletRequest request) {
         UserDto currentUser = orupService.getUser(userId);
         return success(currentUser);
     }
@@ -275,6 +291,14 @@ public class OrupController implements LoggedController {
     public String addRoleUser(@RequestParam Long roleId, @RequestBody List<Long> userIds, HttpServletRequest request){
         UserDto user = getUser(request);
         orupService.addRoleUser(roleId, userIds, user);
+        return success();
+    }
+
+    @ApiOperation(value = "移除角色用户")
+    @PostMapping(value="delRoleUser")
+    public String delRoleUser(@RequestParam Long roleId, @RequestBody List<Long> userIds, HttpServletRequest request){
+        UserDto user = getUser(request);
+        orupService.delRoleUser(roleId, userIds, user);
         return success();
     }
 
@@ -498,6 +522,14 @@ public class OrupController implements LoggedController {
     public String addOrgUser(@RequestParam Long orgId, @RequestBody List<Long> userIds, HttpServletRequest request) {
         UserDto user = getUser(request);
         orupService.addOrgUser(orgId, userIds, user);
+        return success();
+    }
+
+    @ApiOperation(value = "移除机构用户")
+    @PostMapping(value = "delOrgUser")
+    public String delOrgUser(@RequestParam Long orgId, @RequestBody List<Long> userIds, HttpServletRequest request) {
+        UserDto user = getUser(request);
+        orupService.delOrgUser(orgId, userIds, user);
         return success();
     }
     //endregion

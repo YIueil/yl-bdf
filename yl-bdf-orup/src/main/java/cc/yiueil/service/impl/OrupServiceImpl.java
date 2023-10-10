@@ -56,6 +56,12 @@ public class OrupServiceImpl implements OrupService {
     RoleFunctionRepository roleFunctionRepository;
 
     @Autowired
+    UserRoleRepository userRoleRepository;
+
+    @Autowired
+    UserOrgRepository userOrgRepository;
+
+    @Autowired
     OrgRepository orgRepository;
 
     @Override
@@ -90,7 +96,7 @@ public class OrupServiceImpl implements OrupService {
 
     @Override
     @Transactional(readOnly = true)
-    public UserDto getUser(Number userId) {
+    public UserDto getUser(Long userId) {
         return BeanUtils.copyProperties(
                 baseDao.findById(UserEntity.class, userId).orElseThrow(() -> new BusinessException("用户未找到")),
                 new UserDto());
@@ -116,17 +122,33 @@ public class OrupServiceImpl implements OrupService {
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public void delUser(Number userId, UserDto currentUser) {
+    public void delUser(Long userId, UserDto currentUser) {
         baseDao.deleteById(UserEntity.class, userId);
     }
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public void suspendUser(Number userId, UserDto currentUser) {
+    public void delUserByIds(List<Long> userIds, UserDto currentUser) {
+        userRepository.deleteAllById(userIds);
+    }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void suspendUser(Long userId, UserDto currentUser) {
         baseDao.findById(UserEntity.class, userId).ifPresent(userEntity -> {
             userEntity.setState(UserStateEnum.normal.getState());
             baseDao.save(userEntity);
         });
+    }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void suspendUserByIds(List<Long> userIds, UserDto currentUser) {
+        Iterable<UserEntity> userEntityIterable = userRepository.findAllById(userIds);
+        for (UserEntity userEntity : userEntityIterable) {
+            userEntity.setState(UserStateEnum.suspend.getState());
+        }
+        userRepository.saveAll(userEntityIterable);
     }
 
     @Override
@@ -359,5 +381,17 @@ public class OrupServiceImpl implements OrupService {
             return userRoleEntity;
         }).collect(Collectors.toList());
         baseDao.batchSave(userRoleEntities);
+    }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void delRoleUser(Long roleId, List<Long> userIds, UserDto user) {
+        userRoleRepository.removeUserRoleEntitiesByRoleIdAndUserIdIn(roleId, userIds);
+    }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void delOrgUser(Long orgId, List<Long> userIds, UserDto user) {
+        userOrgRepository.removeUserOrgEntitiesByOrgIdAndUserIdIn(orgId, userIds);
     }
 }

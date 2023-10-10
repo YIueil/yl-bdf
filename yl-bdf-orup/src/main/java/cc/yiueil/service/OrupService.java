@@ -35,7 +35,7 @@ public interface OrupService {
      * @param userId 用户id
      * @return 用户实体信息
      */
-    UserDto getUser(Number userId);
+    UserDto getUser(Long userId);
 
     /**
      * 添加用户
@@ -61,7 +61,15 @@ public interface OrupService {
      * @param userId      用户id
      * @param currentUser 当前用户
      */
-    void delUser(Number userId, UserDto currentUser);
+    void delUser(Long userId, UserDto currentUser);
+
+    /**
+     * 批量删除用户信息
+     *
+     * @param userIds     用户id集合
+     * @param currentUser 当前用户
+     */
+    void delUserByIds(List<Long> userIds, UserDto currentUser);
 
     /**
      * 挂起用户
@@ -69,7 +77,15 @@ public interface OrupService {
      * @param userId      用户id
      * @param currentUser 当前用户
      */
-    void suspendUser(Number userId, UserDto currentUser);
+    void suspendUser(Long userId, UserDto currentUser);
+
+    /**
+     * 批量挂起用户
+     *
+     * @param userIds     用户id集合
+     * @param currentUser 当前用户
+     */
+    void suspendUserByIds(List<Long> userIds, UserDto currentUser);
 
     /**
      * 根据登陆名查找用户
@@ -164,20 +180,23 @@ public interface OrupService {
 
     /**
      * 添加机构
+     *
      * @param orgDto 机构Dto
-     * @param user 当前用户
+     * @param user   当前用户
      * @return 添加好的机构Dto
      */
     OrgDto addOrganization(OrgDto orgDto, UserDto user);
 
     /**
      * 获取机构列表
+     *
      * @return 机构列表
      */
     List<OrgDto> getOrgList();
 
     /**
      * 通过id获取机构
+     *
      * @param id 机构id
      * @return 机构Dto
      */
@@ -185,6 +204,7 @@ public interface OrupService {
 
     /**
      * 修改机构实体
+     *
      * @param orgDto 机构Dto
      * @return 修改后的机构dto
      */
@@ -192,22 +212,25 @@ public interface OrupService {
 
     /**
      * 通过id删除机构
-     * @param id 删除机构
+     *
+     * @param id   删除机构
      * @param user 当前用户
      */
     void delOrgById(Long id, UserDto user);
 
     /**
      * 添加机构用户
-     * @param orgId 机构id
+     *
+     * @param orgId   机构id
      * @param userIds 用户id集合
-     * @param user 当前用户
+     * @param user    当前用户
      * @return 添加的机构用户对象
      */
     void addOrgUser(Long orgId, List<Long> userIds, UserDto user);
 
     /**
      * 添加角色
+     *
      * @param roleDto 角色Dto
      * @param userDto 当前用户
      * @return 新增的RoleDto
@@ -217,6 +240,7 @@ public interface OrupService {
 
     /**
      * 获取角色
+     *
      * @param id 角色id
      * @return RoleDto
      */
@@ -224,13 +248,15 @@ public interface OrupService {
 
     /**
      * 获取角色集合
+     *
      * @return RoleList
      */
     List<RoleDto> getRoleList();
 
     /**
      * 获取角色集合
-     * @param functionId 功能id权限加载
+     *
+     * @param functionId   功能id权限加载
      * @param permissionId 权限id权限加载
      * @return RoleList
      */
@@ -238,16 +264,18 @@ public interface OrupService {
 
     /**
      * 修改角色
+     *
      * @param roleDto roleDto
-     * @param user 当前用户
+     * @param user    当前用户
      * @return 修改后的RoleDto
      */
     RoleDto modifyRole(RoleDto roleDto, UserDto user);
 
     /**
      * 删除角色
+     *
      * @param roleId 角色id
-     * @param user 当前用户
+     * @param user   当前用户
      */
     void delRole(Long roleId, UserDto user);
 
@@ -261,6 +289,15 @@ public interface OrupService {
     void addRoleUser(Long roleId, List<Long> userIds, UserDto user);
 
     /**
+     * 移除角色中的用户
+     *
+     * @param roleId  角色id
+     * @param userIds 用户id集合
+     * @param user    当前用户
+     */
+    void delRoleUser(Long roleId, List<Long> userIds, UserDto user);
+
+    /**
      * 修改应用功能
      *
      * @param functionDto 功能dto
@@ -268,4 +305,13 @@ public interface OrupService {
      * @return 修改后的 FunctionDto
      */
     FunctionDto modifyFunction(FunctionDto functionDto, UserDto currentUser);
+
+    /**
+     * 移除机构用户
+     *
+     * @param orgId   机构id
+     * @param userIds 用户集合
+     * @param user    当前用户
+     */
+    void delOrgUser(Long orgId, List<Long> userIds, UserDto user);
 }
