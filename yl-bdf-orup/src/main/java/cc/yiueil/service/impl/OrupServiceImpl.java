@@ -264,6 +264,17 @@ public class OrupServiceImpl implements OrupService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public List<FunctionDto> getUserFunctions(Long applicationId, UserDto user) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("applicationId", applicationId);
+        parameters.put("userId", user.getId());
+        DynamicQueryDto dynamicQueryDto = new DynamicQueryDto("dynamicsql", "application.xml", "getUserApplicationFunctions");
+        DynamicQueryInst dynamicQueryInst = searchService.buildQueryInst(dynamicQueryDto, parameters);
+        return baseDao.sqlAsEntity(dynamicQueryInst.getSql(), parameters, FunctionDto.class);
+    }
+
+    @Override
     @Transactional(rollbackFor = RuntimeException.class)
     public OrgDto addOrganization(OrgDto orgDto, UserDto user) {
         OrgEntity orgEntity = BeanUtils.copyProperties(orgDto, new OrgEntity());

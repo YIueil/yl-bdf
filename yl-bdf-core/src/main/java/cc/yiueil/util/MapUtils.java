@@ -71,6 +71,9 @@ public class MapUtils {
         for (Field field : clazz.getDeclaredFields()) {
             String fieldName = field.getName();
             Object value = map.get(fieldName);
+            if (value == null) {
+                value = map.get(fieldName.toLowerCase());
+            }
             if (value != null) {
                 field.setAccessible(true);
                 AbstractTypeReference abstractTypeReference = AbstractTypeReference.of(field.getType());

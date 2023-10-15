@@ -5,6 +5,7 @@ import cc.yiueil.data.impl.JpaBaseDao;
 import cc.yiueil.dto.*;
 import cc.yiueil.exception.BusinessException;
 import cc.yiueil.general.RestUrl;
+import cc.yiueil.lang.tree.Tree;
 import cc.yiueil.lang.tree.TreeNode;
 import cc.yiueil.service.OrupService;
 import cc.yiueil.util.BeanUtils;
@@ -247,21 +248,21 @@ public class OrupController implements LoggedController {
     //region 角色权限
 
     @ApiOperation(value = "添加角色")
-    @PostMapping(value="addRole")
-    public String addRole(@RequestBody RoleDto roleDto, HttpServletRequest request){
+    @PostMapping(value = "addRole")
+    public String addRole(@RequestBody RoleDto roleDto, HttpServletRequest request) {
         UserDto user = getUser(request);
         return success(orupService.addRole(roleDto, user));
     }
 
     @ApiOperation(value = "查询角色")
-    @GetMapping(value="getRole")
-    public String getRole(@RequestParam Long id){
+    @GetMapping(value = "getRole")
+    public String getRole(@RequestParam Long id) {
         return success(orupService.findRoleById(id));
     }
 
     @ApiOperation(value = "获取角色树")
-    @GetMapping(value="getRoleTree")
-    public String getRoleTree(@RequestParam(required = false) Long functionId, @RequestParam(required = false) Long permissionId){
+    @GetMapping(value = "getRoleTree")
+    public String getRoleTree(@RequestParam(required = false) Long functionId, @RequestParam(required = false) Long permissionId) {
         List<RoleDto> roleDtoList = orupService.getRoleList(functionId, permissionId);
         return success(
                 TreeUtils.build(roleDtoList.stream().map(roleDto -> {
@@ -272,31 +273,31 @@ public class OrupController implements LoggedController {
     }
 
     @ApiOperation(value = "更新角色")
-    @PostMapping(value="updateRole")
-    public String updateRole(@RequestBody RoleDto roleDto, HttpServletRequest request){
+    @PostMapping(value = "updateRole")
+    public String updateRole(@RequestBody RoleDto roleDto, HttpServletRequest request) {
         UserDto user = getUser(request);
         return success(orupService.modifyRole(roleDto, user));
     }
 
     @ApiOperation(value = "删除角色")
-    @PostMapping(value="deleteRole")
-    public String deleteRole(@RequestParam Long roleId, HttpServletRequest request){
+    @PostMapping(value = "deleteRole")
+    public String deleteRole(@RequestParam Long roleId, HttpServletRequest request) {
         UserDto user = getUser(request);
         orupService.delRole(roleId, user);
         return success();
     }
 
     @ApiOperation(value = "添加角色用户")
-    @PostMapping(value="addRoleUser")
-    public String addRoleUser(@RequestParam Long roleId, @RequestBody List<Long> userIds, HttpServletRequest request){
+    @PostMapping(value = "addRoleUser")
+    public String addRoleUser(@RequestParam Long roleId, @RequestBody List<Long> userIds, HttpServletRequest request) {
         UserDto user = getUser(request);
         orupService.addRoleUser(roleId, userIds, user);
         return success();
     }
 
     @ApiOperation(value = "移除角色用户")
-    @PostMapping(value="delRoleUser")
-    public String delRoleUser(@RequestParam Long roleId, @RequestBody List<Long> userIds, HttpServletRequest request){
+    @PostMapping(value = "delRoleUser")
+    public String delRoleUser(@RequestParam Long roleId, @RequestBody List<Long> userIds, HttpServletRequest request) {
         UserDto user = getUser(request);
         orupService.delRoleUser(roleId, userIds, user);
         return success();
@@ -390,25 +391,40 @@ public class OrupController implements LoggedController {
     @ApiOperation(value = "获取应用功能树")
     @GetMapping(value = "getApplicationFunctionTree")
     public String getApplicationFunctionTree(@RequestParam Long applicationId, HttpServletRequest request) {
-        UserDto currentUser = getUser(request);
         List<FunctionDto> functionDtoList = orupService.getApplicationFunctionList(applicationId);
-        return success(
-                TreeUtils.build(functionDtoList.stream().map(functionDto -> {
-                    Map<String, Object> extra = new HashMap<>(functionDtoList.size());
-                    extra.put("id", functionDto.getId());
-                    extra.put("guid", functionDto.getGuid());
-                    extra.put("parentId", functionDto.getParentId());
-                    extra.put("applicationId", functionDto.getApplicationId());
-                    extra.put("description", functionDto.getDescription());
-                    extra.put("method", functionDto.getMethod());
-                    extra.put("rightName", functionDto.getRightName());
-                    extra.put("name", functionDto.getName());
-                    extra.put("type", functionDto.getType());
-                    extra.put("url", functionDto.getUrl());
-                    return new TreeNode<>(functionDto.getId(), functionDto.getParentId(), functionDto.getName(), 1, extra);
-                })
-                        .collect(Collectors.toList()), 0L)
-        );
+        return success(buildFunctionTree(functionDtoList));
+    }
+
+    /**
+     * 获取用戶应用功能列表树
+     *
+     * @param applicationId 应用id
+     * @param request       请求体
+     * @return ResultVo
+     */
+    @ApiOperation(value = "获取应用功能树")
+    @GetMapping(value = "getUserFunctions")
+    public String getUserFunctions(@RequestParam Long applicationId, HttpServletRequest request) {
+        UserDto user = getUser(request);
+        List<FunctionDto> functionDtoList = orupService.getUserFunctions(applicationId, user);
+        return success(buildFunctionTree(functionDtoList));
+    }
+
+    private List<Tree<Long>> buildFunctionTree(List<FunctionDto> functionDtoList) {
+        return TreeUtils.build(functionDtoList.stream().map(functionDto -> {
+            Map<String, Object> extra = new HashMap<>(functionDtoList.size());
+            extra.put("id", functionDto.getId());
+            extra.put("guid", functionDto.getGuid());
+            extra.put("parentId", functionDto.getParentId());
+            extra.put("applicationId", functionDto.getApplicationId());
+            extra.put("description", functionDto.getDescription());
+            extra.put("method", functionDto.getMethod());
+            extra.put("rightName", functionDto.getRightName());
+            extra.put("name", functionDto.getName());
+            extra.put("type", functionDto.getType());
+            extra.put("url", functionDto.getUrl());
+            return new TreeNode<>(functionDto.getId(), functionDto.getParentId(), functionDto.getName(), 1, extra);
+        }).collect(Collectors.toList()), 0L);
     }
 
 

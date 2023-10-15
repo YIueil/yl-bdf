@@ -19,10 +19,41 @@
             where am.managerid = :userId
         ]]></sql>
         <params>
-            <param name="userId" />
+            <param name="userId"/>
         </params>
         <endSql><![CDATA[
             order by a.createtime
+        ]]></endSql>
+    </config>
+
+    <!--获取用户应用功能-->
+    <config id="getUserApplicationFunctions">
+        <sql><![CDATA[
+            select f.id,
+                   f.applicationid,
+                   f.createtime,
+                   f.createuserid,
+                   f.description,
+                   f.guid,
+                   f.method,
+                   f.modifytime,
+                   f.name,
+                   f.parentid,
+                   f.type,
+                   f.url,
+                   f.rightname
+            from yl_acc.function f
+                     left join yl_acc.role_function rf on rf.functionid = f.id
+                     left join yl_acc.user_role ur on ur.roleid = rf.roleid
+            where f.applicationid = :applicationId
+              and ur.userid = :userId
+        ]]></sql>
+        <params>
+            <param name="userId"/>
+            <param name="applicationId"/>
+        </params>
+        <endSql><![CDATA[
+            order by f.createtime desc
         ]]></endSql>
     </config>
 </root>

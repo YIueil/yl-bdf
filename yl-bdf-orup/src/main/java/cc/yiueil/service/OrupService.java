@@ -314,4 +314,13 @@ public interface OrupService {
      * @param user    当前用户
      */
     void delOrgUser(Long orgId, List<Long> userIds, UserDto user);
+
+    /**
+     * 获取用户应用功能
+     *
+     * @param applicationId 应用id
+     * @param user          当前用户给
+     * @return 用户当前应用具备的应用功能
+     */
+    List<FunctionDto> getUserFunctions(Long applicationId, UserDto user);
 }
