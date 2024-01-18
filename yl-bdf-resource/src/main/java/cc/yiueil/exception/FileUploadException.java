@@ -7,6 +7,8 @@ package cc.yiueil.exception;
  * @version 1.0
  * @date 2024/1/18 12:10
  */
-public class FileUploadException extends RuntimeException{
-
+public class FileUploadException extends RuntimeException {
+    public FileUploadException(String message) {
+        super(message);
+    }
 }

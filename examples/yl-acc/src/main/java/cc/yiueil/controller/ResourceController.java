@@ -2,6 +2,7 @@ package cc.yiueil.controller;
 
 import cc.yiueil.api.ImageResource;
 import cc.yiueil.api.impl.SmmsImageBedImpl;
+import cc.yiueil.entity.result.UploadResult;
 import cc.yiueil.general.RestUrl;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,10 +26,11 @@ public class ResourceController implements LoggedController{
     public String imageUpload(@RequestParam("file") MultipartFile multipartFile){
         ImageResource imageResource = new SmmsImageBedImpl();
         try {
-            imageResource.upload(multipartFile.getInputStream(), multipartFile.getOriginalFilename() + ".jpg" , multipartFile.getContentType());
+            UploadResult uploadResult = imageResource.upload(multipartFile.getInputStream(), multipartFile.getOriginalFilename(), multipartFile.getContentType());
+            return success(uploadResult);
         } catch (IOException e) {
             e.printStackTrace();
+            return fail(e.getMessage());
         }
-        return success();
     }
 }

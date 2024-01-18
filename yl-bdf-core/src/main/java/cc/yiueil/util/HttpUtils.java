@@ -1,7 +1,6 @@
 package cc.yiueil.util;
 
 import okhttp3.*;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,10 +50,7 @@ public class HttpUtils {
      * @throws IOException IO异常
      */
     public static String doGet(String url, Map<String, String> params, Map<String, String> header) throws IOException {
-        Request.Builder requestBuilder = new Request.Builder();
-        Request request = buildHeader(requestBuilder, header)
-                .url(buildUrl(url, params))
-                .build();
+        Request request = buildRequest(url, params, null, null, header);
         return getResultBodyString(request);
     }
 
@@ -69,11 +65,7 @@ public class HttpUtils {
      * @throws IOException IO异常
      */
     public static String doPost(String url, Map<String, String> params, Map<String, Object> formData, Map<String, String> header) throws IOException {
-        Request.Builder requestBuilder = new Request.Builder();
-        Request request = buildHeader(requestBuilder, header)
-                .url(buildUrl(url, params))
-                .post(buildRequestBody(formData))
-                .build();
+        Request request = buildRequest(url, params, formData, null, header);
         return getResultBodyString(request);
     }
 
@@ -88,22 +80,16 @@ public class HttpUtils {
      * @throws IOException IO异常
      */
     public static String doPost(String url, Map<String, String> params, String jsonString, Map<String, String> header) throws IOException {
-        Request.Builder requestBuilder = new Request.Builder();
-        final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-        Request request = buildHeader(requestBuilder, header)
-                .url(buildUrl(url, params))
-                .post(RequestBody.create(jsonString, JSON))
-                .build();
+        Request request = buildRequest(url, params, null, jsonString, header);
         return getResultBodyString(request);
     }
 
-    @NotNull
     private static String getResultBodyString(Request request) throws IOException {
         try (Response response = getInstance().newCall(request).execute()) {
             if (response.isSuccessful()) {
                 ResponseBody body = response.body();
                 if (body == null) {
-                    return "";
+                    return null;
                 }
                 return body.string();
 
@@ -112,6 +98,33 @@ public class HttpUtils {
         }
     }
 
+    /**
+     * 构建请求体
+     *
+     * @param url        请求地址
+     * @param params     params参数
+     * @param header     header请求头参数
+     * @param formData   formData表单数据
+     * @param jsonString JsonString字符串
+     * @return Request对象
+     */
+    private static Request buildRequest(String url, Map<String, String> params, Map<String, Object> formData, String jsonString, Map<String, String> header) {
+        Request.Builder builder = new Request.Builder();
+        builder = builder.url(buildUrl(url, params));
+        builder = buildHeader(builder, header);
+        builder = builder.post(buildRequestBody(formData));
+        if (StringUtils.isNotBlank(jsonString)) {
+            builder = builder.post(RequestBody.create(jsonString, MediaType.parse("application/json; charset=utf-8")));
+        }
+        return builder.build();
+    }
+
+    /**
+     * 构造参数体
+     *
+     * @param formData 表单数据Map
+     * @return RequestBody
+     */
     private static RequestBody buildRequestBody(Map<String, Object> formData) {
         MultipartBody.Builder requestBodyBuilder = new MultipartBody.Builder().setType(MultipartBody.FORM);
         if (formData != null) {
@@ -133,6 +146,13 @@ public class HttpUtils {
         return requestBodyBuilder.build();
     }
 
+    /**
+     * 构建请求头
+     *
+     * @param requestBuilder requestBuilder
+     * @param header         请求头HeaderMap集合
+     * @return Request.Builder
+     */
     private static Request.Builder buildHeader(Request.Builder requestBuilder, Map<String, String> header) {
         if (header != null) {
             for (Map.Entry<String, String> entry : header.entrySet()) {
@@ -142,6 +162,13 @@ public class HttpUtils {
         return requestBuilder;
     }
 
+    /**
+     * 构造URL参数
+     *
+     * @param url    urlString
+     * @param params url参数
+     * @return HttpUrl对象
+     */
     private static HttpUrl buildUrl(String url, Map<String, String> params) {
         HttpUrl httpUrl = HttpUrl.parse(url);
         if (httpUrl == null) {
