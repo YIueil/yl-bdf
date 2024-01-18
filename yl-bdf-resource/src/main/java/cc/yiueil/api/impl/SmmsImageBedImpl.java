@@ -25,40 +25,41 @@ public class SmmsImageBedImpl implements ImageResource {
 
     @Override
     public UploadResult upload(InputStream inputStream, String fileName, String fileType, boolean watermark) throws FileUploadException {
-        OkHttpClient client = new OkHttpClient().newBuilder()
-                .build();
+        OkHttpClient client = new OkHttpClient().newBuilder().build();
         RequestBody body;
         try {
-            MediaType mediaType = MediaType.parse("multipart/form-data");
             byte[] bytes = IoUtils.toByteArray(inputStream);
             body = new MultipartBody.Builder().setType(MultipartBody.FORM)
                     .addFormDataPart(SmmsEnum.smfile.name(), fileName, RequestBody.create(bytes, MediaType.parse("application/octet-stream")))
                     .addFormDataPart(SmmsEnum.format.name(), "json")
                     .build();
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new FileUploadException();
-        }
-        Request request = new Request.Builder()
-                .url(SmmsUrl.SMMS_URL)
-                .method(HttpMethod.POST, body)
-                .addHeader(HttpHeader.CONTENT_TYPE, HttpHeader.CONTENT_TYPE_MULTIPART_VALUE)
-                // todo 优化为从配置中心获取
-                .addHeader(HttpHeader.AUTHORIZATION, "TEyA2TCcm4x7l0P4cxHFPp8PajEl7w76")
-                .build();
-        try (Response response = client.newCall(request).execute()) {
-            if (response.isSuccessful()) {
-                String responseBody = response.body().string();
-                // 处理响应结果
-            } else {
-                int errorCode = response.code();
-                String errorMsg = response.message();
-                // 处理错误信息
+            Request request = new Request.Builder()
+                    .url(SmmsUrl.SMMS_URL)
+                    .method(HttpMethod.POST, body)
+                    .addHeader(HttpHeader.CONTENT_TYPE, HttpHeader.CONTENT_TYPE_MULTIPART_VALUE)
+                    .addHeader(HttpHeader.USERAGENT, HttpHeader.USERAGENT_DEFAULT)
+                    // todo 优化为从配置中心获取
+                    .addHeader(HttpHeader.AUTHORIZATION, "TEyA2TCcm4x7l0P4cxHFPp8PajEl7w76")
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if (response.isSuccessful()) {
+                    ResponseBody responseBody = response.body();
+                    if (responseBody == null) {
+                        throw new FileUploadException();
+                    }
+                    System.out.println(responseBody.string());
+                    // 处理响应结果
+                } else {
+                    int errorCode = response.code();
+                    String errorMsg = response.message();
+                    System.out.println(errorCode);
+                    System.out.println(errorMsg);
+                    // 处理错误信息
+                }
+                return null;
             }
-            return null;
         } catch (IOException e) {
             e.printStackTrace();
-            // 处理异常情况
             throw new FileUploadException();
         }
     }
