@@ -92,6 +92,12 @@
             <scope>compile</scope>
         </dependency>
 
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>${fileupload.version}</version>
+        </dependency>
+
         <!--切面-->
         <dependency>
             <groupId>org.aspectj</groupId>
