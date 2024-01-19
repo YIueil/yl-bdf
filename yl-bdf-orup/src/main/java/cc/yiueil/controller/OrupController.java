@@ -97,15 +97,12 @@ public class OrupController implements LoggedController {
                                  @RequestParam String newPassword,
                                  HttpServletRequest request) {
         UserDto currentUser = getUser(request);
-        if (currentUser.getPassword().equals(oldPassword)) {
-            try {
-                orupService.passwordChange(currentUser, oldPassword, newPassword);
-                return success(null, "密码修改成功");
-            } catch (Exception e) {
-                return fail("密码修改失败");
-            }
-        } else {
-            return fail("用户原密码错误");
+        try {
+            orupService.passwordChange(currentUser, oldPassword, newPassword);
+            return success(null, "密码修改成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return fail(e.getMessage());
         }
     }
 

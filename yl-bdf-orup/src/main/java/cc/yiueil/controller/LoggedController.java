@@ -15,6 +15,11 @@ import javax.servlet.http.HttpServletRequest;
  * @date 2022/7/3 20:25
  */
 public interface LoggedController extends BaseController {
+    /**
+     * 获取以及登录的用户信息
+     * @param request 请求体
+     * @return 用户信息
+     */
     default UserDto getUser(HttpServletRequest request) {
         String token = request.getHeader("yl-token");
         if ("Fk12345.".equals(token)) {
