@@ -172,11 +172,23 @@ KISBPM.TOOLBAR_CONFIG = {
     ],
     
     "secondaryItems" : [
-        // {
-        //     "type" : "button",
-        //     "title" : "关闭",
-        //     "cssClass" : "editor-icon editor-icon-close",
-        //     "action" : "KISBPM.TOOLBAR.ACTIONS.closeEditor"
-        // }
+        {
+            "type" : "button",
+            "title" : "导出",
+            "cssClass" : "editor-icon editor-icon-export",
+            "action" : "KISBPM.TOOLBAR.ACTIONS.closeEditor"
+        },
+        {
+            "type" : "button",
+            "title" : "导入",
+            "cssClass" : "editor-icon editor-icon-import",
+            "action" : "KISBPM.TOOLBAR.ACTIONS.closeEditor"
+        },
+        {
+            "type" : "button",
+            "title" : "关闭",
+            "cssClass" : "editor-icon editor-icon-close",
+            "action" : "KISBPM.TOOLBAR.ACTIONS.closeEditor"
+        }
     ]
 };
