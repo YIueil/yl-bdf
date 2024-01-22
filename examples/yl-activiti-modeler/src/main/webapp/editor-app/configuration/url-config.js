@@ -33,6 +33,6 @@ KISBPM.URL = {
     },
 
     deployModel: function (modelId) {
-        return ACTIVITI.CONFIG.contextRoot + '/model/deploy?modelId=' + modelId;
+        return ACTIVITI.CONFIG.contextRoot + '/model/' + modelId + '/deploy';
     }
 };

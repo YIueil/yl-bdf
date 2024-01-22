@@ -14,9 +14,13 @@ package org.activiti.rest.editor.model;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.activiti.bpmn.converter.BpmnXMLConverter;
+import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.editor.constants.ModelDataJsonConstants;
+import org.activiti.editor.language.json.converter.BpmnJsonConverter;
 import org.activiti.engine.ActivitiException;
 import org.activiti.engine.RepositoryService;
+import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.Model;
 import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.TranscoderOutput;
@@ -30,7 +34,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @author Tijs Rademakers
@@ -81,6 +87,31 @@ public class ModelSaveRestResource implements ModelDataJsonConstants {
         } catch (Exception e) {
             LOGGER.error("Error saving model", e);
             throw new ActivitiException("Error saving model", e);
+        }
+    }
+
+    @RequestMapping(value = "/model/{modelId}/deploy", method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.OK)
+    public void deployModel(@PathVariable String modelId) {
+        Model modelData = repositoryService.getModel(modelId);
+        ObjectNode modelNode;
+        try {
+            byte[] modelEditorSource = repositoryService.getModelEditorSource(modelData.getId());
+            modelNode = (ObjectNode) new ObjectMapper().readTree(modelEditorSource);
+            byte[] bpmnBytes;
+
+            BpmnModel model = new BpmnJsonConverter().convertToBpmnModel(modelNode);
+            bpmnBytes = new BpmnXMLConverter().convertToXML(model);
+
+            String processName = modelData.getName() + ".bpmn20.xml";
+            Deployment deployment = repositoryService.createDeployment()
+                    .name(modelData.getName())
+                    .addString(processName, new String(bpmnBytes, StandardCharsets.UTF_8))
+                    .deploy();
+            modelData.setDeploymentId(deployment.getId());
+            repositoryService.saveModel(modelData);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

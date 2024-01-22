@@ -158,7 +158,7 @@ KISBPM.TOOLBAR = {
             var modelMetaData = $scope.editor.getModelMetaData();
             if (confirm('确认部署?')) {
                 services.$http({
-                    method: 'GET',
+                    method: 'POST',
                     data: {},
                     ignoreErrors: true,
                     headers: {
@@ -174,7 +174,6 @@ KISBPM.TOOLBAR = {
                     },
                     url: KISBPM.URL.deployModel(modelMetaData.modelId)
                 })
-
                     .success(function (data, status, headers, config) {
                         $scope.editor.handleEvents({
                             type: ORYX.CONFIG.EVENT_DEPLOYED
@@ -188,9 +187,8 @@ KISBPM.TOOLBAR = {
                             eventType: 'deploy-model'
                         };
                         KISBPM.eventBus.dispatch(KISBPM.eventBus.EVENT_TYPE_MODEL_DEPLOYED, deployEvent);
-
                         //show message
-                        alert(data.message)
+                        alert('部署成功')
                     })
                     .error(function (data, status, headers, config) {
                         $scope.error = {};
