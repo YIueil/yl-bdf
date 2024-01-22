@@ -30,7 +30,6 @@ public class ModuleController {
     public void create(@RequestParam("name") String name, @RequestParam("key") String key,
                        @RequestParam("description") String description, HttpServletRequest request, HttpServletResponse response) {
         try {
-            ModelAndView modelAndView = new ModelAndView();
             ObjectMapper objectMapper = new ObjectMapper();
             ObjectNode editorNode = objectMapper.createObjectNode();
             editorNode.put("id", "canvas");
