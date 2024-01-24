@@ -176,13 +176,13 @@ KISBPM.TOOLBAR_CONFIG = {
             "type" : "button",
             "title" : "导出",
             "cssClass" : "editor-icon editor-icon-export",
-            "action" : "KISBPM.TOOLBAR.ACTIONS.closeEditor"
+            "action" : "KISBPM.TOOLBAR.ACTIONS.exportXml"
         },
         {
             "type" : "button",
             "title" : "导入",
             "cssClass" : "editor-icon editor-icon-import",
-            "action" : "KISBPM.TOOLBAR.ACTIONS.closeEditor"
+            "action" : "KISBPM.TOOLBAR.ACTIONS.importXml"
         },
         {
             "type" : "button",

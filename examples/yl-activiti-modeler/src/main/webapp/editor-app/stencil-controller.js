@@ -980,35 +980,7 @@ angular.module('activitiModeler')
                     });
                     if (ui && ui.helper && ui.helper.context && ui.helper.context.innerText &&
                         ui.helper.context.innerText.trim() === '人工任务') {
-                        setTimeout(function () {
-                            var taskListeners = [
-                                {
-                                    event: 'create',
-                                    implementation: 'com.dist.dcc.activiti.listener.TaskCandidateUsersListener',
-                                    className: 'com.dist.dcc.activiti.listener.TaskCandidateUsersListener',
-                                    expression: '',
-                                    delegateExpression: ''
-                                }
-                            ]
-                            var target = {}
-                            $scope.selectedItem.properties.forEach(function (item) {
-                                if (item.title === '任务监听器') {
-                                    target = item
-                                    target.mode = 'write'
-                                    if (typeof target.value === 'object') {
-                                        target.value.taskListeners = taskListeners
-                                    } else {
-                                        target.value = {
-                                            taskListeners: taskListeners
-                                        }
-                                    }
-                                }
-                            })
-                            $scope.updatePropertyInModel(target)
-                            $scope.safeApply(function () {
-                                $scope.selectedItem = $scope.selectedItem;
-                            });
-                        }, 1000)
+                        setTimeout(setDefaultListener, 1000)
                     }
                     return false;
                 } else {
@@ -1171,35 +1143,7 @@ angular.module('activitiModeler')
                     $scope.editor.getCanvas().setHightlightStateBasedOnX(coord.x);
                 }
                 if (ui && ui.helper && ui.helper.context && ui.helper.context.id && ui.helper.context.id === 'UserTask') {
-                    setTimeout(function () {
-                        var taskListeners = [
-                            {
-                                event: 'create',
-                                implementation: 'com.dist.dcc.activiti.listener.TaskCandidateUsersListener',
-                                className: 'com.dist.dcc.activiti.listener.TaskCandidateUsersListener',
-                                expression: '',
-                                delegateExpression: ''
-                            }
-                        ]
-                        var target = {}
-                        $scope.selectedItem.properties.forEach(function (item) {
-                            if (item.title === '任务监听器') {
-                                target = item
-                                target.mode = 'write'
-                                if (typeof target.value === 'object') {
-                                    target.value.taskListeners = taskListeners
-                                } else {
-                                    target.value = {
-                                        taskListeners: taskListeners
-                                    }
-                                }
-                            }
-                        })
-                        $scope.updatePropertyInModel(target)
-                        $scope.safeApply(function () {
-                            $scope.selectedItem = $scope.selectedItem;
-                        });
-                    }, 1500)
+                    setTimeout(setDefaultListener, 1500)
                 }
 
                 var stencil = undefined;
@@ -1304,6 +1248,35 @@ angular.module('activitiModeler')
             }
         };
 
+        var setDefaultListener = () => {
+            var taskListeners = [
+                {
+                    event: 'create',
+                    implementation: 'cc.yiueil.activiti.listener.TaskCandidateUsersListener',
+                    className: 'cc.yiueil.activiti.listener.TaskCandidateUsersListener',
+                    expression: '',
+                    delegateExpression: ''
+                }
+            ]
+            var target = {}
+            $scope.selectedItem.properties.forEach(function (item) {
+                if (item.title === '任务监听器') {
+                    target = item
+                    target.mode = 'write'
+                    if (typeof target.value === 'object') {
+                        target.value.taskListeners = taskListeners
+                    } else {
+                        target.value = {
+                            taskListeners: taskListeners
+                        }
+                    }
+                }
+            })
+            $scope.updatePropertyInModel(target)
+            $scope.safeApply(function () {
+                $scope.selectedItem = $scope.selectedItem;
+            });
+        }
     }]);
 
 var KISBPM = KISBPM || {};

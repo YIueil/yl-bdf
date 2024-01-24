@@ -34,5 +34,13 @@ KISBPM.URL = {
 
     deployModel: function (modelId) {
         return ACTIVITI.CONFIG.contextRoot + '/model/' + modelId + '/deploy';
+    },
+
+    exportModel: function (modelId) {
+        return ACTIVITI.CONFIG.contextRoot + '/model/' + modelId + '/export';
+    },
+
+    importModel: function (modelId) {
+        return ACTIVITI.CONFIG.contextRoot + '/model/' + modelId + '/import';
     }
 };

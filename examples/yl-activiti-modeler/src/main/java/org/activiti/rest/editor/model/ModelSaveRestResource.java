@@ -12,6 +12,9 @@
  */
 package org.activiti.rest.editor.model;
 
+import cc.yiueil.util.IoUtils;
+import cc.yiueil.util.ObjectUtils;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.activiti.bpmn.converter.BpmnXMLConverter;
@@ -31,7 +34,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -113,5 +122,83 @@ public class ModelSaveRestResource implements ModelDataJsonConstants {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 导出模型
+     * 获取到模型二进制数据
+     * @param modelId 模型id
+     */
+    @RequestMapping(value = "/model/{modelId}/export", method = RequestMethod.GET)
+    @ResponseStatus(value = HttpStatus.OK)
+    public void exportModel(@PathVariable String modelId,
+                            @RequestParam(value = "contentType", required = false) String contentType,
+                            HttpServletResponse response) {
+        Model model = repositoryService.getModel(modelId);
+        byte[] modelEditorSource = repositoryService.getModelEditorSource(model.getId());
+        String fileName = model.getName() + ".bpmn20.xml";
+        try (ServletOutputStream outputStream = response.getOutputStream()){
+            // 通过ObjectMapper读取二进制文件
+            JsonNode jsonNode = new ObjectMapper().readTree(modelEditorSource);
+            BpmnJsonConverter bpmnJsonConverter = new BpmnJsonConverter();
+            BpmnXMLConverter bpmnXmlConverter = new BpmnXMLConverter();
+            BpmnModel bpmnModel = bpmnJsonConverter.convertToBpmnModel(jsonNode);
+            // 从bpmnModel中获取主要的process部分
+            byte[] bytes = bpmnXmlConverter.convertToXML(bpmnModel, "UTF-8");
+            IoUtils.write(bytes, outputStream);
+            //转码
+            try {
+                if (contentType == null || contentType.length() == 0
+                        || "download".equalsIgnoreCase(contentType)
+                        || "application/x-msdownload".equalsIgnoreCase(contentType)) {
+                    response.setContentType("application/x-msdownload");
+                    response.setHeader("Content-Disposition", "attachment; filename=\""
+                            + new String(fileName.getBytes(StandardCharsets.UTF_8),
+                            "iso8859-1") + "\"");
+                } else {
+                    response.setContentType(contentType);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 导入模型
+     * @param modelId 模型id
+     * @param files 文件列表
+     * @param charset 编码 默认UTF-8
+     * @return 流程xml字符串
+     */
+    @RequestMapping(value = "/model/{modelId}/import", method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.OK)
+    public String importModel(@PathVariable String modelId,
+                            @RequestParam(value = "files") MultipartFile files,
+                            @RequestParam(value = "charset", defaultValue = "UTF-8") String charset
+    ) {
+        BpmnXMLConverter converter = new BpmnXMLConverter();
+        XMLInputFactory factory = XMLInputFactory.newInstance();
+        XMLStreamReader reader;
+        ObjectNode modelNode = null;
+        try {
+            reader = factory.createXMLStreamReader(files.getInputStream());
+            //将xml文件转换成BpmnModel
+            BpmnModel bpmnModel = converter.convertToBpmnModel(reader);
+            Model model = repositoryService.getModel(modelId);
+            ObjectNode modelJson = (ObjectNode) objectMapper.readTree(model.getMetaInfo());
+            modelJson.put(MODEL_NAME, model.getName());
+            modelJson.put(MODEL_DESCRIPTION, "");
+            model.setMetaInfo(modelJson.toString());
+            model.setName(model.getName());
+            repositoryService.saveModel(model);
+            modelNode = new BpmnJsonConverter().convertToJson(bpmnModel);
+            repositoryService.addModelEditorSource(modelId, modelNode.toString().getBytes(charset));
+        } catch (XMLStreamException | IOException e) {
+            e.printStackTrace();
+        }
+        return ObjectUtils.defaultIfNull(modelNode, "").toString();
     }
 }

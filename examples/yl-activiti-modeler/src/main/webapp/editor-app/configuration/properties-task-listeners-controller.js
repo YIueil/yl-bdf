@@ -321,8 +321,8 @@ var KisBpmTaskListenersPopupCtrl = [ '$scope', '$q', '$translate', function($sco
     $scope.addDefaultListener = function () {
         $scope.taskListeners.push({
             event: 'create',
-            implementation: 'com.dist.dcc.activiti.listener.TaskCandidateUsersListener',
-            className: 'com.dist.dcc.activiti.listener.TaskCandidateUsersListener',
+            implementation: 'cc.yiueil.activiti.listener.TaskCandidateUsersListener',
+            className: 'cc.yiueil.activiti.listener.TaskCandidateUsersListener',
             expression: '',
             delegateExpression: ''
         });

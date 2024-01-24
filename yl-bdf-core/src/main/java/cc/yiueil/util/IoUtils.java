@@ -1,8 +1,6 @@
 package cc.yiueil.util;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 /**
  * IOUtils IO工具类
@@ -27,5 +25,29 @@ public class IoUtils {
             output.write(buffer, 0, n);
         }
         return output.toByteArray();
+    }
+
+    /**
+     * 写入：将bytes二进制数组写入到输出流中
+     * @param bytes 二进制数组
+     * @param outputStream 输出流
+     */
+    public static void write(byte[] bytes, OutputStream outputStream) throws IOException {
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
+        // 使用缓存读取
+        write(byteArrayInputStream, outputStream);
+    }
+
+    /**
+     * 写入：将bytes二进制数组写入到输出流中
+     * @param inputStream 输入流
+     * @param outputStream 输出流
+     */
+    public static void write(InputStream inputStream, OutputStream outputStream) throws IOException {
+        byte[] buffer = new byte[4096];
+        int readIndex;
+        while ((readIndex = inputStream.read(buffer, 0, buffer.length)) != -1) {
+            outputStream.write(buffer, 0, readIndex);
+        }
     }
 }

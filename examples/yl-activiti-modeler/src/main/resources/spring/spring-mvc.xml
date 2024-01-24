@@ -7,6 +7,11 @@
     <!--加入Spring Activiti-Modeler的运行配置 -->
     <context:component-scan base-package="org.activiti.rest" />
 
+    <!--配置MultiFile文件解析器-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="10485760"/> <!-- 设置最大上传文件大小为10MB -->
+    </bean>
+
     <mvc:default-servlet-handler />
     <!-- 开启mvc注解支持 -->
     <mvc:annotation-driven  />
