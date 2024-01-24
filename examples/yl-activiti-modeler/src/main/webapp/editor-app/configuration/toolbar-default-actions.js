@@ -444,27 +444,19 @@ KISBPM.TOOLBAR = {
                 if (fileInput.files && fileInput.files.length > 0) {
                     console.log('已选择文件：', fileInput.files[0].name);
                     const formData = new FormData();
-                    formData.set('files', fileInput.files)
+                    formData.append('file', fileInput.files[0])
+                    formData.append('modelId', modelMetaData.modelId)
                     // 执行上传操作等逻辑
                     services.$http({
                         method: 'POST',
+                        url: KISBPM.URL.importModel(modelMetaData.modelId),
                         data: formData,
-                        ignoreErrors: true,
-                        headers: {
-                            'Accept': '*/*',
-                            'Content-Type': 'multipart/form-data'
-                        },
-                        transformRequest: function (obj) {
-                            var str = [];
-                            for (var p in obj) {
-                                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-                            }
-                            return str.join("&");
-                        },
-                        url: KISBPM.URL.importModel(modelMetaData.modelId)
+                        headers: { 'Content-Type': undefined },
+                        transformRequest: angular.identity, // 不进行任何转换或序列化
                     })
                         .success(function (data, status, headers, config) {
                             alert('导入成功')
+                            location.reload();
                         })
                         .error(function (data, status, headers, config) {
                             $scope.error = {};

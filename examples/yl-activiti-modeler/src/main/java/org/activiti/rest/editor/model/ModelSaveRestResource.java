@@ -169,14 +169,14 @@ public class ModelSaveRestResource implements ModelDataJsonConstants {
     /**
      * 导入模型
      * @param modelId 模型id
-     * @param files 文件列表
+     * @param file 模型文件
      * @param charset 编码 默认UTF-8
      * @return 流程xml字符串
      */
     @RequestMapping(value = "/model/{modelId}/import", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
     public String importModel(@PathVariable String modelId,
-                            @RequestParam(value = "files") MultipartFile files,
+                            @RequestParam(value = "file") MultipartFile file,
                             @RequestParam(value = "charset", defaultValue = "UTF-8") String charset
     ) {
         BpmnXMLConverter converter = new BpmnXMLConverter();
@@ -184,7 +184,7 @@ public class ModelSaveRestResource implements ModelDataJsonConstants {
         XMLStreamReader reader;
         ObjectNode modelNode = null;
         try {
-            reader = factory.createXMLStreamReader(files.getInputStream());
+            reader = factory.createXMLStreamReader(file.getInputStream());
             //将xml文件转换成BpmnModel
             BpmnModel bpmnModel = converter.convertToBpmnModel(reader);
             Model model = repositoryService.getModel(modelId);
