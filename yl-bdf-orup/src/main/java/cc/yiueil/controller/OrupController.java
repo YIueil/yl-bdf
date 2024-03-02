@@ -240,6 +240,37 @@ public class OrupController implements LoggedController {
         UserDto currentUser = orupService.getUser(userId);
         return success(currentUser);
     }
+
+    @ApiOperation(value = "获取用户链接列表")
+    @GetMapping(value="getUserLinks")
+    public String getUserLinks(HttpServletRequest request){
+        UserDto currentUser = getUser(request);
+        List<LinkDto> linkDtoList = orupService.getUserLinks(currentUser);
+        return success(linkDtoList);
+    }
+
+    @ApiOperation(value = "添加用户链接")
+    @PostMapping(value = "addLink")
+    public String addLink(@RequestBody LinkDto linkDto, HttpServletRequest request) {
+        UserDto currentUser = getUser(request);
+        linkDto.setUserId(currentUser.getId());
+        return success(orupService.addLink(linkDto));
+    }
+
+    @ApiOperation(value = "修改用户链接")
+    @PostMapping(value="modifyLink")
+    public String modifyLink(@RequestBody LinkDto linkDto, HttpServletRequest request){
+        return success(orupService.modifyLink(linkDto));
+    }
+
+    @ApiOperation(value = "删除用户链接")
+    @PostMapping(value = "delLink")
+    public String delLink(@RequestParam("id") Long linkId, HttpServletRequest request) {
+        UserDto currentUser = getUser(request);
+        orupService.delLink(linkId, currentUser);
+        return success();
+    }
+
     //endregion
 
     //region 角色权限

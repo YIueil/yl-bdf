@@ -27,6 +27,7 @@ public class LinkEntity implements BaseEntity<Long> {
     private String name;
     private String iconUrl;
     private String url;
+    private Long userId;
     private LocalDateTime createTime;
     private LocalDateTime modifyTime;
     private Long createUserId;

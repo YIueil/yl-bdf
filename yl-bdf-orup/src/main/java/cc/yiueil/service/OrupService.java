@@ -323,4 +323,32 @@ public interface OrupService {
      * @return 用户当前应用具备的应用功能
      */
     List<FunctionDto> getUserFunctions(Long applicationId, UserDto user);
+
+    /**
+     * 获取用户链接集合
+     * @param user 用户
+     * @return 链接集合
+     */
+    List<LinkDto> getUserLinks(UserDto user);
+
+    /**
+     * 创建用户链接
+     * @param linkDto 用户链接
+     * @return 创建后的 link 链接
+     */
+    LinkDto addLink(LinkDto linkDto);
+
+    /**
+     * 编辑用户链接
+     * @param linkDto 用户链接
+     * @return 修改后的用户链接
+     */
+    LinkDto modifyLink(LinkDto linkDto);
+
+    /**
+     * 删除用户链接
+     * @param linkId 链接实体id
+     * @param currentUser 操作用户
+     */
+    void delLink(Long linkId, UserDto currentUser);
 }
