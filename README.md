@@ -79,3 +79,7 @@ pom.xml
 ```xml
     <import resource="spring/yl-bdf-spring.xml"/>
 ```
+
+## TODO List
+- [ ] `Redis`缓存模块的支持
+- [ ] 大文件的分片上传和断点续传产品功能实现
