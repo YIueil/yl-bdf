@@ -64,6 +64,9 @@ public class OrupServiceImpl implements OrupService {
     @Autowired
     OrgRepository orgRepository;
 
+    @Autowired
+    LinkRepository linkRepository;
+
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
     public UserDto registerUser(UserDto registerUser) {
@@ -404,5 +407,35 @@ public class OrupServiceImpl implements OrupService {
     @Transactional(rollbackFor = RuntimeException.class)
     public void delOrgUser(Long orgId, List<Long> userIds, UserDto user) {
         userOrgRepository.removeUserOrgEntitiesByOrgIdAndUserIdIn(orgId, userIds);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<LinkDto> getUserLinks(UserDto user) {
+        List<LinkEntity> linkEntityList = linkRepository.findLinksByUserId(user.getId());
+        return linkEntityList.stream()
+                .map(linkEntity -> BeanUtils.copyProperties(linkEntity, new LinkDto()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public LinkDto addLink(LinkDto linkDto) {
+        LinkEntity linkEntity = BeanUtils.copyProperties(linkDto, new LinkEntity());
+        return BeanUtils.copyProperties(baseDao.save(linkEntity), new LinkDto());
+    }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public LinkDto modifyLink(LinkDto linkDto) {
+        LinkEntity linkEntity = linkRepository.findById(linkDto.getId()).orElseThrow(() -> new BusinessException("没有查询到该链接"));
+        LinkEntity modifyLinkEntity = BeanUtils.copyProperties(linkDto, linkEntity);
+        return BeanUtils.copyProperties(baseDao.save(modifyLinkEntity), new LinkDto());
+    }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void delLink(Long linkId, UserDto currentUser) {
+        baseDao.deleteById(LinkEntity.class, linkId);
     }
 }
