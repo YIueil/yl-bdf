@@ -1,8 +1,15 @@
 package cc.yiueil.controller;
 
+import cc.yiueil.CacheService;
 import cc.yiueil.general.RestUrl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 /**
  * UserController 用户控制器
@@ -14,5 +21,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = RestUrl.BASE_PATH + "/user")
 public class UserController implements LoggedController {
+    @Autowired
+    CacheService cacheService;
+
+    @GetMapping(value="test/{num}")
+    public String test1(HttpServletRequest request, @PathVariable String num){
+        cacheService.set(num, new Date());
+        return success(cacheService.get(num));
+    }
 
 }

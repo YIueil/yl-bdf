@@ -16,6 +16,7 @@
         <module>yl-bdf-web-swagger</module>
         <module>yl-bdf-orup</module>
         <module>yl-bdf-resource</module>
+        <module>yl-bdf-cache</module>
     </modules>
     <packaging>pom</packaging>
 

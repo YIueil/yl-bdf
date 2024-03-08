@@ -6,5 +6,6 @@
     <context:component-scan base-package="cc.yiueil"/>
 
     <import resource="classpath:spring/yl-bdf-webmvc.xml"/><!-- webmvc相关配置-->
-    <import resource="classpath:spring/yl-bdf-orup.xml"/><!-- webmvc相关配置-->
+    <import resource="classpath:spring/yl-bdf-orup.xml"/><!-- orup相关配置-->
+    <import resource="classpath:spring/yl-bdf-cache.xml"/><!-- cache相关配置-->
 </beans>
