@@ -8,6 +8,19 @@
         <param-value>classpath:spring/spring.xml</param-value>
     </context-param>
 
+    <!--指定动态import上下文扩展类, 实现动态import-->
+    <context-param>
+        <param-name>contextInitializerClasses</param-name>
+        <param-value>cc.yiueil.listener.DynamicImportSupportApplicationContextInitializer</param-value>
+    </context-param>
+    <!--提前加载的配置文件路径, 支持spring的classpath写法-->
+    <context-param>
+        <param-name>propertyConfig</param-name>
+        <param-value>
+            classpath:properties/*.properties
+        </param-value>
+    </context-param>
+
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
