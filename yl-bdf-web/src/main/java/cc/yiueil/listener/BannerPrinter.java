@@ -22,16 +22,21 @@ import java.io.InputStreamReader;
 @Component
 public class BannerPrinter implements ApplicationListener<ContextRefreshedEvent> {
 
+    private boolean isExecuted = false;
+
     @Override
     public void onApplicationEvent(@NotNull ContextRefreshedEvent event) {
-        ClassPathResource resource = new ClassPathResource("banner.txt");
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(resource.getInputStream()))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                log.debug(line);
+        if (!isExecuted) {
+            ClassPathResource resource = new ClassPathResource("banner.txt");
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(resource.getInputStream()))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    log.debug(line);
+                }
+                isExecuted = true;
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 }
