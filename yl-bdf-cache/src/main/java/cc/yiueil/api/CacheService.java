@@ -7,7 +7,7 @@ package cc.yiueil.api;
  * @version 1.0
  * @date 2024/3/9 1:17
  */
-public interface Cache {
+public interface CacheService {
     /**
      * 设置值
      * @param key 键

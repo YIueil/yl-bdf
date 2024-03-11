@@ -1,6 +1,6 @@
 package cc.yiueil.controller;
 
-import cc.yiueil.CacheService;
+import cc.yiueil.api.CacheService;
 import cc.yiueil.general.RestUrl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,5 +29,4 @@ public class UserController implements LoggedController {
         cacheService.set(num, new Date());
         return success(cacheService.get(num));
     }
-
 }

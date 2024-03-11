@@ -47,6 +47,7 @@
         <jaxen.version>1.2.0</jaxen.version><!--xpath依赖-->
         <spring.version>5.3.27</spring.version>
         <spring.data.jpa.version>2.7.1</spring.data.jpa.version>
+        <spring.data.redis.version>2.7.1</spring.data.redis.version>
         <hibernate.entitymanager.version>5.6.9.Final</hibernate.entitymanager.version>
         <logback.version>1.2.9</logback.version>
         <aspectj.version>1.9.7</aspectj.version>

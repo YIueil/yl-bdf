@@ -1,6 +1,6 @@
 package cc.yiueil.memory;
 
-import cc.yiueil.api.Cache;
+import cc.yiueil.api.CacheService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +12,7 @@ import java.util.Map;
  * @version 1.0
  * @date 2024/3/9 1:27
  */
-public class MemoryCache implements Cache {
+public class MemoryCacheImpl implements CacheService {
     private final Map<String, Object> CACHE_MAP = new HashMap<>();
 
     @Override

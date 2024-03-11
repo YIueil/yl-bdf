@@ -3,7 +3,5 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <!--缓存服务: 默认使用内存作为缓存-->
-    <import resource="classpath:spring/yl-bdf-cache-${cache.type:memory}.xml"/>
-
+    <bean id="memoryCache" class="cc.yiueil.memory.MemoryCacheImpl"/>
 </beans>
