@@ -24,7 +24,6 @@ import java.io.IOException;
 @Slf4j
 public class DynamicImportSupportApplicationContextInitializer implements ApplicationContextInitializer<AbstractRefreshableWebApplicationContext> {
     public static final String PROPERTY_LOCATION_PARAM = "propertyConfig";
-    public static final String PROPERTY_LOCATION_DELIMITERS = ",; \t\n";
 
     @Override
     public void initialize(AbstractRefreshableWebApplicationContext applicationContext) {
