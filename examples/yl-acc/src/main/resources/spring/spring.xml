@@ -2,8 +2,19 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--配置文件引入-->
+    <bean id="propertyConfigurer" class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <!-- 这里支持多种寻址方式：classpath和file -->
+                <value>classpath:properties/*.properties</value>
+            </list>
+        </property>
+    </bean>
+
     <!--框架引入-->
     <import resource="classpath:spring/yl-bdf-spring.xml"/>
 
+    <!--持久层-->
     <import resource="classpath:spring/spring-dao.xml"/>
 </beans>

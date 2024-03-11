@@ -9,13 +9,43 @@
 
     <bean id="connectionFactory" class="org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory">
         <constructor-arg name="redisConfiguration" ref="redisStandaloneConfiguration"/>
+        <constructor-arg name="clientConfig" ref="defaultLettuceClientConfiguration"/>
     </bean>
 
     <!--单一redis配置方式-->
     <bean id="redisStandaloneConfiguration" class="org.springframework.data.redis.connection.RedisStandaloneConfiguration">
         <property name="hostName" value="${redis.host}"/>
         <property name="port" value="${redis.port}"/>
-        <property name="password" value="${redis.password}"/>
+        <property name="password">
+            <bean class="org.springframework.data.redis.connection.RedisPassword">
+                <constructor-arg name="thePassword" value="${redis.password}" />
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="defaultLettuceClientConfiguration" class="org.springframework.data.redis.connection.lettuce.DefaultLettucePoolingClientConfiguration">
+        <constructor-arg name="clientConfiguration">
+            <bean class="org.springframework.data.redis.connection.lettuce.DefaultLettuceClientConfiguration">
+                <constructor-arg name="useSsl" value="false"/>
+                <constructor-arg name="verifyPeer" value="false"/>
+                <constructor-arg name="startTls" value="false"/>
+                <constructor-arg name="clientResources"><null/></constructor-arg>
+                <constructor-arg name="clientOptions"><null/></constructor-arg>
+                <constructor-arg name="clientName"><null/></constructor-arg>
+                <constructor-arg name="readFrom"><null/></constructor-arg>
+                <constructor-arg name="timeout" value="#{T(java.time.Duration).parse('PT10S')}"/>
+                <constructor-arg name="shutdownTimeout" value="#{T(java.time.Duration).parse('PT10S')}"/>
+                <constructor-arg name="shutdownQuietPeriod" value="#{T(java.time.Duration).parse('PT10S')}"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg name="poolConfig">
+            <bean class="org.apache.commons.pool2.impl.GenericObjectPoolConfig">
+                <property name="minIdle" value="0"/>
+                <property name="maxIdle" value="8"/>
+                <property name="maxTotal" value="8"/>
+                <property name="maxWaitMillis" value="-1"/>
+            </bean>
+        </constructor-arg>
     </bean>
 
     <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">

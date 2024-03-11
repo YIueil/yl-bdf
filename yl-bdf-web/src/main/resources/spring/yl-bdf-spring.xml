@@ -4,8 +4,10 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
     <context:component-scan base-package="cc.yiueil"/>
-
-    <import resource="classpath:spring/yl-bdf-webmvc.xml"/><!-- webmvc相关配置-->
-    <import resource="classpath:spring/yl-bdf-orup.xml"/><!-- orup相关配置-->
-    <import resource="classpath:spring/yl-bdf-cache.xml"/><!-- cache相关配置-->
+    <!-- webmvc相关配置-->
+    <import resource="classpath:spring/yl-bdf-webmvc.xml"/>
+    <!-- orup相关配置-->
+    <import resource="classpath:spring/yl-bdf-orup.xml"/>
+    <!-- cache相关配置-->
+    <import resource="classpath:spring/yl-bdf-cache.xml"/>
 </beans>

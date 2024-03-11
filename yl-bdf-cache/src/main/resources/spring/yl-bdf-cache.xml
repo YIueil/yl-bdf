@@ -6,4 +6,8 @@
     <!--缓存服务: 默认使用内存作为缓存-->
     <import resource="classpath:spring/yl-bdf-cache-${cache.type:memory}.xml"/>
 
+    <!--Cache属性配置类-->
+    <bean class="cc.yiueil.api.CacheProperties">
+        <property name="cacheType" value="${cache.type:memory}"/>
+    </bean>
 </beans>
