@@ -139,7 +139,7 @@ public class OrupServiceImpl implements OrupService {
     @Transactional(rollbackFor = RuntimeException.class)
     public void suspendUser(Long userId, UserDto currentUser) {
         baseDao.findById(UserEntity.class, userId).ifPresent(userEntity -> {
-            userEntity.setState(UserStateEnum.normal.getState());
+            userEntity.setState(UserStateEnum.SUSPEND.getState());
             baseDao.save(userEntity);
         });
     }
@@ -149,7 +149,7 @@ public class OrupServiceImpl implements OrupService {
     public void suspendUserByIds(List<Long> userIds, UserDto currentUser) {
         Iterable<UserEntity> userEntityIterable = userRepository.findAllById(userIds);
         for (UserEntity userEntity : userEntityIterable) {
-            userEntity.setState(UserStateEnum.suspend.getState());
+            userEntity.setState(UserStateEnum.SUSPEND.getState());
         }
         userRepository.saveAll(userEntityIterable);
     }
@@ -437,5 +437,13 @@ public class OrupServiceImpl implements OrupService {
     @Transactional(rollbackFor = RuntimeException.class)
     public void delLink(Long linkId, UserDto currentUser) {
         baseDao.deleteById(LinkEntity.class, linkId);
+    }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void phoneNumberChange(UserDto currentUser, String newPhoneNumber) {
+        UserEntity userEntity = userRepository.findById(currentUser.getId()).orElseThrow(() -> new BusinessException("没有查询到该角色"));
+        userEntity.setPhoneNumber(newPhoneNumber);
+        baseDao.save(userEntity);
     }
 }

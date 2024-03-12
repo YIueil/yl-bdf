@@ -88,8 +88,6 @@ public class OrupController implements LoggedController {
 
     /**
      * 用户密码修改
-     *
-     * @return 新注册用户信息
      */
     @ApiOperation(value = "用户密码修改")
     @PostMapping(value = "passwordChange")
@@ -100,6 +98,22 @@ public class OrupController implements LoggedController {
         try {
             orupService.passwordChange(currentUser, oldPassword, newPassword);
             return success(null, "密码修改成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return fail(e.getMessage());
+        }
+    }
+
+    /**
+     * 用户手机号修改
+     */
+    @ApiOperation(value = "用户手机号修改")
+    @PostMapping(value = "phoneNumberChange")
+    public String phoneNumberChange(@RequestParam String newPhoneNumber, HttpServletRequest request) {
+        UserDto currentUser = getUser(request);
+        try {
+            orupService.phoneNumberChange(currentUser, newPhoneNumber);
+            return success(null, "手机号修改成功");
         } catch (Exception e) {
             e.printStackTrace();
             return fail(e.getMessage());

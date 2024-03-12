@@ -14,8 +14,10 @@ public enum UserStateEnum {
     /**
      * normal: 正常
      * suspend: 挂起
+     * holiday: 休假
+     * resign: 离职
      */
-    normal("正常"), suspend("挂起");
+    NORMAL("正常"), SUSPEND("挂起"), VACATION("休假"), RESIGN("离职");
     private final String state;
 
     UserStateEnum(String state) {

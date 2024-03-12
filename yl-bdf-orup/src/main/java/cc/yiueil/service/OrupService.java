@@ -351,4 +351,11 @@ public interface OrupService {
      * @param currentUser 操作用户
      */
     void delLink(Long linkId, UserDto currentUser);
+
+    /**
+     * 修改用户手机号
+     * @param currentUser 当前登录用户
+     * @param newPhoneNumber 新手机号码
+     */
+    void phoneNumberChange(UserDto currentUser, String newPhoneNumber);
 }
