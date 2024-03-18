@@ -17,6 +17,7 @@
         <module>yl-bdf-orup</module>
         <module>yl-bdf-resource</module>
         <module>yl-bdf-cache</module>
+        <module>yl-bdf-mail</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -56,6 +57,7 @@
         <swagger.version>2.9.2</swagger.version>
         <swagger.annotaions.version>1.5.20</swagger.annotaions.version>
         <swagger.bootstrap.version>3.0.3</swagger.bootstrap.version>
+        <javax.mail.version>1.6.2</javax.mail.version>
     </properties>
 
     <profiles>
