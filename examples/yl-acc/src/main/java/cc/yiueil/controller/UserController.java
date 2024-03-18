@@ -2,12 +2,14 @@ package cc.yiueil.controller;
 
 import cc.yiueil.api.CacheService;
 import cc.yiueil.general.RestUrl;
+import cc.yiueil.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
@@ -24,9 +26,26 @@ public class UserController implements LoggedController {
     @Autowired
     CacheService cacheService;
 
+    @Autowired
+    MailService mailService;
+
     @GetMapping(value="test/{num}")
     public String test1(HttpServletRequest request, @PathVariable String num){
         cacheService.set(num, new Date());
         return success(cacheService.get(num));
+    }
+
+    @GetMapping(value="test/mail")
+    public String test1(HttpServletRequest request){
+        try {
+            mailService.create()
+                    .addTo("511210125@qq.com")
+                    .setSubject("无题")
+                    .setBody("也是无题")
+                    .send();
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+        return success();
     }
 }

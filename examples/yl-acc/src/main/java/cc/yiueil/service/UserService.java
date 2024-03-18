@@ -1,4 +1,4 @@
-package cc.yiueil.serivce;
+package cc.yiueil.service;
 
 import cc.yiueil.entity.PermissionEntity;
 import cc.yiueil.entity.RoleEntity;

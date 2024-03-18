@@ -47,7 +47,6 @@ public class MailService {
     public void send(String subject, String body, boolean isHtml, List<String> toList, List<File> attachments) {
         try {
             Mail.create(session)
-                    .setFrom(session.getProperty("mail.username"))
                     .addTo(toList)
                     .setSubject(subject)
                     .setBody(body)

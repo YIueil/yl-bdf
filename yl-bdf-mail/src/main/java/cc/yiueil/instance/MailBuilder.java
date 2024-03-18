@@ -23,7 +23,6 @@ public class MailBuilder {
     private String subject;
     private String body;
     private boolean isHtml;
-    private String from;
     private final List<String> toList = new ArrayList<>();
     private final List<File> attachments = new ArrayList<>();
 
@@ -38,11 +37,6 @@ public class MailBuilder {
 
     public MailBuilder addTo(List<String> tos) {
         toList.addAll(tos);
-        return this;
-    }
-
-    public MailBuilder setFrom(String from) {
-        this.from = from;
         return this;
     }
 
@@ -78,7 +72,7 @@ public class MailBuilder {
      */
     public void send() throws MessagingException {
         MimeMessage message = new MimeMessage(session);
-        message.setFrom(new InternetAddress(from));
+        message.setFrom(new InternetAddress(session.getProperty("mail.username")));
         for (String to : toList) {
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
         }

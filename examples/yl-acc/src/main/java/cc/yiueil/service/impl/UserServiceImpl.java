@@ -1,4 +1,4 @@
-package cc.yiueil.serivce.impl;
+package cc.yiueil.service.impl;
 
 import cc.yiueil.entity.PermissionEntity;
 import cc.yiueil.entity.RoleEntity;
@@ -6,7 +6,7 @@ import cc.yiueil.entity.UserEntity;
 import cc.yiueil.repository.PermissionRepository;
 import cc.yiueil.repository.RoleRepository;
 import cc.yiueil.repository.UserRepository;
-import cc.yiueil.serivce.UserService;
+import cc.yiueil.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
