@@ -1,6 +1,7 @@
 package cc.yiueil.service;
 
 import cc.yiueil.dto.*;
+import cc.yiueil.vo.PasswordStrengthVo;
 
 import java.util.List;
 
@@ -224,7 +225,6 @@ public interface OrupService {
      * @param orgId   机构id
      * @param userIds 用户id集合
      * @param user    当前用户
-     * @return 添加的机构用户对象
      */
     void addOrgUser(Long orgId, List<Long> userIds, UserDto user);
 
@@ -358,4 +358,11 @@ public interface OrupService {
      * @param newPhoneNumber 新手机号码
      */
     void phoneNumberChange(UserDto currentUser, String newPhoneNumber);
+
+    /**
+     * 获取密码健壮性等级
+     * @param user 当前登录用户
+     * @return 密码健壮性视图对象
+     */
+    PasswordStrengthVo getAccountSecurityLevel(UserDto user);
 }

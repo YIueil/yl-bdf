@@ -53,16 +53,24 @@
             <version>${spring.data.redis.version}</version>
         </dependency>
 
-        <dependency>
+        <!--jedis依赖 推荐使用lettuce依赖-->
+        <!--<dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
             <version>3.6.0</version>
+        </dependency>-->
+
+        <!--通用连接池依赖-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+            <version>${commons.pool2.version}</version>
         </dependency>
 
         <dependency>
             <groupId>io.lettuce</groupId>
             <artifactId>lettuce-core</artifactId>
-            <version>6.1.3.RELEASE</version>
+            <version>${lettuce.core.version}</version>
         </dependency>
     </dependencies>
 

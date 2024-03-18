@@ -12,4 +12,7 @@ public class PatternPool {
     public static final Pattern PHONE = Pattern.compile(RegexPool.PHONE);
     public static final Pattern EMAIL = Pattern.compile(RegexPool.EMAIL);
     public static final Pattern ID_CARD = Pattern.compile(RegexPool.ID_CARD);
+    public static final Pattern CONTAINS_LETTERS = Pattern.compile(RegexPool.CONTAINS_LETTERS);
+    public static final Pattern CONTAINS_NUMBER = Pattern.compile(RegexPool.CONTAINS_NUMBER);
+    public static final Pattern CONTAINS_SYMBOL = Pattern.compile(RegexPool.CONTAINS_SYMBOL);
 }

@@ -12,6 +12,7 @@ import cc.yiueil.util.BeanUtils;
 import cc.yiueil.util.JwtUtil;
 import cc.yiueil.util.MapUtils;
 import cc.yiueil.util.TreeUtils;
+import cc.yiueil.vo.PasswordStrengthVo;
 import cc.yiueil.vo.UserVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -102,6 +103,14 @@ public class OrupController implements LoggedController {
             e.printStackTrace();
             return fail(e.getMessage());
         }
+    }
+
+    @ApiOperation(value = "获取账号安全等级")
+    @GetMapping(value = "getAccountSecurityLevel")
+    public String getAccountSecurityLevel(HttpServletRequest request) {
+        UserDto user = getUser(request);
+        PasswordStrengthVo passwordStrengthVo = orupService.getAccountSecurityLevel(user);
+        return success(passwordStrengthVo);
     }
 
     /**

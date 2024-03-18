@@ -5,12 +5,16 @@ import cc.yiueil.dto.*;
 import cc.yiueil.entity.*;
 import cc.yiueil.enums.UserStateEnum;
 import cc.yiueil.exception.BusinessException;
+import cc.yiueil.exception.PrimaryKeyMissingException;
+import cc.yiueil.exception.ResourceNotFoundException;
 import cc.yiueil.query.instance.DynamicQueryInst;
 import cc.yiueil.repository.*;
 import cc.yiueil.service.OrupService;
 import cc.yiueil.service.SearchService;
 import cc.yiueil.util.BeanUtils;
 import cc.yiueil.util.ObjectUtils;
+import cc.yiueil.util.PasswordUtils;
+import cc.yiueil.vo.PasswordStrengthVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -86,7 +90,7 @@ public class OrupServiceImpl implements OrupService {
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
     public void passwordChange(UserDto currentUser, String oldPassword, String newPassword) {
-        UserEntity userEntity = userRepository.findById(currentUser.getId()).orElseThrow(() -> new BusinessException("用户未找到"));
+        UserEntity userEntity = userRepository.findById(currentUser.getId()).orElseThrow(() -> new ResourceNotFoundException("用户不存在"));
         baseDao.findById(UserEntity.class, userEntity.getId()).ifPresent(user -> {
             if (user.getPassword().equals(oldPassword)) {
                 user.setPassword(newPassword);
@@ -101,7 +105,7 @@ public class OrupServiceImpl implements OrupService {
     @Transactional(readOnly = true)
     public UserDto getUser(Long userId) {
         return BeanUtils.copyProperties(
-                baseDao.findById(UserEntity.class, userId).orElseThrow(() -> new BusinessException("用户未找到")),
+                baseDao.findById(UserEntity.class, userId).orElseThrow(() -> new ResourceNotFoundException("用户不存在")),
                 new UserDto());
     }
 
@@ -117,7 +121,7 @@ public class OrupServiceImpl implements OrupService {
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
     public UserDto modifyUser(UserDto userDto, UserDto currentUser) {
-        UserEntity userEntity = userRepository.findById(userDto.getId()).orElseThrow(() -> new BusinessException("用户未找到"));
+        UserEntity userEntity = userRepository.findById(userDto.getId()).orElseThrow(() -> new ResourceNotFoundException("用户不存在"));
         UserEntity modifyUser = BeanUtils.copyProperties(userDto, userEntity, true);
         baseDao.save(modifyUser);
         return BeanUtils.copyProperties(modifyUser, new UserDto());
@@ -223,7 +227,7 @@ public class OrupServiceImpl implements OrupService {
         if (functionDto.getId() == null) {
             throw new RuntimeException("修改接口传入的实体需要具有id");
         }
-        FunctionEntity functionEntity = functionRepository.findById(functionDto.getId()).orElseThrow(() -> new BusinessException("没有查询到该功能"));
+        FunctionEntity functionEntity = functionRepository.findById(functionDto.getId()).orElseThrow(() -> new ResourceNotFoundException("功能不存在"));
         FunctionEntity modifyFunctionEntity = BeanUtils.copyProperties(functionDto, functionEntity, true);
         return BeanUtils.copyProperties(baseDao.save(modifyFunctionEntity), new FunctionDto());
     }
@@ -303,9 +307,9 @@ public class OrupServiceImpl implements OrupService {
     @Transactional(rollbackFor = RuntimeException.class)
     public OrgDto modifyOrg(OrgDto orgDto) {
         if (orgDto.getId() == null) {
-            throw new BusinessException("修改接口传入的实体需要具有id");
+            throw new PrimaryKeyMissingException("修改接口传入的实体需要具有id");
         }
-        OrgEntity orgEntity = orgRepository.findById(orgDto.getId()).orElseThrow(() -> new BusinessException("没有查询到该机构"));
+        OrgEntity orgEntity = orgRepository.findById(orgDto.getId()).orElseThrow(() -> new ResourceNotFoundException("机构不存在"));
         OrgEntity modifyOrgEntity = BeanUtils.copyProperties(orgDto, orgEntity);
         return BeanUtils.copyProperties(baseDao.save(modifyOrgEntity), new OrgDto());
     }
@@ -340,7 +344,7 @@ public class OrupServiceImpl implements OrupService {
     @Override
     @Transactional(readOnly = true)
     public RoleDto findRoleById(Long id) {
-        RoleEntity roleEntity = roleRepository.findById(id).orElseThrow(() -> new BusinessException("没有查询到该角色"));
+        RoleEntity roleEntity = roleRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("角色不存在"));
         return BeanUtils.copyProperties(roleEntity, new RoleDto());
     }
 
@@ -371,9 +375,9 @@ public class OrupServiceImpl implements OrupService {
     @Transactional(rollbackFor = RuntimeException.class)
     public RoleDto modifyRole(RoleDto roleDto, UserDto user) {
         if (roleDto.getId() == null) {
-            throw new BusinessException("修改接口传入的实体需要具有id");
+            throw new PrimaryKeyMissingException("修改接口传入的实体需要具有id");
         }
-        RoleEntity roleEntity = roleRepository.findById(roleDto.getId()).orElseThrow(() -> new BusinessException("没有查询到该角色"));
+        RoleEntity roleEntity = roleRepository.findById(roleDto.getId()).orElseThrow(() -> new ResourceNotFoundException("角色不存在"));
         RoleEntity modifyRoleEntity = BeanUtils.copyProperties(roleDto, roleEntity, true);
         return BeanUtils.copyProperties(baseDao.save(modifyRoleEntity), new RoleDto());
     }
@@ -428,7 +432,7 @@ public class OrupServiceImpl implements OrupService {
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
     public LinkDto modifyLink(LinkDto linkDto) {
-        LinkEntity linkEntity = linkRepository.findById(linkDto.getId()).orElseThrow(() -> new BusinessException("没有查询到该链接"));
+        LinkEntity linkEntity = linkRepository.findById(linkDto.getId()).orElseThrow(() -> new ResourceNotFoundException("链接不存在"));
         LinkEntity modifyLinkEntity = BeanUtils.copyProperties(linkDto, linkEntity);
         return BeanUtils.copyProperties(baseDao.save(modifyLinkEntity), new LinkDto());
     }
@@ -442,8 +446,17 @@ public class OrupServiceImpl implements OrupService {
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
     public void phoneNumberChange(UserDto currentUser, String newPhoneNumber) {
-        UserEntity userEntity = userRepository.findById(currentUser.getId()).orElseThrow(() -> new BusinessException("没有查询到该角色"));
+        UserEntity userEntity = userRepository.findById(currentUser.getId()).orElseThrow(() -> new ResourceNotFoundException("用户不存在"));
         userEntity.setPhoneNumber(newPhoneNumber);
         baseDao.save(userEntity);
+    }
+
+    @Override
+    public PasswordStrengthVo getAccountSecurityLevel(UserDto user) {
+        PasswordStrengthVo passwordStrengthVo = new PasswordStrengthVo();
+        UserEntity userEntity = userRepository.findById(user.getId()).orElseThrow(() -> new ResourceNotFoundException("用户不存在"));
+        passwordStrengthVo.setPasswordStrengthLevel(PasswordUtils.checkPasswordStrength(userEntity.getPassword()));
+        passwordStrengthVo.setExpectedCrackingTime(PasswordUtils.estimateCrackTime(userEntity.getPassword()));
+        return passwordStrengthVo;
     }
 }
