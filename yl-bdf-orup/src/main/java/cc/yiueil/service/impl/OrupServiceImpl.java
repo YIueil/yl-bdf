@@ -159,9 +159,17 @@ public class OrupServiceImpl implements OrupService {
     }
 
     @Override
+    public UserDto findUserById(Long id) {
+        return BeanUtils.copyProperties(
+                userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("用户不存在")),
+                new UserDto()
+        );
+    }
+
+    @Override
     public UserDto findUserByLoginName(String loginName) {
         return BeanUtils.copyProperties(
-                userRepository.findUserEntityByLoginName(loginName).orElseThrow(() -> new BusinessException("登录失败, 账号或者密码错误")),
+                userRepository.findUserEntityByLoginName(loginName).orElseThrow(() -> new ResourceNotFoundException("用户不存在")),
                 new UserDto()
         );
     }

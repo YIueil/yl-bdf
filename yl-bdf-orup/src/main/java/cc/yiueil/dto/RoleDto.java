@@ -16,7 +16,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@ApiModel(value = "角色数据传输类")
+@ApiModel(value = "角色数据传输对象")
 public class RoleDto {
     private Long id;
     private String guid;

@@ -89,6 +89,14 @@ public interface OrupService {
     void suspendUserByIds(List<Long> userIds, UserDto currentUser);
 
     /**
+     * 根据id查找用户
+     *
+     * @param id 用户id
+     * @return 用户数据传输类
+     */
+    UserDto findUserById(Long id);
+
+    /**
      * 根据登陆名查找用户
      *
      * @param loginName 用户登陆名

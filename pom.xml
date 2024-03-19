@@ -18,6 +18,7 @@
         <module>yl-bdf-resource</module>
         <module>yl-bdf-cache</module>
         <module>yl-bdf-mail</module>
+        <module>yl-bdf-web-verifycode</module>
     </modules>
     <packaging>pom</packaging>
 

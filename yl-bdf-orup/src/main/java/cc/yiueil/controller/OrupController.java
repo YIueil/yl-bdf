@@ -219,6 +219,12 @@ public class OrupController implements LoggedController {
         return success();
     }
 
+    /**
+     * 批量挂起用户
+     * @param userIds 用户id集合
+     * @param request 请求体
+     * @return 请求结果
+     */
     @ApiOperation(value = "批量挂起用户")
     @PostMapping(value = "suspendUserByIds")
     public String suspendUserByIds(@RequestBody List<Long> userIds, HttpServletRequest request) {
@@ -242,6 +248,12 @@ public class OrupController implements LoggedController {
         return success();
     }
 
+    /**
+     * 通过id集合批量删除用户
+     * @param userIds 用户id集合
+     * @param request 请求体
+     * @return 接口调用结果
+     */
     @ApiOperation(value = "批量删除用户信息")
     @PostMapping(value = "delUserByIds")
     public String delUserByIds(@RequestBody List<Long> userIds, HttpServletRequest request) {
@@ -264,6 +276,11 @@ public class OrupController implements LoggedController {
         return success(currentUser);
     }
 
+    /**
+     * 获取用户链接列表
+     * @param request 请求体
+     * @return 用户链接集合
+     */
     @ApiOperation(value = "获取用户链接列表")
     @GetMapping(value="getUserLinks")
     public String getUserLinks(HttpServletRequest request){
@@ -272,6 +289,12 @@ public class OrupController implements LoggedController {
         return success(linkDtoList);
     }
 
+    /**
+     * 添加链接
+     * @param linkDto 链接实体
+     * @param request 请求体
+     * @return 新增链接实体
+     */
     @ApiOperation(value = "添加用户链接")
     @PostMapping(value = "addLink")
     public String addLink(@RequestBody LinkDto linkDto, HttpServletRequest request) {
@@ -280,12 +303,24 @@ public class OrupController implements LoggedController {
         return success(orupService.addLink(linkDto));
     }
 
+    /**
+     * 修改链接
+     * @param linkDto 链接实体
+     * @param request 请求体
+     * @return 修改后的链接
+     */
     @ApiOperation(value = "修改用户链接")
     @PostMapping(value="modifyLink")
     public String modifyLink(@RequestBody LinkDto linkDto, HttpServletRequest request){
         return success(orupService.modifyLink(linkDto));
     }
 
+    /**
+     * 删除链接
+     * @param linkId 链接id
+     * @param request 请求体
+     * @return 接口请求结果
+     */
     @ApiOperation(value = "删除用户链接")
     @PostMapping(value = "delLink")
     public String delLink(@RequestParam("id") Long linkId, HttpServletRequest request) {

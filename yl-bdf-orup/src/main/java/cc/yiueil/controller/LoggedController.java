@@ -24,7 +24,7 @@ public interface LoggedController extends BaseController {
         String token = request.getHeader("yl-token");
         if ("Fk12345.".equals(token)) {
             UserDto userDto = new UserDto();
-            userDto.setId(0L);
+            userDto.setId(1L);
             userDto.setUserName("测试用户");
             userDto.setLoginName("测试用户");
             return userDto;
