@@ -1,9 +1,12 @@
 package cc.yiueil.interceptor;
 
+import cc.yiueil.controller.LoggedController;
 import cc.yiueil.dto.UserDto;
 import cc.yiueil.exception.UnauthorizedException;
 import cc.yiueil.util.JwtUtil;
 import com.auth0.jwt.exceptions.JWTDecodeException;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +28,24 @@ public class AuthenticateInterceptor implements HandlerInterceptor {
      * @throws Exception exception
      */
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull Object handler) throws Exception {
+        if (handler instanceof HandlerMethod) {
+            HandlerMethod handlerMethod = (HandlerMethod) handler;
+            // 获取Controller类信息
+            Object bean = handlerMethod.getBean();
+            if (bean instanceof LoggedController) {
+                return verifyToken(request);
+            }
+        }
+        return true;
+    }
+
+    /**
+     * token校验
+     * @param request 请求体
+     * @return 校验结果
+     */
+    public boolean verifyToken(HttpServletRequest request) {
         String token = request.getHeader("yl-token");
         if ("Fk12345.".equals(token)) {
             return true;
