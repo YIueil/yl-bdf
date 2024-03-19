@@ -8,11 +8,12 @@ import java.util.Properties;
 
 /**
  * GlobalProperties 全局配置属性类
- * @author 弋孓 YIueil@163.com
- * @date 2023/5/31 23:22
- * @version 1.0
  * 修订记录:
  * v1.0: 实现从classpath中加载所有的配置文件
+ *
+ * @author 弋孓 YIueil@163.com
+ * @version 1.0
+ * @date 2023/5/31 23:22
  */
 @Slf4j
 public class GlobalProperties {
@@ -35,6 +36,7 @@ public class GlobalProperties {
 
     /**
      * 指定配置文件路径加载配置文件
+     *
      * @param locationPattern 指定配置文件路径
      */
     public static void load(String locationPattern) {
@@ -61,6 +63,7 @@ public class GlobalProperties {
 
     /**
      * 使用指定配置文件路径重新加载全局配置
+     *
      * @param locationPattern 指定配置文件路径
      */
     public static void reload(String locationPattern) {
@@ -75,7 +78,8 @@ public class GlobalProperties {
 
     /**
      * 全局获取配置项
-     * @param key 键值
+     *
+     * @param key          键值
      * @param defaultValue 默认值
      * @return value
      */
