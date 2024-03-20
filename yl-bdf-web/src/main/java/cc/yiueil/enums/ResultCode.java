@@ -6,9 +6,10 @@ import lombok.ToString;
 
 /**
  * ResultCode 状态码类 以此为准
+ *
  * @author 弋孓 YIueil@163.com
- * @date 2023/5/31 23:11
  * @version 1.0
+ * @date 2023/5/31 23:11
  */
 @Getter
 @ToString
@@ -24,14 +25,14 @@ public enum ResultCode implements CodeStatus {
     SUCCESS(1200, "success"),
     FAILED(0, "failed"),
     ERROR(1500, "error"),
-    UNAUTHORIZED(1401,"unauthorized"),
-    EXPIRED(1409,"expired"),
+    UNAUTHORIZED(1401, "unauthorized"),
+    EXPIRED(1409, "expired"),
     VALIDATE_FAIL(1400, "validate_fail");
 
     private final Integer code;
     private final String msg;
 
-    ResultCode(int code,String msg) {
+    ResultCode(int code, String msg) {
         this.code = code;
         this.msg = msg;
     }

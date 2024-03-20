@@ -28,4 +28,18 @@ public class RandomUtils {
     public static int randomInt(int min, int max) {
         return new Random().nextInt(max) % (max - min + 1) + min;
     }
+
+    /**
+     * 生成指定长度的纯数字验证码
+     * @param length 指定长度
+     * @return 随机验证码
+     */
+    public static String randomNumberVerifyCode(int length) {
+        StringBuilder sb = new StringBuilder();
+        Random random = new Random();
+        for (int i = 0; i < length; i++) {
+            sb.append(random.nextInt(10));
+        }
+        return sb.toString();
+    }
 }
