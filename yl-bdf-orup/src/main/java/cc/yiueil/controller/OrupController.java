@@ -9,7 +9,7 @@ import cc.yiueil.lang.tree.Tree;
 import cc.yiueil.lang.tree.TreeNode;
 import cc.yiueil.service.OrupService;
 import cc.yiueil.util.BeanUtils;
-import cc.yiueil.util.JwtUtil;
+import cc.yiueil.util.JwtUtils;
 import cc.yiueil.util.MapUtils;
 import cc.yiueil.util.TreeUtils;
 import cc.yiueil.vo.PasswordStrengthVo;
@@ -62,7 +62,7 @@ public class OrupController implements LoggedController {
         try {
             UserDto userDto = orupService.findUserByLoginName(loginName);
             if (password.equals(userDto.getPassword())) {
-                String token = JwtUtil.generateToken(userDto);
+                String token = JwtUtils.generateToken(userDto);
                 return success(token, "登录成功");
             }
         } catch (BusinessException e) {

@@ -3,7 +3,7 @@ package cc.yiueil.interceptor;
 import cc.yiueil.controller.LoggedController;
 import cc.yiueil.dto.UserDto;
 import cc.yiueil.exception.UnauthorizedException;
-import cc.yiueil.util.JwtUtil;
+import cc.yiueil.util.JwtUtils;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.web.method.HandlerMethod;
@@ -51,7 +51,7 @@ public class AuthenticateInterceptor implements HandlerInterceptor {
             return true;
         }
         try {
-            UserDto userDto = JwtUtil.verifyToken(token);
+            UserDto userDto = JwtUtils.verifyToken(token);
             //1.判断请求是否有效
             //2.判断是否需要续期
             return userDto != null;

@@ -2,7 +2,7 @@ package cc.yiueil.controller;
 
 
 import cc.yiueil.dto.UserDto;
-import cc.yiueil.util.JwtUtil;
+import cc.yiueil.util.JwtUtils;
 import cc.yiueil.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +30,7 @@ public interface LoggedController extends BaseController {
             return userDto;
         }
         if (StringUtils.isNotEmpty(token)) {
-            return JwtUtil.verifyToken(token);
+            return JwtUtils.verifyToken(token);
         }
         return null;
     }

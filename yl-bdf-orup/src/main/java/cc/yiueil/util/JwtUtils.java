@@ -18,7 +18,7 @@ import java.util.Map;
  * @version 1.0
  */
 @Slf4j
-public class JwtUtil {
+public class JwtUtils {
     /**
      * JWT 私钥
      */
