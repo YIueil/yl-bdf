@@ -1,5 +1,6 @@
 package cc.yiueil;
 
+import cc.yiueil.util.HtmlUtils;
 import cc.yiueil.util.ParseUtils;
 import org.junit.jupiter.api.Test;
 
@@ -43,5 +44,16 @@ public class GlobalTest {
     @Test
     public void test3(){
 
+    }
+
+    @Test
+    public void test4() {
+        System.out.println(
+                HtmlUtils.create()
+                        .addHeading(3, "验证码")
+                        .addImage("https://s2.loli.net/2024/03/12/eFxmKLBaqfgWyoQ.webp", "")
+                        .addLink("https://www.baidu.com", "确认修改")
+                        .build()
+        );
     }
 }

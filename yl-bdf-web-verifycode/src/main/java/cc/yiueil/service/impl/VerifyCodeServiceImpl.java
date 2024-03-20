@@ -14,6 +14,8 @@ import cc.yiueil.service.OrupService;
 import cc.yiueil.service.VerifyCodeService;
 import cc.yiueil.util.CollectionUtils;
 import cc.yiueil.util.GlobalProperties;
+import cc.yiueil.util.HtmlUtils;
+import cc.yiueil.util.RequestUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -67,20 +69,19 @@ public class VerifyCodeServiceImpl implements VerifyCodeService {
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
     public void sendMailChangeLink(String verifyCode, String newMailAddress, UserDto user, HttpServletRequest request) throws MessagingException {
-        // todo 抽取工具类
-        StringBuffer requestUrl = request.getRequestURL();
-        String requestUri = request.getRequestURI();
-        String contextPath = request.getContextPath();
-        int startIndex = requestUrl.indexOf(requestUri);
-        String baseUrl = requestUrl.substring(0, startIndex + contextPath.length());
+        String baseUrl = RequestUtils.getBaseUrl(request) + GlobalProperties.getProperties("callback.url.mailChange", "/orup/mailChange");
         List<VerifyCodeEntity> verifyCodeEntityList =
                 verifyCodeRepository.findVerifyCodeEntityByCreateUserIdEqualsAndUseTypeEqualsAndStatusEqualsAndCodeEqualsAndExpireAfter(user.getId(), VerifyCodeUseTypeEnum.UserInfoChange.getUseType(), VerifyCodeStatusEnum.UnUsed.getStatus(), verifyCode, LocalDateTime.now());
         if (CollectionUtils.isNotEmpty(verifyCodeEntityList)) {
             updateVerifyCodeStatus(verifyCodeEntityList);
-            // todo htmlContent 也可以封装一下
-            String htmlContent = "<body>\n" +
-                    "    <img src=\"https://s2.loli.net/2024/03/12/gxt1MwlUsXJ4LGr.png\" alt=\"\"/>\n" +
-                    "    <a href=" + baseUrl + GlobalProperties.getProperties("callback.url.mailChange", "/orup/mailChange") + ">确认修改</a>\n";
+            String htmlContent = HtmlUtils.create()
+                    .addHeading(3, "验证码")
+                    .addBoldText(verifyCode)
+                    .addLineBreak()
+                    .addImage("https://s2.loli.net/2024/03/12/eFxmKLBaqfgWyoQ.webp", "")
+                    .addLineBreak()
+                    .addLink(baseUrl, "确认修改")
+                    .build();
             mailService.create()
                     .addTo(newMailAddress)
                     .setSubject("邮件变更确认")
