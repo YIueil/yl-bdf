@@ -467,4 +467,12 @@ public class OrupServiceImpl implements OrupService {
         passwordStrengthVo.setExpectedCrackingTime(PasswordUtils.estimateCrackTime(userEntity.getPassword()));
         return passwordStrengthVo;
     }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void userMailChange(Long userId, String newMailAddress) {
+        UserEntity userEntity = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("用户不存在"));
+        userEntity.setEmail(newMailAddress);
+        baseDao.save(userEntity);
+    }
 }

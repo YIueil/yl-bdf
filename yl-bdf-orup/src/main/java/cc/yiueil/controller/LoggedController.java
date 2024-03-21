@@ -4,8 +4,10 @@ package cc.yiueil.controller;
 import cc.yiueil.dto.UserDto;
 import cc.yiueil.util.JwtUtils;
 import cc.yiueil.util.StringUtils;
+import com.auth0.jwt.interfaces.Claim;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * LoggedController
@@ -33,5 +35,18 @@ public interface LoggedController extends BaseController {
             return JwtUtils.verifyToken(token);
         }
         return null;
+    }
+
+    /**
+     * 获取上下文哈希表: 适用于publicToken
+     * @param request 请求体
+     * @return 上下文哈希表
+     */
+    default Map<String, Claim> getContextMap(HttpServletRequest request) {
+        String publicToken = request.getParameter("publicToken");
+        if (publicToken == null) {
+            return null;
+        }
+        return JwtUtils.verifyTokenToMap(publicToken);
     }
 }

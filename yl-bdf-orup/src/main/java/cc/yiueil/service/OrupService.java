@@ -373,4 +373,11 @@ public interface OrupService {
      * @return 密码健壮性视图对象
      */
     PasswordStrengthVo getAccountSecurityLevel(UserDto user);
+
+    /**
+     * 修改用户邮箱
+     * @param userId 用户id
+     * @param newMailAddress 新邮件地址
+     */
+    void userMailChange(Long userId, String newMailAddress);
 }

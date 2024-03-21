@@ -1,5 +1,6 @@
 package cc.yiueil.controller;
 
+import cc.yiueil.annotation.VerifyToken;
 import cc.yiueil.constant.OrupRestUrl;
 import cc.yiueil.data.impl.JpaBaseDao;
 import cc.yiueil.dto.*;
@@ -8,12 +9,10 @@ import cc.yiueil.general.RestUrl;
 import cc.yiueil.lang.tree.Tree;
 import cc.yiueil.lang.tree.TreeNode;
 import cc.yiueil.service.OrupService;
-import cc.yiueil.util.BeanUtils;
-import cc.yiueil.util.JwtUtils;
-import cc.yiueil.util.MapUtils;
-import cc.yiueil.util.TreeUtils;
+import cc.yiueil.util.*;
 import cc.yiueil.vo.PasswordStrengthVo;
 import cc.yiueil.vo.UserVo;
+import com.auth0.jwt.interfaces.Claim;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +61,7 @@ public class OrupController implements LoggedController {
         try {
             UserDto userDto = orupService.findUserByLoginName(loginName);
             if (password.equals(userDto.getPassword())) {
-                String token = JwtUtils.generateToken(userDto);
+                String token = JwtUtils.generateToken(userDto, 30 * 60);
                 return success(token, "登录成功");
             }
         } catch (BusinessException e) {
@@ -89,6 +88,11 @@ public class OrupController implements LoggedController {
 
     /**
      * 用户密码修改
+     *
+     * @param newPassword 新密码
+     * @param oldPassword 旧密码
+     * @param request     请求体
+     * @return 修改结果
      */
     @ApiOperation(value = "用户密码修改")
     @PostMapping(value = "passwordChange")
@@ -105,6 +109,38 @@ public class OrupController implements LoggedController {
         }
     }
 
+    /**
+     * 用户邮件变更
+     *
+     * @param newMailAddress 新邮件地址
+     * @param request        请求体
+     * @return 变更结果
+     */
+    @VerifyToken
+    @ApiOperation(value = "用户邮件变更")
+    @RequestMapping(value = "mailChange", method = {RequestMethod.POST, RequestMethod.GET})
+    public String mailChange(@RequestParam(required = false) String newMailAddress, HttpServletRequest request) {
+        Map<String, Claim> contextMap = getContextMap(request);
+        try {
+            String mailAddress = ObjectUtils.defaultIfNull(newMailAddress, contextMap.get("newMailAddress").asString());
+            Long userId = contextMap.get("userId").asLong();
+            if (StringUtils.isBlank(mailAddress)) {
+                return fail(null, "没有传入目标邮箱");
+            }
+            orupService.userMailChange(userId, mailAddress);
+            return success();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return fail(null, e.getMessage());
+        }
+    }
+
+    /**
+     * 获取账号安全等级
+     *
+     * @param request 请求体
+     * @return 请求体
+     */
     @ApiOperation(value = "获取账号安全等级")
     @GetMapping(value = "getAccountSecurityLevel")
     public String getAccountSecurityLevel(HttpServletRequest request) {
@@ -221,6 +257,7 @@ public class OrupController implements LoggedController {
 
     /**
      * 批量挂起用户
+     *
      * @param userIds 用户id集合
      * @param request 请求体
      * @return 请求结果
@@ -250,6 +287,7 @@ public class OrupController implements LoggedController {
 
     /**
      * 通过id集合批量删除用户
+     *
      * @param userIds 用户id集合
      * @param request 请求体
      * @return 接口调用结果
@@ -278,12 +316,13 @@ public class OrupController implements LoggedController {
 
     /**
      * 获取用户链接列表
+     *
      * @param request 请求体
      * @return 用户链接集合
      */
     @ApiOperation(value = "获取用户链接列表")
-    @GetMapping(value="getUserLinks")
-    public String getUserLinks(HttpServletRequest request){
+    @GetMapping(value = "getUserLinks")
+    public String getUserLinks(HttpServletRequest request) {
         UserDto currentUser = getUser(request);
         List<LinkDto> linkDtoList = orupService.getUserLinks(currentUser);
         return success(linkDtoList);
@@ -291,6 +330,7 @@ public class OrupController implements LoggedController {
 
     /**
      * 添加链接
+     *
      * @param linkDto 链接实体
      * @param request 请求体
      * @return 新增链接实体
@@ -305,19 +345,21 @@ public class OrupController implements LoggedController {
 
     /**
      * 修改链接
+     *
      * @param linkDto 链接实体
      * @param request 请求体
      * @return 修改后的链接
      */
     @ApiOperation(value = "修改用户链接")
-    @PostMapping(value="modifyLink")
-    public String modifyLink(@RequestBody LinkDto linkDto, HttpServletRequest request){
+    @PostMapping(value = "modifyLink")
+    public String modifyLink(@RequestBody LinkDto linkDto, HttpServletRequest request) {
         return success(orupService.modifyLink(linkDto));
     }
 
     /**
      * 删除链接
-     * @param linkId 链接id
+     *
+     * @param linkId  链接id
      * @param request 请求体
      * @return 接口请求结果
      */

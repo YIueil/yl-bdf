@@ -93,7 +93,7 @@ public class RequestUtils {
      * @param defaultValue 默认值
      * @return 参数值
      */
-    public static Object getParameter(HttpServletRequest request, String name, int defaultValue) {
+    public static Object getParameter(HttpServletRequest request, String name, Object defaultValue) {
         String value = request.getParameter(name);
         if (value == null || value.isEmpty()) {
             return defaultValue;

@@ -7,16 +7,15 @@ import cc.yiueil.enums.VerifyCodeSendTypeEnum;
 import cc.yiueil.enums.VerifyCodeStatusEnum;
 import cc.yiueil.enums.VerifyCodeUseTypeEnum;
 import cc.yiueil.exception.VerifyFailException;
+import cc.yiueil.general.RestUrl;
 import cc.yiueil.instance.VerifyCode;
 import cc.yiueil.repository.VerifyCodeRepository;
 import cc.yiueil.service.MailService;
 import cc.yiueil.service.OrupService;
 import cc.yiueil.service.VerifyCodeService;
-import cc.yiueil.util.CollectionUtils;
-import cc.yiueil.util.GlobalProperties;
-import cc.yiueil.util.HtmlUtils;
-import cc.yiueil.util.RequestUtils;
+import cc.yiueil.util.*;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -69,7 +69,7 @@ public class VerifyCodeServiceImpl implements VerifyCodeService {
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
     public void sendMailChangeLink(String verifyCode, String newMailAddress, UserDto user, HttpServletRequest request) throws MessagingException {
-        String baseUrl = RequestUtils.getBaseUrl(request) + GlobalProperties.getProperties("callback.url.mailChange", "/orup/mailChange");
+        String baseUrl = getBaseUrl(verifyCode, user, request);
         List<VerifyCodeEntity> verifyCodeEntityList =
                 verifyCodeRepository.findVerifyCodeEntityByCreateUserIdEqualsAndUseTypeEqualsAndStatusEqualsAndCodeEqualsAndExpireAfter(user.getId(), VerifyCodeUseTypeEnum.UserInfoChange.getUseType(), VerifyCodeStatusEnum.UnUsed.getStatus(), verifyCode, LocalDateTime.now());
         if (CollectionUtils.isNotEmpty(verifyCodeEntityList)) {
@@ -91,6 +91,15 @@ public class VerifyCodeServiceImpl implements VerifyCodeService {
         } else {
             throw new VerifyFailException("验证失败");
         }
+    }
+
+    private String getBaseUrl(String verifyCode, UserDto user, HttpServletRequest request) {
+        HashMap<String, Object> content = new HashMap<>(3);
+        content.put("userId", user.getId());
+        content.put("newMailAddress", user.getEmail());
+        content.put("verifyCode", verifyCode);
+        String jwtString = JwtUtils.generateToken(content, 10 * 60);
+        return RequestUtils.getBaseUrl(request) + RestUrl.BASE_PATH + GlobalProperties.getProperties("callback.url.mailChange", "/orup/mailChange") + "?publicToken=" + jwtString;
     }
 
     private void updateVerifyCodeStatus(List<VerifyCodeEntity> verifyCodeEntityList) {
