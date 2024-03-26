@@ -11,7 +11,7 @@ import cc.yiueil.util.JsonUtils;
  */
 public interface BaseController {
     /**
-     * 返回成功结构体 无data 无msg
+     * 返回成功结构体 无data 无tips
      * @return ResultVo
      */
     default String success() {
@@ -19,7 +19,7 @@ public interface BaseController {
     }
 
     /**
-     * 返回成功结构体 含data 无msg
+     * 返回成功结构体 含data 无tips
      * @param obj data
      * @return ResultVo
      */
@@ -28,42 +28,53 @@ public interface BaseController {
     }
 
     /**
-     * 返回成功结构体 无data 无msg
+     * 返回成功结构体 含data 含tips
      * @param obj data
-     * @param msg msg
+     * @param tips tips
      * @return ResultVo
      */
-    default String success(Object obj, String msg) {
-        return JsonUtils.toJsonString(ResultVo.success(obj, msg));
+    default String success(Object obj, String tips) {
+        return JsonUtils.toJsonString(ResultVo.success(obj, tips));
     }
 
     /**
-     * 返回失败结构体 无data 含msg
-     * @param msg msg
+     * 返回成功结构体 含data 含tips
+     * @param obj data
+     * @param tips tips
+     * @param newToken 重新签发的token
      * @return ResultVo
      */
-    default String fail(String msg) {
-        return JsonUtils.toJsonString(ResultVo.fail(null, msg));
+    default String success(Object obj, String tips, String newToken) {
+        return JsonUtils.toJsonString(ResultVo.success(obj, tips, newToken));
     }
 
     /**
-     * 返回失败结构体 无data 含msg
+     * 返回失败结构体 无data 含tips
+     * @param tips tips
+     * @return ResultVo
+     */
+    default String fail(String tips) {
+        return JsonUtils.toJsonString(ResultVo.fail(null, tips));
+    }
+
+    /**
+     * 返回失败结构体 无data 含tips
      * @param body data
-     * @param msg msg
+     * @param tips tips
      * @return ResultVo
      */
-    default String fail(Object body, String msg) {
-        return JsonUtils.toJsonString(ResultVo.fail(body, msg));
+    default String fail(Object body, String tips) {
+        return JsonUtils.toJsonString(ResultVo.fail(body, tips));
     }
 
     /**
      * 返回错误结构体
      * @param e 引发的异常
-     * @param msg msg
+     * @param tips tips
      * @return ResultVo
      */
-    default String error(String msg, Exception e) {
-        return JsonUtils.toJsonString(ResultVo.error(msg, e));
+    default String error(String tips, Exception e) {
+        return JsonUtils.toJsonString(ResultVo.error(tips, e));
     }
 
     /**

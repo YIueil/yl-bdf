@@ -61,13 +61,28 @@ public class OrupController implements LoggedController {
         try {
             UserDto userDto = orupService.findUserByLoginName(loginName);
             if (password.equals(userDto.getPassword())) {
-                String token = JwtUtils.generateToken(userDto, 30 * 60);
-                return success(token, "登录成功");
+                String token = JwtUtils.generateToken(userDto, ParseUtils.getInteger(GlobalProperties.getProperties("jwt.expire.seconds", "1800"), 1800));
+                return success(userDto, "登录成功", token);
             }
         } catch (BusinessException e) {
             return fail(e.getMessage());
         }
         return fail("登录失败, 账号或者密码错误");
+    }
+
+    /**
+     * 刷新token
+     *
+     * @param request 请求体
+     * @return 带有新token的ResultVo
+     */
+    @ApiOperation(value = "刷新token")
+    @GetMapping(value = "refreshToken")
+    public String refreshToken(HttpServletRequest request) {
+        UserDto currentUser = getUser(request);
+        UserDto user = orupService.getUser(currentUser.getId());
+        String newToken = JwtUtils.generateToken(user, ParseUtils.getInteger(GlobalProperties.getProperties("jwt.expire.seconds", "1800"), 1800));
+        return success(user, "刷新成功", newToken);
     }
 
     /**

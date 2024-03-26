@@ -68,14 +68,13 @@ public class VerifyCodeServiceImpl implements VerifyCodeService {
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
     public void sendMailChangeLink(String verifyCode, String newMailAddress, UserDto user, HttpServletRequest request) throws MessagingException {
-        String baseUrl = getBaseUrl(verifyCode, user, request);
+        String baseUrl = getBaseUrl(verifyCode, newMailAddress, user, request);
         List<VerifyCodeEntity> verifyCodeEntityList =
                 verifyCodeRepository.findVerifyCodeEntityByCreateUserIdEqualsAndUseTypeEqualsAndStatusEqualsAndCodeEqualsAndExpireAfter(user.getId(), VerifyCodeUseTypeEnum.UserInfoChange.getUseType(), VerifyCodeStatusEnum.UnUsed.getStatus(), verifyCode, LocalDateTime.now());
         if (CollectionUtils.isNotEmpty(verifyCodeEntityList)) {
             updateVerifyCodeStatus(verifyCodeEntityList);
             String htmlContent = HtmlUtils.create()
-                    .addHeading(3, "验证码")
-                    .addBoldText(verifyCode)
+                    .addHeading(3, "请完成邮件变更确认")
                     .addLineBreak()
                     .addImage("https://s2.loli.net/2024/03/12/eFxmKLBaqfgWyoQ.webp", "")
                     .addLineBreak()
@@ -92,10 +91,10 @@ public class VerifyCodeServiceImpl implements VerifyCodeService {
         }
     }
 
-    private String getBaseUrl(String verifyCode, UserDto user, HttpServletRequest request) {
+    private String getBaseUrl(String verifyCode, String newMailAddress, UserDto user, HttpServletRequest request) {
         HashMap<String, Object> content = new HashMap<>(3);
         content.put("userId", user.getId());
-        content.put("newMailAddress", user.getEmail());
+        content.put("newMailAddress", newMailAddress);
         content.put("verifyCode", verifyCode);
         String jwtString = JwtUtils.generateToken(content, 10 * 60);
         return RequestUtils.getBaseUrl(request) + RestUrl.BASE_PATH + GlobalProperties.getProperties("callback.url.mailChange", "/orup/mailChange") + "?publicToken=" + jwtString;

@@ -20,6 +20,8 @@ import java.util.Arrays;
 @ApiModel(value = "标准返回视图对象")
 @NoArgsConstructor
 public class ResultVo implements Serializable {
+    private static final long serialVersionUID = -5220502988169199802L;
+
     @ApiModelProperty(value = "应用响应状态码")
     private Integer statusCode;
 
@@ -35,12 +37,24 @@ public class ResultVo implements Serializable {
     @ApiModelProperty(value = "返回结果体")
     private Object body;
 
+    @ApiModelProperty(value = "新令牌")
+    private String token;
+
     private ResultVo(CodeStatus codeStatus, String tips, String stackTrace, Object body) {
         this.statusCode = codeStatus.getCode();
         this.statusMsg = codeStatus.getMsg();
         this.stackTrace = stackTrace;
         this.tips = tips;
         this.body = body;
+    }
+
+    private ResultVo(CodeStatus codeStatus, String tips, String stackTrace, Object body, String token) {
+        this.statusCode = codeStatus.getCode();
+        this.statusMsg = codeStatus.getMsg();
+        this.stackTrace = stackTrace;
+        this.tips = tips;
+        this.body = body;
+        this.token = token;
     }
 
     public static ResultVo success() {
@@ -54,6 +68,11 @@ public class ResultVo implements Serializable {
     public static ResultVo success(Object body, String tips) {
         return new ResultVo(ResultCode.SUCCESS, tips, null, body);
     }
+
+    public static Object success(Object body, String tips, String newToken) {
+        return new ResultVo(ResultCode.SUCCESS, tips, null, body, newToken);
+    }
+
 
     public static ResultVo fail(Object body, String tips) {
         return new ResultVo(ResultCode.FAILED, tips, null, body);
