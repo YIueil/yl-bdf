@@ -39,7 +39,7 @@ public class LogAdvise {
                     proceed = proceedingJoinPoint.proceed();
                 } catch (Throwable throwable) {
                     log.debug(exception);
-                    throwable.printStackTrace();
+                    log.error(throwable.getMessage(), throwable);
                 }
                 log.debug(after);
             }

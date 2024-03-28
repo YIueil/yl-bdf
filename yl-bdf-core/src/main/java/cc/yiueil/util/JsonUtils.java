@@ -3,6 +3,7 @@ package cc.yiueil.util;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * JSONUtils json工具类
@@ -10,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @date 2023/5/30 23:19
  * @version 1.0
  */
+@Slf4j
 public class JsonUtils {
     private static class SingletonRegistry {
         private static final ObjectMapper OBJECT_MAPPER;
@@ -32,7 +34,7 @@ public class JsonUtils {
         try {
             return getInstance().writeValueAsString(obj);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         throw new RuntimeException();
     }
@@ -41,7 +43,7 @@ public class JsonUtils {
         try {
             return getInstance().readValue(jsonStr, clazz);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         throw new RuntimeException();
     }

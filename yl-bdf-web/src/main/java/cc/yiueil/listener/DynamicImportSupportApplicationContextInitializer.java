@@ -51,7 +51,7 @@ public class DynamicImportSupportApplicationContextInitializer implements Applic
                     }
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error(e.getMessage(), e);
             }
         }
     }

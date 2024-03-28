@@ -40,7 +40,7 @@ public class TimeIntervalAdvise {
                     proceed = proceedingJoinPoint.proceed();
                     sw.stop();
                 } catch (Throwable throwable) {
-                    throwable.printStackTrace();
+                    log.error(throwable.getMessage(), throwable);
                     sw.stop();
                 }
                 if (sw.getTotalTimeMillis() > less) {

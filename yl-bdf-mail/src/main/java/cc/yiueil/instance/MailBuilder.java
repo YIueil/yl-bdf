@@ -1,5 +1,7 @@
 package cc.yiueil.instance;
 
+import lombok.extern.slf4j.Slf4j;
+
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
@@ -18,6 +20,7 @@ import java.util.List;
  * @version 1.0
  * @date 2024/3/18 23:53
  */
+@Slf4j
 public class MailBuilder {
     private final Session session;
     private String subject;
@@ -102,7 +105,7 @@ public class MailBuilder {
                 try {
                     fileBodyPart.setFileName(MimeUtility.encodeText(attachment.getName(), "UTF-8", "B"));
                 } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
+                    log.error(e.getMessage(), e);
                 }
                 // 将MimeBodyPart对象添加到Multipart容器中
                 multipart.addBodyPart(fileBodyPart);

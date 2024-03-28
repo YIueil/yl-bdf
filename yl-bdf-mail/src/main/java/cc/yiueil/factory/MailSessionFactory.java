@@ -2,6 +2,7 @@ package cc.yiueil.factory;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
@@ -17,6 +18,7 @@ import java.util.Properties;
  * @version 1.0
  * @date 2024/3/18 22:42
  */
+@Slf4j
 @Getter
 @Setter
 public class MailSessionFactory {
@@ -76,7 +78,7 @@ public class MailSessionFactory {
                 }
             });
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             throw new RuntimeException("Failed to load mail properties.");
         }
     }

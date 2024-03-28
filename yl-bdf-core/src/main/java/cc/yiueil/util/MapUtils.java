@@ -3,6 +3,7 @@ package cc.yiueil.util;
 import cc.yiueil.convert.Converter;
 import cc.yiueil.convert.ConverterHolder;
 import cc.yiueil.lang.reflect.AbstractTypeReference;
+import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Field;
 import java.util.Comparator;
@@ -16,6 +17,7 @@ import java.util.Map;
  * @date 2023/5/30 23:20
  * @version 1.0
  */
+@Slf4j
 public class MapUtils {
     /**
      * Map是否为空
@@ -101,7 +103,7 @@ public class MapUtils {
             try {
                 value = field.get(entity);
             } catch (IllegalAccessException e) {
-                e.printStackTrace();
+                log.error(e.getMessage(), e);
             }
             map.put(field.getName(), value);
         }

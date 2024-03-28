@@ -1,10 +1,13 @@
 package cc.yiueil.data.impl;
 
-import cc.yiueil.data.*;
+import cc.yiueil.data.BatchDao;
+import cc.yiueil.data.GeneratorDao;
+import cc.yiueil.data.SqlDao;
 import cc.yiueil.exception.PageException;
 import cc.yiueil.lang.instance.HasId;
 import cc.yiueil.util.MapUtils;
 import cc.yiueil.util.ParseUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.query.internal.NativeQueryImpl;
 import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
@@ -27,6 +30,7 @@ import java.util.stream.Collectors;
  * @version 1.0
  * @date 2023/5/31 22:31
  */
+@Slf4j
 @Repository
 public class JpaBaseDao implements BatchDao, SqlDao, GeneratorDao {
     @PersistenceContext
@@ -135,7 +139,7 @@ public class JpaBaseDao implements BatchDao, SqlDao, GeneratorDao {
             try {
                 return MapUtils.mapToEntity(entityMap, clazz);
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error(e.getMessage(), e);
                 return null;
             }
         }).collect(Collectors.toList());
@@ -148,7 +152,7 @@ public class JpaBaseDao implements BatchDao, SqlDao, GeneratorDao {
             try {
                 return MapUtils.mapToEntity(entityMap, clazz);
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error(e.getMessage(), e);
                 return null;
             }
         }).collect(Collectors.toList());

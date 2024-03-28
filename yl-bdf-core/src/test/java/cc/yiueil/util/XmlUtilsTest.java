@@ -1,5 +1,6 @@
 package cc.yiueil.util;
 
+import lombok.extern.slf4j.Slf4j;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import java.io.InputStream;
 import java.util.List;
 
+@Slf4j
 class XmlUtilsTest {
     static Document document = null;
 
@@ -20,7 +22,7 @@ class XmlUtilsTest {
         try {
             document = XmlUtils.parse(inputStream);
         } catch (DocumentException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
     }
 

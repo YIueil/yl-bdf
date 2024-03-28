@@ -1,5 +1,8 @@
 package cc.yiueil.convert;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Converter 转换器接口
  * @author 弋孓 YIueil@163.com
@@ -12,6 +15,8 @@ package cc.yiueil.convert;
  * </pre>
  */
 public interface Converter<T> {
+    Logger log = LoggerFactory.getLogger(Converter.class);
+
     /**
      * 转换 默认不忽略转换错误
      *
@@ -36,7 +41,7 @@ public interface Converter<T> {
             try {
                 return convert(obj, defaultValue);
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error(e.getMessage(), e);
             }
         }
         return defaultValue;

@@ -11,6 +11,7 @@ import cc.yiueil.url.SmmsUrl;
 import cc.yiueil.util.HttpUtils;
 import cc.yiueil.util.IoUtils;
 import cc.yiueil.util.JsonUtils;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,6 +25,7 @@ import java.util.Map;
  * @version 1.0
  * @date 2024/1/18 14:33
  */
+@Slf4j
 public class SmmsImageBedImpl implements ImageResource {
 
     @Override
@@ -43,7 +45,7 @@ public class SmmsImageBedImpl implements ImageResource {
             SmmsUploadResultEntity smmsUploadResultEntity = JsonUtils.parse(SmmsUploadResultEntity.class, jsonString);
             return UploadResult.success(smmsUploadResultEntity.getMessage(), smmsUploadResultEntity.getData().getUrl(), smmsUploadResultEntity.getData().getDelete());
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             throw new FileUploadException("文件上传失败");
         }
     }

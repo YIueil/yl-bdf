@@ -16,6 +16,7 @@ package org.activiti.rest.diagram.services;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import lombok.extern.slf4j.Slf4j;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
@@ -31,7 +32,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.*;
-
+@Slf4j
 @RestController
 public class ProcessInstanceHighlightsResource {
 
@@ -74,7 +75,7 @@ public class ProcessInstanceHighlightsResource {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
 
         responseJSON.put("activities", activitiesArray);

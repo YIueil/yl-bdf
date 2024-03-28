@@ -15,6 +15,7 @@ import cc.yiueil.vo.UserVo;
 import com.auth0.jwt.interfaces.Claim;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +35,7 @@ import java.util.stream.Collectors;
  * @date 2023/5/30 22:16
  */
 @Api(value = "ORUP-用户角色账户权限控制")
+@Slf4j
 @CrossOrigin
 @RestController
 @RequestMapping(value = RestUrl.BASE_PATH + OrupRestUrl.ORUP)
@@ -119,7 +121,7 @@ public class OrupController implements LoggedController {
             orupService.passwordChange(currentUser, oldPassword, newPassword);
             return success(null, "密码修改成功");
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             return fail(e.getMessage());
         }
     }
@@ -145,7 +147,7 @@ public class OrupController implements LoggedController {
             orupService.userMailChange(userId, mailAddress);
             return success();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             return fail(null, e.getMessage());
         }
     }
@@ -175,7 +177,7 @@ public class OrupController implements LoggedController {
             orupService.phoneNumberChange(currentUser, newPhoneNumber);
             return success(null, "手机号修改成功");
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             return fail(e.getMessage());
         }
     }

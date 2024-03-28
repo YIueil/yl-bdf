@@ -4,6 +4,7 @@ import cc.yiueil.exception.BusinessException;
 import cc.yiueil.exception.UnauthorizedException;
 import cc.yiueil.util.StringUtils;
 import cc.yiueil.vo.ResultVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -20,17 +21,18 @@ import java.util.Map;
  * @date 2023/5/31 23:20
  * @version 1.0
  */
+@Slf4j
 @RestControllerAdvice
 public class CustomExceptionHandler {
     @ExceptionHandler({Exception.class})
     public ResultVo globalExceptionHandler(Exception e) {
-        e.printStackTrace();
+        log.error(e.getMessage(), e);
         return ResultVo.error("服务异常", e);
     }
 
     @ExceptionHandler({RuntimeException.class})
     public ResultVo runtimeException(RuntimeException e) {
-        e.printStackTrace();
+        log.error(e.getMessage(), e);
         if (StringUtils.isBlank(e.getMessage())) {
             return ResultVo.error("未知运行时异常", e);
         } else {
@@ -40,7 +42,7 @@ public class CustomExceptionHandler {
 
     @ExceptionHandler({BusinessException.class})
     public ResultVo businessExceptionHandler(BusinessException e) {
-        e.printStackTrace();
+        log.error(e.getMessage(), e);
         if (StringUtils.isBlank(e.getMessage())) {
             return ResultVo.error("未知业务功能异常", e);
         } else {

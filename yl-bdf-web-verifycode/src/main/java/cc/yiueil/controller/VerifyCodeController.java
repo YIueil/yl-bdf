@@ -9,6 +9,7 @@ import cc.yiueil.service.VerifyCodeService;
 import cc.yiueil.util.VerifyCodeUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
  * @date 2024/3/19 22:32
  */
 @Api(value = "VerifyCode-验证码模块")
+@Slf4j
 @CrossOrigin
 @RestController
 @RequestMapping(value = RestUrl.BASE_PATH + VerifyCodeUrl.VERIFY_CODE_V1)
@@ -43,7 +45,7 @@ public class VerifyCodeController implements LoggedController {
         try {
             verifyCodeService.send(VerifyCodeUtils.generateVerifyCode(6, 60 * 5, VerifyCodeSendTypeEnum.MAIL, VerifyCodeUseTypeEnum.UserInfoChange), user);
         } catch (MessagingException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             return fail(null, e.getMessage());
         }
         return success();
@@ -64,7 +66,7 @@ public class VerifyCodeController implements LoggedController {
         try {
             verifyCodeService.sendMailChangeLink(verifyCode, newMailAddress, user, request);
         } catch (MessagingException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             return fail(null, e.getMessage());
         }
         return success();

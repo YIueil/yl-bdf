@@ -9,7 +9,9 @@ import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.extern.slf4j.Slf4j;
 
-import java.time.*;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -53,7 +55,7 @@ public class JwtUtils {
                     .sign(algorithm);
         } catch (Exception e) {
             log.error("generate token occur error, error");
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             return null;
         }
     }
@@ -83,7 +85,7 @@ public class JwtUtils {
                     .sign(algorithm);
         } catch (Exception e) {
             log.error("generate token occur error, error");
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             return null;
         }
     }

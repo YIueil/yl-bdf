@@ -1,5 +1,7 @@
 package cc.yiueil.util;
 
+import lombok.extern.slf4j.Slf4j;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
@@ -11,6 +13,7 @@ import java.net.URLDecoder;
  * @date 2023/5/31 23:22
  * @version 1.0
  */
+@Slf4j
 public final class CookieUtils {
 
     public static String getCookieValue(HttpServletRequest request, String cookieName) {
@@ -35,7 +38,7 @@ public final class CookieUtils {
                 }
             }
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return retValue;
     }
@@ -54,7 +57,7 @@ public final class CookieUtils {
                 }
             }
         } catch (UnsupportedEncodingException e) {
-        	 e.printStackTrace();
+        	 log.error(e.getMessage(), e);
         }
         return retValue;
     }

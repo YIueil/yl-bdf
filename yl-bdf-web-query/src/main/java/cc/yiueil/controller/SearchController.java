@@ -2,10 +2,11 @@ package cc.yiueil.controller;
 
 import cc.yiueil.constant.SearchRestUrl;
 import cc.yiueil.dto.DynamicQueryDto;
-import cc.yiueil.vo.PageVo;
 import cc.yiueil.general.RestUrl;
 import cc.yiueil.service.SearchService;
+import cc.yiueil.vo.PageVo;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.dom4j.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -21,6 +22,7 @@ import java.util.Map;
  * @date 2023/5/31 23:26
  * @version 1.0
  */
+@Slf4j
 @RestController
 @RequestMapping(value = RestUrl.BASE_PATH + SearchRestUrl.QUERY)
 public class SearchController implements BaseController {
@@ -37,7 +39,7 @@ public class SearchController implements BaseController {
         try {
             return success(searchService.searchPage(dynamicQueryDTO, filter, pageIndex, pageSize));
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             return error("查询服务配置文件不存在", e);
         } catch (DocumentException e) {
             return error("查询配置文件结构有误", e);

@@ -66,7 +66,7 @@ public class TestController implements LoggedController {
                     .setBody("也是无题")
                     .send();
         } catch (MessagingException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             return fail();
         }
         return success();

@@ -10,6 +10,8 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.Node;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.HashMap;
@@ -23,6 +25,7 @@ import java.util.Map;
  * @version 1.0
  */
 public interface ConfigResolver {
+    Logger log = LoggerFactory.getLogger(ConfigResolver.class);
     /**
      * 解析整个文档生成动态查询节点
      * @param file 配置文档节点
@@ -35,7 +38,7 @@ public interface ConfigResolver {
             dynamicQueryNode.setDynamicQueryMap(buildDynamicQueryNode(document));
             return dynamicQueryNode;
         } catch (DocumentException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         throw new RuntimeException("配置节点无效! 文件有误:" + file.getName());
     }

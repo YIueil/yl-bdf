@@ -14,6 +14,7 @@ package org.activiti.rest.editor.model;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import lombok.extern.slf4j.Slf4j;
 import org.activiti.editor.constants.ModelDataJsonConstants;
 import org.activiti.engine.ActivitiException;
 import org.activiti.engine.RepositoryService;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * @author Tijs Rademakers
  */
+@Slf4j
 @RestController
 public class ModelEditorJsonRestResource implements ModelDataJsonConstants {
 

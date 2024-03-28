@@ -17,6 +17,7 @@ import cc.yiueil.util.ObjectUtils;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import lombok.extern.slf4j.Slf4j;
 import org.activiti.bpmn.converter.BpmnXMLConverter;
 import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.editor.constants.ModelDataJsonConstants;
@@ -50,6 +51,7 @@ import java.nio.charset.StandardCharsets;
 /**
  * @author Tijs Rademakers
  */
+@Slf4j
 @RestController
 public class ModelSaveRestResource implements ModelDataJsonConstants {
 
@@ -120,7 +122,7 @@ public class ModelSaveRestResource implements ModelDataJsonConstants {
             modelData.setDeploymentId(deployment.getId());
             repositoryService.saveModel(modelData);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
     }
 
@@ -159,10 +161,10 @@ public class ModelSaveRestResource implements ModelDataJsonConstants {
                     response.setContentType(contentType);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error(e.getMessage(), e);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
     }
 
@@ -197,7 +199,7 @@ public class ModelSaveRestResource implements ModelDataJsonConstants {
             modelNode = new BpmnJsonConverter().convertToJson(bpmnModel);
             repositoryService.addModelEditorSource(modelId, modelNode.toString().getBytes(charset));
         } catch (XMLStreamException | IOException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return ObjectUtils.defaultIfNull(modelNode, "").toString();
     }

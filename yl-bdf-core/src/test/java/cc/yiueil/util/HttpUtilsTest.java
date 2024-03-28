@@ -1,6 +1,7 @@
 package cc.yiueil.util;
 
 import cc.yiueil.enums.MediaTypeEnum;
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeAll;
@@ -10,6 +11,7 @@ import java.io.IOException;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 class HttpUtilsTest {
     private static OkHttpClient okHttpClient = null;
 
@@ -75,7 +77,7 @@ class HttpUtilsTest {
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                e.printStackTrace();
+                log.error(e.getMessage(), e);
             }
 
             @Override

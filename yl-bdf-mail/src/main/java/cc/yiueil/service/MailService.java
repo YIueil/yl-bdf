@@ -3,6 +3,7 @@ package cc.yiueil.service;
 import cc.yiueil.instance.Mail;
 import cc.yiueil.instance.MailBuilder;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -16,6 +17,7 @@ import java.util.List;
  * @version 1.0
  * @date 2024/3/18 23:33
  */
+@Slf4j
 @Setter
 public class MailService {
     private Session session;
@@ -54,7 +56,7 @@ public class MailService {
                     .addAttachment(attachments)
                     .send();
         } catch (MessagingException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
     }
 }
