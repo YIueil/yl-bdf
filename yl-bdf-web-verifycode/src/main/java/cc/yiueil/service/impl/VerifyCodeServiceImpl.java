@@ -1,5 +1,6 @@
 package cc.yiueil.service.impl;
 
+import cc.yiueil.constant.VerifySupportConfig;
 import cc.yiueil.data.impl.JpaBaseDao;
 import cc.yiueil.dto.UserDto;
 import cc.yiueil.entity.VerifyCodeEntity;
@@ -97,7 +98,7 @@ public class VerifyCodeServiceImpl implements VerifyCodeService {
         content.put("newMailAddress", newMailAddress);
         content.put("verifyCode", verifyCode);
         String jwtString = JwtUtils.generateToken(content, 10 * 60);
-        return RequestUtils.getBaseUrl(request) + RestUrl.BASE_PATH + GlobalProperties.getProperties("callback.url.mailChange", "/orup/mailChange") + "?publicToken=" + jwtString;
+        return RequestUtils.getBaseUrl(request) + RestUrl.BASE_PATH + GlobalProperties.getProperties(VerifySupportConfig.CALLBACK_URL_MAIL_CHANGE, "/orup/mailChange") + "?publicToken=" + jwtString;
     }
 
     private void updateVerifyCodeStatus(List<VerifyCodeEntity> verifyCodeEntityList) {

@@ -1,6 +1,7 @@
 package cc.yiueil.interceptor;
 
 import cc.yiueil.annotation.VerifyToken;
+import cc.yiueil.constant.OrupSupportConfig;
 import cc.yiueil.context.RequestContextThreadLocal;
 import cc.yiueil.controller.LoggedController;
 import cc.yiueil.dto.UserDto;
@@ -120,7 +121,7 @@ public class AuthenticateInterceptor implements HandlerInterceptor {
     private boolean verifyToken(HttpServletRequest request, HttpServletResponse response) {
         String token = request.getHeader("yl-token");
         RequestContextThreadLocal.setParams("token", token);
-        if (GlobalProperties.getProperties("application.public.token", "Fk12345.").equals(token)) {
+        if (GlobalProperties.getProperties(OrupSupportConfig.APPLICATION_PUBLIC_TOKEN, "Fk12345.").equals(token)) {
             return true;
         }
         try {
@@ -150,7 +151,7 @@ public class AuthenticateInterceptor implements HandlerInterceptor {
         }
         ZonedDateTime now = ZonedDateTime.now(ZoneId.systemDefault());
         // 当剩余时间少于三分之一时, 进行续签
-        String jwtExpireSeconds = GlobalProperties.getProperties("jwt.expire.seconds", "1800");
+        String jwtExpireSeconds = GlobalProperties.getProperties(OrupSupportConfig.JWT_EXPIRE_SECONDS, "1800");
         long seconds = ParseUtils.getLong(jwtExpireSeconds, 1800L) / 3;
         ZonedDateTime reTokenZonedDateTime = now.plusSeconds(seconds);
         Instant reTokenInstant = Instant.from(reTokenZonedDateTime);

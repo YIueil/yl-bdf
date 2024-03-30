@@ -2,6 +2,7 @@ package cc.yiueil.controller;
 
 import cc.yiueil.annotation.VerifyToken;
 import cc.yiueil.constant.OrupRestUrl;
+import cc.yiueil.constant.OrupSupportConfig;
 import cc.yiueil.data.impl.JpaBaseDao;
 import cc.yiueil.dto.*;
 import cc.yiueil.exception.BusinessException;
@@ -63,7 +64,7 @@ public class OrupController implements LoggedController {
         try {
             UserDto userDto = orupService.findUserByLoginName(loginName);
             if (password.equals(userDto.getPassword())) {
-                String token = JwtUtils.generateToken(userDto, ParseUtils.getLong(GlobalProperties.getProperties("jwt.expire.seconds", "1800"), 1800L));
+                String token = JwtUtils.generateToken(userDto, ParseUtils.getLong(GlobalProperties.getProperties(OrupSupportConfig.JWT_EXPIRE_SECONDS, "1800"), 1800L));
                 return success(userDto, "登录成功", token);
             }
         } catch (BusinessException e) {
@@ -83,7 +84,7 @@ public class OrupController implements LoggedController {
     public String refreshToken(HttpServletRequest request) {
         UserDto currentUser = getUser(request);
         UserDto user = orupService.getUser(currentUser.getId());
-        String newToken = JwtUtils.generateToken(user, ParseUtils.getLong(GlobalProperties.getProperties("jwt.expire.seconds", "1800"), 1800L));
+        String newToken = JwtUtils.generateToken(user, ParseUtils.getLong(GlobalProperties.getProperties(OrupSupportConfig.JWT_EXPIRE_SECONDS, "1800"), 1800L));
         return success(user, "刷新成功", newToken);
     }
 
