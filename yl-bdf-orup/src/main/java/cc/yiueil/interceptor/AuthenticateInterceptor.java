@@ -114,7 +114,7 @@ public class AuthenticateInterceptor implements HandlerInterceptor {
      * token校验
      *
      * @param request 请求体
-     * @param response
+     * @param response 响应体
      * @return 校验结果
      */
     private boolean verifyToken(HttpServletRequest request, HttpServletResponse response) {
