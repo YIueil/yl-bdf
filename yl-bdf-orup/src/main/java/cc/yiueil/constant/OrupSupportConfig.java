@@ -7,7 +7,7 @@ package cc.yiueil.constant;
  * @version 1.0
  * @date 2024/3/31 5:45
  */
-public interface OrupSupportConfig {
+public interface OrupSupportConfig extends SupportConfig{
     /**
      * jwt超时时间 单位秒
      */

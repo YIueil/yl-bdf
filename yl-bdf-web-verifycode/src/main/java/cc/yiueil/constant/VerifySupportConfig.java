@@ -7,7 +7,7 @@ package cc.yiueil.constant;
  * @version 1.0
  * @date 2024/3/31 5:51
  */
-public interface VerifySupportConfig {
+public interface VerifySupportConfig extends SupportConfig{
     /**
      * 邮件变更地址
      */
