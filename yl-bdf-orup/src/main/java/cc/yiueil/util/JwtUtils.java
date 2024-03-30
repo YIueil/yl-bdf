@@ -37,7 +37,7 @@ public class JwtUtils {
      * @param user 用户信息
      * @return 根据用户信息生成 jwt token
      */
-    public static String generateToken(UserDto user, int expireSeconds) {
+    public static String generateToken(UserDto user, Long expireSeconds) {
         try {
             // 私钥和加密算法
             Algorithm algorithm = Algorithm.HMAC256(TOKEN_SECRET);
@@ -96,12 +96,24 @@ public class JwtUtils {
      * @param token 待校验的 jwt token 信息
      * @return 校验结果
      */
-    public static UserDto verifyToken(String token) {
+    public static UserDto verifyTokenUser(String token) {
         Algorithm algorithm = Algorithm.HMAC256(TOKEN_SECRET);
         JWTVerifier verifier = JWT.require(algorithm).build();
         DecodedJWT jwt = verifier.verify(token);
         String userInfo = jwt.getClaim("user").asString();
         return JsonUtils.parse(UserDto.class, userInfo);
+    }
+
+    /**
+     * 检验 jwt token 是否正确
+     *
+     * @param token 待校验的 jwt token 信息
+     * @return 校验结果
+     */
+    public static DecodedJWT verifyToken(String token) {
+        Algorithm algorithm = Algorithm.HMAC256(TOKEN_SECRET);
+        JWTVerifier verifier = JWT.require(algorithm).build();
+        return verifier.verify(token);
     }
 
     /**

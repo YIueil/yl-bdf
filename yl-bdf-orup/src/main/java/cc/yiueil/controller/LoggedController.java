@@ -32,7 +32,7 @@ public interface LoggedController extends BaseController {
             return userDto;
         }
         if (StringUtils.isNotEmpty(token)) {
-            return JwtUtils.verifyToken(token);
+            return JwtUtils.verifyTokenUser(token);
         }
         return null;
     }

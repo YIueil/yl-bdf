@@ -51,4 +51,15 @@ public class UserController implements LoggedController {
         }
         return success();
     }
+
+    @GetMapping(value="test3")
+    public String test3(HttpServletRequest request){
+        try {
+            Thread.sleep(1000 * 60 * 5);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return success();
+    }
+
 }
