@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import javax.sql.DataSource;
 import java.util.Date;
 
 /**
@@ -30,6 +31,9 @@ public class UserController implements LoggedController {
 
     @Autowired
     MailService mailService;
+
+    @Autowired
+    DataSource dataSource;
 
     @GetMapping(value="test/{num}")
     public String test1(HttpServletRequest request, @PathVariable String num){
@@ -54,12 +58,8 @@ public class UserController implements LoggedController {
 
     @GetMapping(value="test3")
     public String test3(HttpServletRequest request){
-        try {
-            Thread.sleep(1000 * 60 * 5);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return success();
+        log.debug(dataSource.toString());
+        return dataSource.toString();
     }
 
 }
