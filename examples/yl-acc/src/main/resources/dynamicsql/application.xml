@@ -56,4 +56,18 @@
             order by f.createtime desc
         ]]></endSql>
     </config>
+
+    <!--获取应用列表-->
+    <config id="getApplicationList">
+        <sql><![CDATA[
+            select app.id, app.guid, app.name, app.iconurl as "iconUrl", app.description, app.status, app.url, string_agg(u.username, ',') as "applicationManager"
+            from yl_acc.application app
+                     left join yl_acc.application_manager appm on appm.applicationid = app.id
+                     left join yl_acc."user" u on u.id = appm.managerid
+            group by app.id, app.guid, app.name, app.iconurl, app.description, app.status, app.url
+        ]]></sql>
+        <endSql><![CDATA[
+            order by app.id desc
+        ]]></endSql>
+    </config>
 </root>

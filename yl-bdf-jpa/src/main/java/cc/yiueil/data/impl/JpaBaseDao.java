@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 
 /**
  * JpaBaseDao jpa基础查询实现
+ * v1.0: 各个模块可以继承进行扩展
  *
  * @author 弋孓 YIueil@163.com
  * @version 1.0

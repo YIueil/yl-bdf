@@ -10,6 +10,7 @@ import cc.yiueil.repository.PageRepository;
 import cc.yiueil.service.PageService;
 import cc.yiueil.util.TreeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 @Service
 public class PageServiceV1 implements PageService {
     @Autowired
+    @Qualifier("jpaBaseDao")
     JpaBaseDao baseDao;
 
     @Autowired

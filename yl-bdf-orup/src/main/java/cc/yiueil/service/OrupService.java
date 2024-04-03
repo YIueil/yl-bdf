@@ -137,6 +137,13 @@ public interface OrupService {
     ApplicationDto addApplication(ApplicationDto applicationDto, UserDto currentUser);
 
     /**
+     * 修改应用
+     *
+     * @return applicationDto 应用Dto
+     */
+    ApplicationDto modifyApplication(ApplicationDto applicationDto);
+
+    /**
      * 给应用批量设置应用管理员
      *
      * @param applicationId 应用id

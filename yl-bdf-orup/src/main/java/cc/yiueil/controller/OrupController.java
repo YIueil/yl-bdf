@@ -18,6 +18,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,6 +43,7 @@ import java.util.stream.Collectors;
 @RequestMapping(value = RestUrl.BASE_PATH + OrupRestUrl.ORUP)
 public class OrupController implements LoggedController {
     @Autowired
+    @Qualifier("jpaBaseDao")
     JpaBaseDao baseDao;
 
     @Autowired
@@ -501,6 +503,12 @@ public class OrupController implements LoggedController {
     public String addApplication(@RequestBody ApplicationDto applicationDto, HttpServletRequest request) {
         UserDto currentUser = getUser(request);
         return success(orupService.addApplication(applicationDto, currentUser));
+    }
+
+    @ApiOperation(value = "修改应用")
+    @PostMapping(value = "modifyApplication")
+    public String modifyApplication(@RequestBody ApplicationDto applicationDto) {
+        return success(orupService.modifyApplication(applicationDto));
     }
 
     @ApiOperation(value = "删除应用")

@@ -4,14 +4,15 @@ import cc.yiueil.data.impl.JpaBaseDao;
 import cc.yiueil.dto.DynamicQueryDto;
 import cc.yiueil.exception.BusinessException;
 import cc.yiueil.query.ConfigResolver;
-import cc.yiueil.query.instance.DynamicQuery;
 import cc.yiueil.query.DynamicQueryNode;
 import cc.yiueil.query.DynamicQueryPool;
+import cc.yiueil.query.instance.DynamicQuery;
 import cc.yiueil.query.instance.DynamicQueryInst;
 import cc.yiueil.service.SearchService;
 import cc.yiueil.util.StringUtils;
 import cc.yiueil.vo.PageVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +29,7 @@ import java.util.Map;
 @Service
 public class SearchServiceImpl implements SearchService {
     @Autowired
+    @Qualifier("jpaBaseDao")
     JpaBaseDao baseDao;
 
     @Autowired
@@ -90,7 +92,7 @@ public class SearchServiceImpl implements SearchService {
         }
         // 仅construct时使用外部parameters
         DynamicQueryInst dynamicQueryInst = configResolver.constructInst(dynamicQuery, parameters);
-        pageVo.setBody(baseDao.sqlAsMap(dynamicQueryInst.getSql(), dynamicQueryInst.getParameters(), pageIndex, pageSize));
+        pageVo.setList(baseDao.sqlAsMap(dynamicQueryInst.getSql(), dynamicQueryInst.getParameters(), pageIndex, pageSize));
         pageVo.setItemCounts(baseDao.countSize(dynamicQueryInst.getCountSql(), dynamicQueryInst.getParameters()));
         pageVo.setPageTotal((pageVo.getItemCounts() / pageSize) + 1);
         return pageVo;

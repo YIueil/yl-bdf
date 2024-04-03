@@ -8,7 +8,6 @@ import cc.yiueil.repository.RoleRepository;
 import cc.yiueil.repository.UserRepository;
 import cc.yiueil.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -20,7 +19,7 @@ import java.util.List;
  * @version 1.0
  * @date 2023/8/1 22:54
  */
-@Service
+//@Service
 public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;

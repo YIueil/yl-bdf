@@ -7,6 +7,7 @@ import cc.yiueil.repository.SpaceRepository;
 import cc.yiueil.service.SpaceService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class SpaceServiceV1 implements SpaceService {
     @Autowired
+    @Qualifier("jpaBaseDao")
     JpaBaseDao baseDao;
 
     @Autowired

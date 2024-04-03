@@ -35,9 +35,10 @@ public class SearchController implements BaseController {
                              @RequestParam(defaultValue = "10") Integer pageSize,
                              @RequestBody @Validated DynamicQueryDto dynamicQueryDTO) {
         // 1、构建查询参数
-        Map<String, Object> filter = new HashMap<>(dynamicQueryDTO.getFilter());
+        Map<String, Object> filterMap = dynamicQueryDTO.getFilter();
+        filterMap = filterMap == null ? new HashMap<>(16) : new HashMap<>(filterMap);
         try {
-            return success(searchService.searchPage(dynamicQueryDTO, filter, pageIndex, pageSize));
+            return success(searchService.searchPage(dynamicQueryDTO, filterMap, pageIndex, pageSize));
         } catch (FileNotFoundException e) {
             log.error(e.getMessage(), e);
             return error("查询服务配置文件不存在", e);

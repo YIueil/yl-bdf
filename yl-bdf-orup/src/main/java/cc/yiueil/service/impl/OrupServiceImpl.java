@@ -16,6 +16,7 @@ import cc.yiueil.util.ObjectUtils;
 import cc.yiueil.util.PasswordUtils;
 import cc.yiueil.vo.PasswordStrengthVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +37,7 @@ import java.util.stream.StreamSupport;
 @Service
 public class OrupServiceImpl implements OrupService {
     @Autowired
+    @Qualifier("orupBaseDao")
     JpaBaseDao baseDao;
 
     @Autowired
@@ -207,6 +209,13 @@ public class OrupServiceImpl implements OrupService {
         ApplicationEntity newApplicationEntity = baseDao.save(BeanUtils.copyProperties(applicationDto, new ApplicationEntity()));
         newApplicationEntity.setCreateUserId(currentUser.getId());
         return BeanUtils.copyProperties(newApplicationEntity, new ApplicationDto());
+    }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public ApplicationDto modifyApplication(ApplicationDto applicationDto) {
+        ApplicationEntity applicationEntity = baseDao.save(BeanUtils.copyProperties(applicationDto, new ApplicationEntity()));
+        return BeanUtils.copyProperties(applicationEntity, new ApplicationDto());
     }
 
     @Override

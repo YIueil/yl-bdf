@@ -38,5 +38,5 @@ public class PageVo implements Serializable {
     private int itemCounts;
 
     @ApiModelProperty(value = "数据体")
-    private Object body;
+    private Object list;
 }
