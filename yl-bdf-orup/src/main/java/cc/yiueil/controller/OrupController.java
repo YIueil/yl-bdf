@@ -3,7 +3,6 @@ package cc.yiueil.controller;
 import cc.yiueil.annotation.VerifyToken;
 import cc.yiueil.constant.OrupRestUrl;
 import cc.yiueil.constant.OrupSupportConfig;
-import cc.yiueil.data.impl.JpaBaseDao;
 import cc.yiueil.dto.*;
 import cc.yiueil.exception.BusinessException;
 import cc.yiueil.general.RestUrl;
@@ -18,7 +17,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,10 +40,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(value = RestUrl.BASE_PATH + OrupRestUrl.ORUP)
 public class OrupController implements LoggedController {
-    @Autowired
-    @Qualifier("jpaBaseDao")
-    JpaBaseDao baseDao;
-
     @Autowired
     OrupService orupService;
 
