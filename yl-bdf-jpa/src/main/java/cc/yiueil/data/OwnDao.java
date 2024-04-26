@@ -1,5 +1,7 @@
 package cc.yiueil.data;
 
+import cc.yiueil.context.RequestContextThreadLocal;
+import cc.yiueil.dto.UserDto;
 import cc.yiueil.lang.instance.HasOwn;
 
 /**
@@ -18,7 +20,11 @@ public interface OwnDao {
             HasOwn ownEntity = (HasOwn) entity;
             if(ownEntity.getCreateUserId() == null)
             {
-                ownEntity.setCreateUserId(null);
+                UserDto user = RequestContextThreadLocal.getUser();
+                if (user == null) {
+                    return;
+                }
+                ownEntity.setCreateUserId(user.getId());
             }
         }
     }
