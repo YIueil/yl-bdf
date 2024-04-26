@@ -220,6 +220,14 @@ public class OrupServiceImpl implements OrupService {
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
+    public void modifyApplicationStatus(Long applicationId, String status) {
+        ApplicationEntity applicationEntity = baseDao.findById(ApplicationEntity.class, applicationId).orElseThrow(() -> new ResourceNotFoundException("应用不存在"));
+        applicationEntity.setStatus(status);
+        baseDao.save(applicationEntity);
+    }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
     public void addApplicationManager(Long applicationId, List<Long> userIds, UserDto currentUser) {
         for (Long userId : userIds) {
             ApplicationManagerEntity applicationManagerEntity = new ApplicationManagerEntity();

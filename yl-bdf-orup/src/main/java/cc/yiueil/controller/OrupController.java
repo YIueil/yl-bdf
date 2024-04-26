@@ -485,6 +485,13 @@ public class OrupController implements LoggedController {
         return success(orupService.getAllApplications());
     }
 
+    @ApiOperation(value = "修改应用状态")
+    @PostMapping(value="updateApplicationStatus")
+    public String updateApplicationStatus(Long applicationId, String status, HttpServletRequest request){
+        orupService.modifyApplicationStatus(applicationId, status);
+        return success();
+    }
+
     /**
      * 添加或编辑应用
      *

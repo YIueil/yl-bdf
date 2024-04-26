@@ -139,9 +139,18 @@ public interface OrupService {
     /**
      * 修改应用
      *
+     * @param applicationDto 应用
      * @return applicationDto 应用Dto
      */
     ApplicationDto modifyApplication(ApplicationDto applicationDto);
+
+    /**
+     * 修改应用状态
+     *
+     * @param applicationId 应用id
+     * @param status        状态
+     */
+    void modifyApplicationStatus(Long applicationId, String status);
 
     /**
      * 给应用批量设置应用管理员
@@ -341,6 +350,7 @@ public interface OrupService {
 
     /**
      * 获取用户链接集合
+     *
      * @param user 用户
      * @return 链接集合
      */
@@ -348,6 +358,7 @@ public interface OrupService {
 
     /**
      * 创建用户链接
+     *
      * @param linkDto 用户链接
      * @return 创建后的 link 链接
      */
@@ -355,6 +366,7 @@ public interface OrupService {
 
     /**
      * 编辑用户链接
+     *
      * @param linkDto 用户链接
      * @return 修改后的用户链接
      */
@@ -362,20 +374,23 @@ public interface OrupService {
 
     /**
      * 删除用户链接
-     * @param linkId 链接实体id
+     *
+     * @param linkId      链接实体id
      * @param currentUser 操作用户
      */
     void delLink(Long linkId, UserDto currentUser);
 
     /**
      * 修改用户手机号
-     * @param currentUser 当前登录用户
+     *
+     * @param currentUser    当前登录用户
      * @param newPhoneNumber 新手机号码
      */
     void phoneNumberChange(UserDto currentUser, String newPhoneNumber);
 
     /**
      * 获取密码健壮性等级
+     *
      * @param user 当前登录用户
      * @return 密码健壮性视图对象
      */
@@ -383,7 +398,8 @@ public interface OrupService {
 
     /**
      * 修改用户邮箱
-     * @param userId 用户id
+     *
+     * @param userId         用户id
      * @param newMailAddress 新邮件地址
      */
     void userMailChange(Long userId, String newMailAddress);
