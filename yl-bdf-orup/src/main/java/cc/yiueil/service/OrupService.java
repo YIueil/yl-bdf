@@ -23,12 +23,10 @@ public interface OrupService {
 
     /**
      * 修改密码
-     *
-     * @param userDto     用户DTO
-     * @param oldPassword 旧密码
+     *  @param oldPassword 旧密码
      * @param newPassword 新密码
      */
-    void passwordChange(UserDto userDto, String oldPassword, String newPassword);
+    void passwordChange(String oldPassword, String newPassword);
 
     /**
      * 获取用户信息
@@ -42,51 +40,45 @@ public interface OrupService {
      * 添加用户
      *
      * @param userDto     用户DTO
-     * @param currentUser 请求体
      * @return 用户实体信息
      */
-    UserDto addUser(UserDto userDto, UserDto currentUser);
+    UserDto addUser(UserDto userDto);
 
     /**
      * 修改用户信息
      *
      * @param userDto     用户实体
-     * @param currentUser 当前用户
      * @return 编辑后的用户信息
      */
-    UserDto modifyUser(UserDto userDto, UserDto currentUser);
+    UserDto modifyUser(UserDto userDto);
 
     /**
      * 删除用户信息
+     *  @param userId      用户id
      *
-     * @param userId      用户id
-     * @param currentUser 当前用户
      */
-    void delUser(Long userId, UserDto currentUser);
+    void delUser(Long userId);
 
     /**
      * 批量删除用户信息
+     *  @param userIds     用户id集合
      *
-     * @param userIds     用户id集合
-     * @param currentUser 当前用户
      */
-    void delUserByIds(List<Long> userIds, UserDto currentUser);
+    void delUserByIds(List<Long> userIds);
 
     /**
      * 挂起用户
+     *  @param userId      用户id
      *
-     * @param userId      用户id
-     * @param currentUser 当前用户
      */
-    void suspendUser(Long userId, UserDto currentUser);
+    void suspendUser(Long userId);
 
     /**
      * 批量挂起用户
+     *  @param userIds     用户id集合
      *
-     * @param userIds     用户id集合
-     * @param currentUser 当前用户
      */
-    void suspendUserByIds(List<Long> userIds, UserDto currentUser);
+    void suspendUserByIds(List<Long> userIds);
 
     /**
      * 根据id查找用户
@@ -107,18 +99,16 @@ public interface OrupService {
     /**
      * 获取用户所有权限
      *
-     * @param user 操作用户
      * @return 权限集合
      */
-    List<PermissionDto> getUserPermissions(UserDto user);
+    List<PermissionDto> getUserPermissions();
 
     /**
      * 获取用户所有角色
      *
-     * @param user 操作用户
      * @return 角色集合
      */
-    List<RoleDto> getUserRoles(UserDto user);
+    List<RoleDto> getUserRoles();
 
     /**
      * 获取所有应用集合
@@ -131,10 +121,9 @@ public interface OrupService {
      * 添加应用
      *
      * @param applicationDto 应用Dto
-     * @param currentUser    当前用户
      * @return 新增的应用
      */
-    ApplicationDto addApplication(ApplicationDto applicationDto, UserDto currentUser);
+    ApplicationDto addApplication(ApplicationDto applicationDto);
 
     /**
      * 修改应用
@@ -157,35 +146,31 @@ public interface OrupService {
      *
      * @param applicationId 应用id
      * @param userIds       用户id集合
-     * @param currentUser   当前用户
      */
-    void addApplicationManager(Long applicationId, List<Long> userIds, UserDto currentUser);
+    void addApplicationManager(Long applicationId, List<Long> userIds);
 
     /**
      * 添加应用功能
      *
      * @param functionDto 应用功能Dto
-     * @param currentUser 当前用户
      * @return 新添加的应用功能
      */
-    FunctionDto addApplicationFunction(FunctionDto functionDto, UserDto currentUser);
+    FunctionDto addApplicationFunction(FunctionDto functionDto);
 
     /**
      * 应用功能授权
      *
      * @param functionId  应用功能id
      * @param roleIds     角色id集合
-     * @param currentUser 当前用户
      */
-    void applicationAuthorization(Long functionId, List<Long> roleIds, UserDto currentUser);
+    void applicationAuthorization(Long functionId, List<Long> roleIds);
 
     /**
      * 删除应用
+     *  @param applicationId 应用id
      *
-     * @param applicationId 应用id
-     * @param currentUser   请求体
      */
-    void delApplication(Long applicationId, UserDto currentUser);
+    void delApplication(Long applicationId);
 
     /**
      * 获取应用的所有应用功能
@@ -197,20 +182,18 @@ public interface OrupService {
 
     /**
      * 删除应用功能
+     *  @param functionId  应用功能id
      *
-     * @param functionId  应用功能id
-     * @param currentUser 当前用户
      */
-    void delFunction(Long functionId, UserDto currentUser);
+    void delFunction(Long functionId);
 
     /**
      * 添加机构
      *
      * @param orgDto 机构Dto
-     * @param user   当前用户
      * @return 添加好的机构Dto
      */
-    OrgDto addOrganization(OrgDto orgDto, UserDto user);
+    OrgDto addOrganization(OrgDto orgDto);
 
     /**
      * 获取机构列表
@@ -239,27 +222,23 @@ public interface OrupService {
      * 通过id删除机构
      *
      * @param id   删除机构
-     * @param user 当前用户
      */
-    void delOrgById(Long id, UserDto user);
+    void delOrgById(Long id);
 
     /**
      * 添加机构用户
-     *
-     * @param orgId   机构id
+     *  @param orgId   机构id
      * @param userIds 用户id集合
-     * @param user    当前用户
      */
-    void addOrgUser(Long orgId, List<Long> userIds, UserDto user);
+    void addOrgUser(Long orgId, List<Long> userIds);
 
     /**
      * 添加角色
      *
      * @param roleDto 角色Dto
-     * @param userDto 当前用户
      * @return 新增的RoleDto
      */
-    RoleDto addRole(RoleDto roleDto, UserDto userDto);
+    RoleDto addRole(RoleDto roleDto);
 
 
     /**
@@ -290,71 +269,61 @@ public interface OrupService {
      * 修改角色
      *
      * @param roleDto roleDto
-     * @param user    当前用户
      * @return 修改后的RoleDto
      */
-    RoleDto modifyRole(RoleDto roleDto, UserDto user);
+    RoleDto modifyRole(RoleDto roleDto);
 
     /**
      * 删除角色
      *
      * @param roleId 角色id
-     * @param user   当前用户
      */
-    void delRole(Long roleId, UserDto user);
+    void delRole(Long roleId);
 
     /**
      * 向角色中添加用户
      *
      * @param roleId  角色id
      * @param userIds 用户id集合
-     * @param user    当前用户
      */
-    void addRoleUser(Long roleId, List<Long> userIds, UserDto user);
+    void addRoleUser(Long roleId, List<Long> userIds);
 
     /**
      * 移除角色中的用户
-     *
-     * @param roleId  角色id
+     *  @param roleId  角色id
      * @param userIds 用户id集合
-     * @param user    当前用户
      */
-    void delRoleUser(Long roleId, List<Long> userIds, UserDto user);
+    void delRoleUser(Long roleId, List<Long> userIds);
 
     /**
      * 修改应用功能
      *
      * @param functionDto 功能dto
-     * @param currentUser 当前用户
      * @return 修改后的 FunctionDto
      */
-    FunctionDto modifyFunction(FunctionDto functionDto, UserDto currentUser);
+    FunctionDto modifyFunction(FunctionDto functionDto);
 
     /**
      * 移除机构用户
-     *
-     * @param orgId   机构id
+     *  @param orgId   机构id
      * @param userIds 用户集合
-     * @param user    当前用户
      */
-    void delOrgUser(Long orgId, List<Long> userIds, UserDto user);
+    void delOrgUser(Long orgId, List<Long> userIds);
 
     /**
      * 获取用户应用功能
      *
      * @param applicationId 应用id
-     * @param user          当前用户给
      * @return 用户当前应用具备的应用功能
      */
-    List<FunctionDto> getUserFunctions(Long applicationId, UserDto user);
+    List<FunctionDto> getUserFunctions(Long applicationId);
 
     /**
      * 获取用户链接集合
      *
-     * @param user 用户
      * @return 链接集合
      */
-    List<LinkDto> getUserLinks(UserDto user);
+    List<LinkDto> getUserLinks();
 
     /**
      * 创建用户链接
@@ -376,25 +345,22 @@ public interface OrupService {
      * 删除用户链接
      *
      * @param linkId      链接实体id
-     * @param currentUser 操作用户
      */
-    void delLink(Long linkId, UserDto currentUser);
+    void delLink(Long linkId);
 
     /**
      * 修改用户手机号
      *
-     * @param currentUser    当前登录用户
      * @param newPhoneNumber 新手机号码
      */
-    void phoneNumberChange(UserDto currentUser, String newPhoneNumber);
+    void phoneNumberChange(String newPhoneNumber);
 
     /**
      * 获取密码健壮性等级
      *
-     * @param user 当前登录用户
      * @return 密码健壮性视图对象
      */
-    PasswordStrengthVo getAccountSecurityLevel(UserDto user);
+    PasswordStrengthVo getAccountSecurityLevel();
 
     /**
      * 修改用户邮箱

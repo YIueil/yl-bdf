@@ -1,5 +1,6 @@
 package cc.yiueil.service.impl;
 
+import cc.yiueil.context.RequestContextThreadLocal;
 import cc.yiueil.data.impl.JpaBaseDao;
 import cc.yiueil.dto.*;
 import cc.yiueil.entity.*;
@@ -91,7 +92,8 @@ public class OrupServiceImpl implements OrupService {
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public void passwordChange(UserDto currentUser, String oldPassword, String newPassword) {
+    public void passwordChange(String oldPassword, String newPassword) {
+        UserDto currentUser = RequestContextThreadLocal.getUser();
         UserEntity userEntity = userRepository.findById(currentUser.getId()).orElseThrow(() -> new ResourceNotFoundException("用户不存在"));
         baseDao.findById(UserEntity.class, userEntity.getId()).ifPresent(user -> {
             if (user.getPassword().equals(oldPassword)) {
@@ -113,7 +115,8 @@ public class OrupServiceImpl implements OrupService {
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public UserDto addUser(UserDto userDto, UserDto currentUser) {
+    public UserDto addUser(UserDto userDto) {
+        UserDto currentUser = RequestContextThreadLocal.getUser();
         UserEntity userEntity = BeanUtils.copyProperties(userDto, new UserEntity());
         userEntity.setCreateUserId(currentUser.getId());
         baseDao.save(userEntity);
@@ -122,7 +125,7 @@ public class OrupServiceImpl implements OrupService {
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public UserDto modifyUser(UserDto userDto, UserDto currentUser) {
+    public UserDto modifyUser(UserDto userDto) {
         UserEntity userEntity = userRepository.findById(userDto.getId()).orElseThrow(() -> new ResourceNotFoundException("用户不存在"));
         UserEntity modifyUser = BeanUtils.copyProperties(userDto, userEntity, true);
         baseDao.save(modifyUser);
@@ -131,19 +134,19 @@ public class OrupServiceImpl implements OrupService {
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public void delUser(Long userId, UserDto currentUser) {
+    public void delUser(Long userId) {
         baseDao.deleteById(UserEntity.class, userId);
     }
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public void delUserByIds(List<Long> userIds, UserDto currentUser) {
+    public void delUserByIds(List<Long> userIds) {
         userRepository.deleteAllById(userIds);
     }
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public void suspendUser(Long userId, UserDto currentUser) {
+    public void suspendUser(Long userId) {
         baseDao.findById(UserEntity.class, userId).ifPresent(userEntity -> {
             userEntity.setState(UserStateEnum.SUSPEND.getState());
             baseDao.save(userEntity);
@@ -152,7 +155,7 @@ public class OrupServiceImpl implements OrupService {
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public void suspendUserByIds(List<Long> userIds, UserDto currentUser) {
+    public void suspendUserByIds(List<Long> userIds) {
         Iterable<UserEntity> userEntityIterable = userRepository.findAllById(userIds);
         for (UserEntity userEntity : userEntityIterable) {
             userEntity.setState(UserStateEnum.SUSPEND.getState());
@@ -178,8 +181,9 @@ public class OrupServiceImpl implements OrupService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<PermissionDto> getUserPermissions(UserDto user) {
-        List<PermissionEntity> permissionEntityList = permissionRepository.findPermissionsByUserId(user.getId());
+    public List<PermissionDto> getUserPermissions() {
+        UserDto currentUser = RequestContextThreadLocal.getUser();
+        List<PermissionEntity> permissionEntityList = permissionRepository.findPermissionsByUserId(currentUser.getId());
         return permissionEntityList.stream()
                 .map(permissionEntity -> BeanUtils.copyProperties(permissionEntity, new PermissionDto()))
                 .collect(Collectors.toList());
@@ -187,8 +191,9 @@ public class OrupServiceImpl implements OrupService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<RoleDto> getUserRoles(UserDto user) {
-        List<RoleEntity> roleEntityList = roleRepository.findRolesByUserId(user.getId());
+    public List<RoleDto> getUserRoles() {
+        UserDto currentUser = RequestContextThreadLocal.getUser();
+        List<RoleEntity> roleEntityList = roleRepository.findRolesByUserId(currentUser.getId());
         return roleEntityList.stream()
                 .map(roleEntity -> BeanUtils.copyProperties(roleEntity, new RoleDto()))
                 .collect(Collectors.toList());
@@ -205,7 +210,8 @@ public class OrupServiceImpl implements OrupService {
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public ApplicationDto addApplication(ApplicationDto applicationDto, UserDto currentUser) {
+    public ApplicationDto addApplication(ApplicationDto applicationDto) {
+        UserDto currentUser = RequestContextThreadLocal.getUser();
         ApplicationEntity newApplicationEntity = baseDao.save(BeanUtils.copyProperties(applicationDto, new ApplicationEntity()));
         newApplicationEntity.setCreateUserId(currentUser.getId());
         return BeanUtils.copyProperties(newApplicationEntity, new ApplicationDto());
@@ -228,7 +234,8 @@ public class OrupServiceImpl implements OrupService {
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public void addApplicationManager(Long applicationId, List<Long> userIds, UserDto currentUser) {
+    public void addApplicationManager(Long applicationId, List<Long> userIds) {
+        UserDto currentUser = RequestContextThreadLocal.getUser();
         for (Long userId : userIds) {
             ApplicationManagerEntity applicationManagerEntity = new ApplicationManagerEntity();
             applicationManagerEntity.setApplicationId(applicationId);
@@ -240,7 +247,7 @@ public class OrupServiceImpl implements OrupService {
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public FunctionDto addApplicationFunction(FunctionDto functionDto, UserDto currentUser) {
+    public FunctionDto addApplicationFunction(FunctionDto functionDto) {
         FunctionEntity functionEntity = BeanUtils.copyProperties(functionDto, new FunctionEntity());
         FunctionEntity newFunctionEntity = baseDao.save(functionEntity);
         return BeanUtils.copyProperties(newFunctionEntity, new FunctionDto());
@@ -248,7 +255,7 @@ public class OrupServiceImpl implements OrupService {
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public FunctionDto modifyFunction(FunctionDto functionDto, UserDto currentUser) {
+    public FunctionDto modifyFunction(FunctionDto functionDto) {
         if (functionDto.getId() == null) {
             throw new RuntimeException("修改接口传入的实体需要具有id");
         }
@@ -259,13 +266,14 @@ public class OrupServiceImpl implements OrupService {
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public void delFunction(Long functionId, UserDto currentUser) {
+    public void delFunction(Long functionId) {
         baseDao.deleteById(FunctionEntity.class, functionId);
     }
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public void applicationAuthorization(Long functionId, List<Long> roleIds, UserDto currentUser) {
+    public void applicationAuthorization(Long functionId, List<Long> roleIds) {
+        UserDto currentUser = RequestContextThreadLocal.getUser();
         // 树结构保存, 先清除整个的功能下的权限然后重新复制
         roleFunctionRepository.removeRoleFunctionEntitiesByFunctionId(functionId);
         List<RoleFunctionEntity> roleFunctionEntityList = roleIds.stream()
@@ -282,7 +290,7 @@ public class OrupServiceImpl implements OrupService {
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public void delApplication(Long applicationId, UserDto currentUser) {
+    public void delApplication(Long applicationId) {
         baseDao.deleteById(ApplicationEntity.class, applicationId);
     }
 
@@ -297,10 +305,11 @@ public class OrupServiceImpl implements OrupService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<FunctionDto> getUserFunctions(Long applicationId, UserDto user) {
+    public List<FunctionDto> getUserFunctions(Long applicationId) {
+        UserDto currentUser = RequestContextThreadLocal.getUser();
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("applicationId", applicationId);
-        parameters.put("userId", user.getId());
+        parameters.put("userId", currentUser.getId());
         DynamicQueryDto dynamicQueryDto = new DynamicQueryDto("dynamicsql", "application.xml", "getUserApplicationFunctions");
         DynamicQueryInst dynamicQueryInst = searchService.buildQueryInst(dynamicQueryDto, parameters);
         return baseDao.sqlAsEntity(dynamicQueryInst.getSql(), parameters, FunctionDto.class);
@@ -308,7 +317,7 @@ public class OrupServiceImpl implements OrupService {
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public OrgDto addOrganization(OrgDto orgDto, UserDto user) {
+    public OrgDto addOrganization(OrgDto orgDto) {
         OrgEntity orgEntity = BeanUtils.copyProperties(orgDto, new OrgEntity());
         return BeanUtils.copyProperties(baseDao.save(orgEntity), new OrgDto());
     }
@@ -341,18 +350,19 @@ public class OrupServiceImpl implements OrupService {
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public void delOrgById(Long id, UserDto user) {
+    public void delOrgById(Long id) {
         orgRepository.deleteById(id);
     }
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public void addOrgUser(Long orgId, List<Long> userIds, UserDto user) {
+    public void addOrgUser(Long orgId, List<Long> userIds) {
+        UserDto currentUser = RequestContextThreadLocal.getUser();
         List<UserOrgEntity> userOrgEntities = userIds.stream()
                 .map(userId -> {
                     UserOrgEntity userOrgEntity = new UserOrgEntity();
                     userOrgEntity.setUserId(userId);
-                    userOrgEntity.setCreateUserId(user.getId());
+                    userOrgEntity.setCreateUserId(currentUser.getId());
                     userOrgEntity.setOrgId(orgId);
                     return userOrgEntity;
                 }).collect(Collectors.toList());
@@ -361,7 +371,7 @@ public class OrupServiceImpl implements OrupService {
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public RoleDto addRole(RoleDto roleDto, UserDto userDto) {
+    public RoleDto addRole(RoleDto roleDto) {
         RoleEntity roleEntity = BeanUtils.copyProperties(roleDto, new RoleEntity());
         return BeanUtils.copyProperties(baseDao.save(roleEntity), new RoleDto());
     }
@@ -398,7 +408,7 @@ public class OrupServiceImpl implements OrupService {
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public RoleDto modifyRole(RoleDto roleDto, UserDto user) {
+    public RoleDto modifyRole(RoleDto roleDto) {
         if (roleDto.getId() == null) {
             throw new PrimaryKeyMissingException("修改接口传入的实体需要具有id");
         }
@@ -409,18 +419,19 @@ public class OrupServiceImpl implements OrupService {
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public void delRole(Long roleId, UserDto user) {
+    public void delRole(Long roleId) {
         roleRepository.deleteById(roleId);
     }
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public void addRoleUser(Long roleId, List<Long> userIds, UserDto user) {
+    public void addRoleUser(Long roleId, List<Long> userIds) {
+        UserDto currentUser = RequestContextThreadLocal.getUser();
         List<UserRoleEntity> userRoleEntities = userIds.stream().map(userId -> {
             UserRoleEntity userRoleEntity = new UserRoleEntity();
             userRoleEntity.setUserId(userId);
             userRoleEntity.setRoleId(roleId);
-            userRoleEntity.setCreateUserId(user.getId());
+            userRoleEntity.setCreateUserId(currentUser.getId());
             return userRoleEntity;
         }).collect(Collectors.toList());
         baseDao.batchSave(userRoleEntities);
@@ -428,20 +439,21 @@ public class OrupServiceImpl implements OrupService {
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public void delRoleUser(Long roleId, List<Long> userIds, UserDto user) {
+    public void delRoleUser(Long roleId, List<Long> userIds) {
         userRoleRepository.removeUserRoleEntitiesByRoleIdAndUserIdIn(roleId, userIds);
     }
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public void delOrgUser(Long orgId, List<Long> userIds, UserDto user) {
+    public void delOrgUser(Long orgId, List<Long> userIds) {
         userOrgRepository.removeUserOrgEntitiesByOrgIdAndUserIdIn(orgId, userIds);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<LinkDto> getUserLinks(UserDto user) {
-        List<LinkEntity> linkEntityList = linkRepository.findLinksByUserId(user.getId());
+    public List<LinkDto> getUserLinks() {
+        UserDto currentUser = RequestContextThreadLocal.getUser();
+        List<LinkEntity> linkEntityList = linkRepository.findLinksByUserId(currentUser.getId());
         return linkEntityList.stream()
                 .map(linkEntity -> BeanUtils.copyProperties(linkEntity, new LinkDto()))
                 .collect(Collectors.toList());
@@ -450,7 +462,9 @@ public class OrupServiceImpl implements OrupService {
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
     public LinkDto addLink(LinkDto linkDto) {
+        UserDto currentUser = RequestContextThreadLocal.getUser();
         LinkEntity linkEntity = BeanUtils.copyProperties(linkDto, new LinkEntity());
+        linkEntity.setUserId(currentUser.getId());
         return BeanUtils.copyProperties(baseDao.save(linkEntity), new LinkDto());
     }
 
@@ -464,22 +478,24 @@ public class OrupServiceImpl implements OrupService {
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public void delLink(Long linkId, UserDto currentUser) {
+    public void delLink(Long linkId) {
         baseDao.deleteById(LinkEntity.class, linkId);
     }
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public void phoneNumberChange(UserDto currentUser, String newPhoneNumber) {
+    public void phoneNumberChange(String newPhoneNumber) {
+        UserDto currentUser = RequestContextThreadLocal.getUser();
         UserEntity userEntity = userRepository.findById(currentUser.getId()).orElseThrow(() -> new ResourceNotFoundException("用户不存在"));
         userEntity.setPhoneNumber(newPhoneNumber);
         baseDao.save(userEntity);
     }
 
     @Override
-    public PasswordStrengthVo getAccountSecurityLevel(UserDto user) {
+    public PasswordStrengthVo getAccountSecurityLevel() {
+        UserDto currentUser = RequestContextThreadLocal.getUser();
         PasswordStrengthVo passwordStrengthVo = new PasswordStrengthVo();
-        UserEntity userEntity = userRepository.findById(user.getId()).orElseThrow(() -> new ResourceNotFoundException("用户不存在"));
+        UserEntity userEntity = userRepository.findById(currentUser.getId()).orElseThrow(() -> new ResourceNotFoundException("用户不存在"));
         passwordStrengthVo.setPasswordStrengthLevel(PasswordUtils.checkPasswordStrength(userEntity.getPassword()));
         passwordStrengthVo.setExpectedCrackingTime(PasswordUtils.estimateCrackTime(userEntity.getPassword()));
         return passwordStrengthVo;

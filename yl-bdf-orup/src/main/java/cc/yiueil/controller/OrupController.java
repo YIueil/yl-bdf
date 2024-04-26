@@ -105,17 +105,13 @@ public class OrupController implements LoggedController {
      *
      * @param newPassword 新密码
      * @param oldPassword 旧密码
-     * @param request     请求体
      * @return 修改结果
      */
     @ApiOperation(value = "用户密码修改")
     @PostMapping(value = "passwordChange")
-    public String passwordChange(@RequestParam String oldPassword,
-                                 @RequestParam String newPassword,
-                                 HttpServletRequest request) {
-        UserDto currentUser = getUser(request);
+    public String passwordChange(@RequestParam String oldPassword, @RequestParam String newPassword) {
         try {
-            orupService.passwordChange(currentUser, oldPassword, newPassword);
+            orupService.passwordChange(oldPassword, newPassword);
             return success(null, "密码修改成功");
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -152,14 +148,12 @@ public class OrupController implements LoggedController {
     /**
      * 获取账号安全等级
      *
-     * @param request 请求体
-     * @return 请求体
+     * @return 响应体
      */
     @ApiOperation(value = "获取账号安全等级")
     @GetMapping(value = "getAccountSecurityLevel")
-    public String getAccountSecurityLevel(HttpServletRequest request) {
-        UserDto user = getUser(request);
-        PasswordStrengthVo passwordStrengthVo = orupService.getAccountSecurityLevel(user);
+    public String getAccountSecurityLevel() {
+        PasswordStrengthVo passwordStrengthVo = orupService.getAccountSecurityLevel();
         return success(passwordStrengthVo);
     }
 
@@ -168,10 +162,9 @@ public class OrupController implements LoggedController {
      */
     @ApiOperation(value = "用户手机号修改")
     @PostMapping(value = "phoneNumberChange")
-    public String phoneNumberChange(@RequestParam String newPhoneNumber, HttpServletRequest request) {
-        UserDto currentUser = getUser(request);
+    public String phoneNumberChange(@RequestParam String newPhoneNumber) {
         try {
-            orupService.phoneNumberChange(currentUser, newPhoneNumber);
+            orupService.phoneNumberChange(newPhoneNumber);
             return success(null, "手机号修改成功");
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -213,10 +206,10 @@ public class OrupController implements LoggedController {
             userDto = orupService.getUser(userDto.getId());
         }
         if (loadPermissions) {
-            userVo.setPermissionDtoList(orupService.getUserPermissions(userDto));
+            userVo.setPermissionDtoList(orupService.getUserPermissions());
         }
         if (loadRoles) {
-            userVo.setRoleDtoList(orupService.getUserRoles(userDto));
+            userVo.setRoleDtoList(orupService.getUserRoles());
         }
         return success(BeanUtils.copyProperties(userDto, userVo));
     }
@@ -228,14 +221,12 @@ public class OrupController implements LoggedController {
      * 用户管理: 创建用户
      *
      * @param userDto 用户DTO
-     * @param request 请求体
      * @return 新用户实体
      */
     @ApiOperation(value = "添加用户")
     @PostMapping(value = "addUser")
-    public String addUser(@RequestBody UserDto userDto, HttpServletRequest request) {
-        UserDto currentUser = getUser(request);
-        UserDto newUser = orupService.addUser(userDto, currentUser);
+    public String addUser(@RequestBody UserDto userDto) {
+        UserDto newUser = orupService.addUser(userDto);
         return success(newUser);
     }
 
@@ -243,14 +234,12 @@ public class OrupController implements LoggedController {
      * 用户管理: 修改用户信息
      *
      * @param userDto 用户DTO
-     * @param request 请求体
      * @return 新用户实体
      */
     @ApiOperation(value = "修改用户信息")
     @PostMapping(value = "modifyUser")
-    public String modifyUser(@RequestBody UserDto userDto, HttpServletRequest request) {
-        UserDto currentUser = getUser(request);
-        UserDto newUser = orupService.modifyUser(userDto, currentUser);
+    public String modifyUser(@RequestBody UserDto userDto) {
+        UserDto newUser = orupService.modifyUser(userDto);
         return success(newUser);
     }
 
@@ -258,14 +247,12 @@ public class OrupController implements LoggedController {
      * 用户管理: 挂起用户
      *
      * @param userId  用户id
-     * @param request 请求体
      * @return 新用户实体
      */
     @ApiOperation(value = "挂起用户")
     @PostMapping(value = "suspendUser")
-    public String suspendUser(@RequestParam Long userId, HttpServletRequest request) {
-        UserDto currentUser = getUser(request);
-        orupService.suspendUser(userId, currentUser);
+    public String suspendUser(@RequestParam Long userId) {
+        orupService.suspendUser(userId);
         return success();
     }
 
@@ -273,14 +260,12 @@ public class OrupController implements LoggedController {
      * 批量挂起用户
      *
      * @param userIds 用户id集合
-     * @param request 请求体
      * @return 请求结果
      */
     @ApiOperation(value = "批量挂起用户")
     @PostMapping(value = "suspendUserByIds")
-    public String suspendUserByIds(@RequestBody List<Long> userIds, HttpServletRequest request) {
-        UserDto currentUser = getUser(request);
-        orupService.suspendUserByIds(userIds, currentUser);
+    public String suspendUserByIds(@RequestBody List<Long> userIds) {
+        orupService.suspendUserByIds(userIds);
         return success();
     }
 
@@ -288,14 +273,12 @@ public class OrupController implements LoggedController {
      * 用户管理: 删除用户
      *
      * @param userId  用户id
-     * @param request 请求体
      * @return 新用户实体
      */
     @ApiOperation(value = "删除用户信息")
     @PostMapping(value = "delUser")
-    public String delUser(@RequestParam Long userId, HttpServletRequest request) {
-        UserDto currentUser = getUser(request);
-        orupService.delUser(userId, currentUser);
+    public String delUser(@RequestParam Long userId) {
+        orupService.delUser(userId);
         return success();
     }
 
@@ -303,14 +286,12 @@ public class OrupController implements LoggedController {
      * 通过id集合批量删除用户
      *
      * @param userIds 用户id集合
-     * @param request 请求体
      * @return 接口调用结果
      */
     @ApiOperation(value = "批量删除用户信息")
     @PostMapping(value = "delUserByIds")
-    public String delUserByIds(@RequestBody List<Long> userIds, HttpServletRequest request) {
-        UserDto currentUser = getUser(request);
-        orupService.delUserByIds(userIds, currentUser);
+    public String delUserByIds(@RequestBody List<Long> userIds) {
+        orupService.delUserByIds(userIds);
         return success();
     }
 
@@ -318,12 +299,11 @@ public class OrupController implements LoggedController {
      * 用户管理: 获取用户信息
      *
      * @param userId  用户id
-     * @param request 请求体
      * @return 用户实体信息
      */
     @ApiOperation(value = "获取用户")
     @GetMapping(value = "getUser")
-    public String getUser(@RequestParam Long userId, HttpServletRequest request) {
+    public String getUser(@RequestParam Long userId) {
         UserDto currentUser = orupService.getUser(userId);
         return success(currentUser);
     }
@@ -331,14 +311,12 @@ public class OrupController implements LoggedController {
     /**
      * 获取用户链接列表
      *
-     * @param request 请求体
      * @return 用户链接集合
      */
     @ApiOperation(value = "获取用户链接列表")
     @GetMapping(value = "getUserLinks")
-    public String getUserLinks(HttpServletRequest request) {
-        UserDto currentUser = getUser(request);
-        List<LinkDto> linkDtoList = orupService.getUserLinks(currentUser);
+    public String getUserLinks() {
+        List<LinkDto> linkDtoList = orupService.getUserLinks();
         return success(linkDtoList);
     }
 
@@ -346,14 +324,11 @@ public class OrupController implements LoggedController {
      * 添加链接
      *
      * @param linkDto 链接实体
-     * @param request 请求体
      * @return 新增链接实体
      */
     @ApiOperation(value = "添加用户链接")
     @PostMapping(value = "addLink")
-    public String addLink(@RequestBody LinkDto linkDto, HttpServletRequest request) {
-        UserDto currentUser = getUser(request);
-        linkDto.setUserId(currentUser.getId());
+    public String addLink(@RequestBody LinkDto linkDto) {
         return success(orupService.addLink(linkDto));
     }
 
@@ -361,12 +336,11 @@ public class OrupController implements LoggedController {
      * 修改链接
      *
      * @param linkDto 链接实体
-     * @param request 请求体
      * @return 修改后的链接
      */
     @ApiOperation(value = "修改用户链接")
     @PostMapping(value = "modifyLink")
-    public String modifyLink(@RequestBody LinkDto linkDto, HttpServletRequest request) {
+    public String modifyLink(@RequestBody LinkDto linkDto) {
         return success(orupService.modifyLink(linkDto));
     }
 
@@ -374,14 +348,12 @@ public class OrupController implements LoggedController {
      * 删除链接
      *
      * @param linkId  链接id
-     * @param request 请求体
      * @return 接口请求结果
      */
     @ApiOperation(value = "删除用户链接")
     @PostMapping(value = "delLink")
-    public String delLink(@RequestParam("id") Long linkId, HttpServletRequest request) {
-        UserDto currentUser = getUser(request);
-        orupService.delLink(linkId, currentUser);
+    public String delLink(@RequestParam("id") Long linkId) {
+        orupService.delLink(linkId);
         return success();
     }
 
@@ -391,9 +363,8 @@ public class OrupController implements LoggedController {
 
     @ApiOperation(value = "添加角色")
     @PostMapping(value = "addRole")
-    public String addRole(@RequestBody RoleDto roleDto, HttpServletRequest request) {
-        UserDto user = getUser(request);
-        return success(orupService.addRole(roleDto, user));
+    public String addRole(@RequestBody RoleDto roleDto) {
+        return success(orupService.addRole(roleDto));
     }
 
     @ApiOperation(value = "查询角色")
@@ -416,59 +387,51 @@ public class OrupController implements LoggedController {
 
     @ApiOperation(value = "更新角色")
     @PostMapping(value = "updateRole")
-    public String updateRole(@RequestBody RoleDto roleDto, HttpServletRequest request) {
-        UserDto user = getUser(request);
-        return success(orupService.modifyRole(roleDto, user));
+    public String updateRole(@RequestBody RoleDto roleDto) {
+        return success(orupService.modifyRole(roleDto));
     }
 
     @ApiOperation(value = "删除角色")
     @PostMapping(value = "deleteRole")
-    public String deleteRole(@RequestParam Long roleId, HttpServletRequest request) {
-        UserDto user = getUser(request);
-        orupService.delRole(roleId, user);
+    public String deleteRole(@RequestParam Long roleId) {
+        orupService.delRole(roleId);
         return success();
     }
 
     @ApiOperation(value = "添加角色用户")
     @PostMapping(value = "addRoleUser")
-    public String addRoleUser(@RequestParam Long roleId, @RequestBody List<Long> userIds, HttpServletRequest request) {
-        UserDto user = getUser(request);
-        orupService.addRoleUser(roleId, userIds, user);
+    public String addRoleUser(@RequestParam Long roleId, @RequestBody List<Long> userIds) {
+        orupService.addRoleUser(roleId, userIds);
         return success();
     }
 
     @ApiOperation(value = "移除角色用户")
     @PostMapping(value = "delRoleUser")
-    public String delRoleUser(@RequestParam Long roleId, @RequestBody List<Long> userIds, HttpServletRequest request) {
-        UserDto user = getUser(request);
-        orupService.delRoleUser(roleId, userIds, user);
+    public String delRoleUser(@RequestParam Long roleId, @RequestBody List<Long> userIds) {
+        orupService.delRoleUser(roleId, userIds);
         return success();
     }
 
     /**
      * 角色权限: 获取用户所有权限集合
      *
-     * @param request 请求体
      * @return 权限集合
      */
     @ApiOperation(value = "获取用户所有权限集合")
     @GetMapping(value = "permissions")
-    public String getUserPermissions(HttpServletRequest request) {
-        UserDto userDto = getUser(request);
-        return success(orupService.getUserPermissions(userDto));
+    public String getUserPermissions() {
+        return success(orupService.getUserPermissions());
     }
 
     /**
      * 角色权限: 获取用户所有角色集合
      *
-     * @param request 请求体
      * @return 角色集合
      */
     @ApiOperation(value = "获取用户所有角色集合")
     @GetMapping(value = "roles")
-    public String getUserRoles(HttpServletRequest request) {
-        UserDto userDto = getUser(request);
-        return success(orupService.getUserRoles(userDto));
+    public String getUserRoles() {
+        return success(orupService.getUserRoles());
     }
     //endregion
 
@@ -487,7 +450,7 @@ public class OrupController implements LoggedController {
 
     @ApiOperation(value = "修改应用状态")
     @PostMapping(value="updateApplicationStatus")
-    public String updateApplicationStatus(Long applicationId, String status, HttpServletRequest request){
+    public String updateApplicationStatus(Long applicationId, String status){
         orupService.modifyApplicationStatus(applicationId, status);
         return success();
     }
@@ -496,14 +459,12 @@ public class OrupController implements LoggedController {
      * 添加或编辑应用
      *
      * @param applicationDto 应用Dto
-     * @param request        请求体
      * @return 新添加的应用
      */
     @ApiOperation(value = "添加应用")
     @PostMapping(value = "addApplication")
-    public String addApplication(@RequestBody ApplicationDto applicationDto, HttpServletRequest request) {
-        UserDto currentUser = getUser(request);
-        return success(orupService.addApplication(applicationDto, currentUser));
+    public String addApplication(@RequestBody ApplicationDto applicationDto) {
+        return success(orupService.addApplication(applicationDto));
     }
 
     @ApiOperation(value = "修改应用")
@@ -514,9 +475,8 @@ public class OrupController implements LoggedController {
 
     @ApiOperation(value = "删除应用")
     @PostMapping(value = "delApplication")
-    public String delApplication(@RequestParam Long applicationId, HttpServletRequest request) {
-        UserDto currentUser = getUser(request);
-        orupService.delApplication(applicationId, currentUser);
+    public String delApplication(@RequestParam Long applicationId) {
+        orupService.delApplication(applicationId);
         return success();
     }
 
@@ -525,14 +485,12 @@ public class OrupController implements LoggedController {
      *
      * @param applicationId 应用id
      * @param userIds       用户id集合
-     * @param request       请求体
      * @return ResultVo
      */
     @ApiOperation(value = "添加应用管理员")
     @PostMapping(value = "addApplicationManager")
-    public String addApplicationManager(@RequestParam Long applicationId, @RequestBody List<Long> userIds, HttpServletRequest request) {
-        UserDto currentUser = getUser(request);
-        orupService.addApplicationManager(applicationId, userIds, currentUser);
+    public String addApplicationManager(@RequestParam Long applicationId, @RequestBody List<Long> userIds) {
+        orupService.addApplicationManager(applicationId, userIds);
         return success();
     }
 
@@ -540,12 +498,11 @@ public class OrupController implements LoggedController {
      * 获取应用功能列表树
      *
      * @param applicationId 应用id
-     * @param request       请求体
      * @return ResultVo
      */
     @ApiOperation(value = "获取应用功能树")
     @GetMapping(value = "getApplicationFunctionTree")
-    public String getApplicationFunctionTree(@RequestParam Long applicationId, HttpServletRequest request) {
+    public String getApplicationFunctionTree(@RequestParam Long applicationId) {
         List<FunctionDto> functionDtoList = orupService.getApplicationFunctionList(applicationId);
         return success(buildFunctionTree(functionDtoList));
     }
@@ -554,14 +511,12 @@ public class OrupController implements LoggedController {
      * 获取用戶应用功能列表树
      *
      * @param applicationId 应用id
-     * @param request       请求体
      * @return ResultVo
      */
     @ApiOperation(value = "获取应用功能树")
     @GetMapping(value = "getUserFunctions")
-    public String getUserFunctions(@RequestParam Long applicationId, HttpServletRequest request) {
-        UserDto user = getUser(request);
-        List<FunctionDto> functionDtoList = orupService.getUserFunctions(applicationId, user);
+    public String getUserFunctions(@RequestParam Long applicationId) {
+        List<FunctionDto> functionDtoList = orupService.getUserFunctions(applicationId);
         return success(buildFunctionTree(functionDtoList));
     }
 
@@ -587,51 +542,42 @@ public class OrupController implements LoggedController {
      * 添加应用功能
      *
      * @param functionDto 应用功能数据传输类
-     * @param request     请求体
      * @return ResultVo
      */
     @ApiOperation(value = "添加应用功能")
     @PostMapping(value = "addApplicationFunction")
-    public String addApplicationFunction(@RequestBody FunctionDto functionDto, HttpServletRequest request) {
-        UserDto currentUser = getUser(request);
-        return success(orupService.addApplicationFunction(functionDto, currentUser));
+    public String addApplicationFunction(@RequestBody FunctionDto functionDto) {
+        return success(orupService.addApplicationFunction(functionDto));
     }
 
     @ApiOperation(value = "修改应用功能")
     @PostMapping(value = "modifyApplicationFunction")
-    public String modifyApplicationFunction(@RequestBody FunctionDto functionDto, HttpServletRequest request) {
-        UserDto currentUser = getUser(request);
-        return success(orupService.modifyFunction(functionDto, currentUser));
+    public String modifyApplicationFunction(@RequestBody FunctionDto functionDto) {
+        return success(orupService.modifyFunction(functionDto));
     }
 
     /**
      * 删除应用功能
      *
      * @param functionId 应用功能id
-     * @param request    请求体
      * @return ResultVo
      */
     @ApiOperation(value = "删除应用功能")
     @PostMapping(value = "delApplicationFunction")
-    public String delApplicationFunction(@RequestParam Long functionId, HttpServletRequest request) {
-        UserDto currentUser = getUser(request);
-        orupService.delFunction(functionId, currentUser);
+    public String delApplicationFunction(@RequestParam Long functionId) {
+        orupService.delFunction(functionId);
         return success();
     }
 
     /**
      * 应用功能授权
      *
-     * @param request 请求体
      * @return ResultVo
      */
     @ApiOperation(value = "应用功能授权")
     @PostMapping(value = "applicationAuthorization")
-    public String applicationAuthorization(@RequestParam Long functionId,
-                                           @RequestBody List<Long> roleIds,
-                                           HttpServletRequest request) {
-        UserDto currentUser = getUser(request);
-        orupService.applicationAuthorization(functionId, roleIds, currentUser);
+    public String applicationAuthorization(@RequestParam Long functionId, @RequestBody List<Long> roleIds) {
+        orupService.applicationAuthorization(functionId, roleIds);
         return success();
     }
 
@@ -642,9 +588,8 @@ public class OrupController implements LoggedController {
 
     @ApiOperation(value = "创建机构")
     @PostMapping(value = "addOrg")
-    public String addOrganization(@RequestBody OrgDto orgDto, HttpServletRequest request) {
-        UserDto user = getUser(request);
-        return success(orupService.addOrganization(orgDto, user));
+    public String addOrganization(@RequestBody OrgDto orgDto) {
+        return success(orupService.addOrganization(orgDto));
     }
 
     @ApiOperation(value = "查询机构列表")
@@ -675,32 +620,28 @@ public class OrupController implements LoggedController {
 
     @ApiOperation(value = "更新机构信息")
     @PostMapping(value = "updateOrg")
-    public String updateOrg(@RequestBody OrgDto orgDto,
-                            HttpServletRequest request) {
+    public String updateOrg(@RequestBody OrgDto orgDto) {
         return success(orupService.modifyOrg(orgDto));
     }
 
     @ApiOperation(value = "删除机构")
     @PostMapping(value = "deleteOrg")
-    public String deleteOrg(@RequestParam Long id, HttpServletRequest request) {
-        UserDto user = getUser(request);
-        orupService.delOrgById(id, user);
+    public String deleteOrg(@RequestParam Long id) {
+        orupService.delOrgById(id);
         return success();
     }
 
     @ApiOperation(value = "向机构添加用户")
     @PostMapping(value = "addOrgUser")
-    public String addOrgUser(@RequestParam Long orgId, @RequestBody List<Long> userIds, HttpServletRequest request) {
-        UserDto user = getUser(request);
-        orupService.addOrgUser(orgId, userIds, user);
+    public String addOrgUser(@RequestParam Long orgId, @RequestBody List<Long> userIds) {
+        orupService.addOrgUser(orgId, userIds);
         return success();
     }
 
     @ApiOperation(value = "移除机构用户")
     @PostMapping(value = "delOrgUser")
-    public String delOrgUser(@RequestParam Long orgId, @RequestBody List<Long> userIds, HttpServletRequest request) {
-        UserDto user = getUser(request);
-        orupService.delOrgUser(orgId, userIds, user);
+    public String delOrgUser(@RequestParam Long orgId, @RequestBody List<Long> userIds) {
+        orupService.delOrgUser(orgId, userIds);
         return success();
     }
     //endregion
