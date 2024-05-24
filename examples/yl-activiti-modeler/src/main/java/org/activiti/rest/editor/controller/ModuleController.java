@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.nio.charset.StandardCharsets;
 
 @Controller
 @RequestMapping("/model")
@@ -27,8 +28,11 @@ public class ModuleController {
     private RepositoryService repositoryService;
 
     @RequestMapping(value = "create")
-    public void create(@RequestParam("name") String name, @RequestParam("key") String key,
-                       @RequestParam("description") String description, HttpServletRequest request, HttpServletResponse response) {
+    public void create(@RequestParam("name")String name,
+                       @RequestParam("key") String key,
+                       @RequestParam("description") String description,
+                       HttpServletRequest request,
+                       HttpServletResponse response) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             ObjectNode editorNode = objectMapper.createObjectNode();
@@ -49,7 +53,7 @@ public class ModuleController {
             modelData.setKey(StringUtils.defaultString(key));
 
             repositoryService.saveModel(modelData);
-            repositoryService.addModelEditorSource(modelData.getId(), editorNode.toString().getBytes("utf-8"));
+            repositoryService.addModelEditorSource(modelData.getId(), editorNode.toString().getBytes(StandardCharsets.UTF_8));
 
             response.sendRedirect(request.getContextPath() + "/modeler.html?modelId=" + modelData.getId());
         } catch (Exception e) {

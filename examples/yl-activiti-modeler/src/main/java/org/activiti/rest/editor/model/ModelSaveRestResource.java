@@ -29,8 +29,6 @@ import org.activiti.engine.repository.Model;
 import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.TranscoderOutput;
 import org.apache.batik.transcoder.image.PNGTranscoder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.MultiValueMap;
@@ -54,9 +52,6 @@ import java.nio.charset.StandardCharsets;
 @Slf4j
 @RestController
 public class ModelSaveRestResource implements ModelDataJsonConstants {
-
-    protected static final Logger LOGGER = LoggerFactory.getLogger(org.activiti.rest.editor.model.ModelSaveRestResource.class);
-
     @Autowired
     private RepositoryService repositoryService;
 
@@ -96,7 +91,7 @@ public class ModelSaveRestResource implements ModelDataJsonConstants {
             outStream.close();
 
         } catch (Exception e) {
-            LOGGER.error("Error saving model", e);
+            log.error("Error saving model", e);
             throw new ActivitiException("Error saving model", e);
         }
     }

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @author Tijs Rademakers
@@ -27,12 +28,15 @@ import java.io.InputStream;
 @RestController
 public class StencilsetRestResource {
 
+    @ResponseBody
     @RequestMapping(value = "/editor/stencilset", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
-    public @ResponseBody
-    String getStencilset() {
+    public String getStencilset() {
         InputStream stencilsetStream = this.getClass().getClassLoader().getResourceAsStream("stencilset.json");
         try {
-            return IOUtils.toString(stencilsetStream, "utf-8");
+            if (stencilsetStream == null) {
+                throw new ActivitiException("stencilset.json文件不存在");
+            }
+            return IOUtils.toString(stencilsetStream, StandardCharsets.UTF_8);
         } catch (Exception e) {
             throw new ActivitiException("Error while loading stencil set", e);
         }

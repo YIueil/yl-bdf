@@ -35,8 +35,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ModelEditorJsonRestResource implements ModelDataJsonConstants {
 
-    protected static final Logger LOGGER = LoggerFactory.getLogger(org.activiti.rest.editor.model.ModelEditorJsonRestResource.class);
-
     @Autowired
     private RepositoryService repositoryService;
 
@@ -63,7 +61,7 @@ public class ModelEditorJsonRestResource implements ModelDataJsonConstants {
                 modelNode.put("model", editorJsonNode);
 
             } catch (Exception e) {
-                LOGGER.error("Error creating model JSON", e);
+                log.error("Error creating model JSON", e);
                 throw new ActivitiException("Error creating model JSON", e);
             }
         }
