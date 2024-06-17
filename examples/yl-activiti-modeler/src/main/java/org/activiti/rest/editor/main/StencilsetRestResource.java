@@ -23,7 +23,11 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
 /**
- * @author Tijs Rademakers
+ * StencilsetRestResource
+ *
+ * @author 弋孓 YIueil@163.com
+ * @version 1.0
+ * @date 2024/6/17 11:40
  */
 @RestController
 public class StencilsetRestResource {

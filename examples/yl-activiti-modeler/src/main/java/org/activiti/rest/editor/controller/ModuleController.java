@@ -18,6 +18,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * ModuleController
+ *
+ * @author 弋孓 YIueil@163.com
+ * @version 1.0
+ * @date 2024/6/17 11:38
+ */
 @Controller
 @RequestMapping("/model")
 public class ModuleController {
@@ -27,6 +34,14 @@ public class ModuleController {
     @Autowired
     private RepositoryService repositoryService;
 
+    /**
+     * 创建一个流程
+     * @param name 流程名称
+     * @param key 流程key
+     * @param description 流程备注
+     * @param request request
+     * @param response response
+     */
     @RequestMapping(value = "create")
     public void create(@RequestParam("name")String name,
                        @RequestParam("key") String key,

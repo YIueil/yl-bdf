@@ -19,9 +19,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * ProcessInstanceDiagramLayoutResource 流程图资源获取
+ *
+ * @author 未知
+ * @version 1.0
+ * @date 2024/6/17 10:55
+ */
 @RestController
 public class ProcessInstanceDiagramLayoutResource extends BaseProcessDefinitionDiagramLayoutResource {
 
+    /**
+     * 获取流程实例图形json
+     * @param processInstanceId 流程实例
+     * @return 流程图形json 包含了流程定义, 当前活动环节, 高亮节点等信息
+     */
     @RequestMapping(value = "/process-instance/{processInstanceId}/diagram-layout", method = RequestMethod.GET, produces = "application/json")
     public ObjectNode getDiagram(@PathVariable String processInstanceId) {
         return getDiagramNode(processInstanceId, null);

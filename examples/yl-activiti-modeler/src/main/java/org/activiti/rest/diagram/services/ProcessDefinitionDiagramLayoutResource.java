@@ -19,6 +19,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * ProcessDefinitionDiagramLayoutResource 获取流程定义相关代码
+ *
+ * @author 弋孓 YIueil@163.com
+ * @version 1.0
+ * @date 2024/6/17 11:37
+ */
 @RestController
 public class ProcessDefinitionDiagramLayoutResource extends BaseProcessDefinitionDiagramLayoutResource {
 

@@ -32,6 +32,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.*;
+
+/**
+ * ProcessInstanceHighlightsResource 高亮节点信息
+ *
+ * @author 弋孓 YIueil@163.com
+ * @version 1.0
+ * @date 2024/6/17 11:01
+ */
+
 @Slf4j
 @RestController
 public class ProcessInstanceHighlightsResource {
@@ -47,92 +56,66 @@ public class ProcessInstanceHighlightsResource {
 
     protected ObjectMapper objectMapper = new ObjectMapper();
 
+    /**
+     * 获取高亮节点
+     * @param processInstanceId 流程实例id
+     * @return 高亮节点和flows信息
+     */
     @RequestMapping(value = "/process-instance/{processInstanceId}/highlights", method = RequestMethod.GET, produces = "application/json")
     public ObjectNode getHighlighted(@PathVariable String processInstanceId) {
-
-        ObjectNode responseJSON = objectMapper.createObjectNode();
-
-        responseJSON.put("processInstanceId", processInstanceId);
-
+        ObjectNode responseJson = objectMapper.createObjectNode();
+        responseJson.put("processInstanceId", processInstanceId);
         ArrayNode activitiesArray = objectMapper.createArrayNode();
         ArrayNode flowsArray = objectMapper.createArrayNode();
-
         try {
             ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
             ProcessDefinitionEntity processDefinition = (ProcessDefinitionEntity) repositoryService.getProcessDefinition(processInstance.getProcessDefinitionId());
-
-            responseJSON.put("processDefinitionId", processInstance.getProcessDefinitionId());
-
+            responseJson.put("processDefinitionId", processInstance.getProcessDefinitionId());
             List<String> highLightedActivities = runtimeService.getActiveActivityIds(processInstanceId);
             List<String> highLightedFlows = getHighLightedFlows(processDefinition, processInstanceId);
-
             for (String activityId : highLightedActivities) {
                 activitiesArray.add(activityId);
             }
-
             for (String flow : highLightedFlows) {
                 flowsArray.add(flow);
             }
-
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
-
-        responseJSON.put("activities", activitiesArray);
-        responseJSON.put("flows", flowsArray);
-
-        return responseJSON;
+        responseJson.put("activities", activitiesArray);
+        responseJson.put("flows", flowsArray);
+        return responseJson;
     }
 
 
     /**
      * getHighLightedFlows
      *
-     * @param processDefinition
-     * @param processInstanceId
-     * @return
+     * @param processDefinition 流程定义
+     * @param processInstanceId 流程实例
+     * @return 高亮节点集合
      */
     private List<String> getHighLightedFlows(ProcessDefinitionEntity processDefinition, String processInstanceId) {
-
-        List<String> highLightedFlows = new ArrayList<String>();
-
+        List<String> highLightedFlows = new ArrayList<>();
         List<HistoricActivityInstance> historicActivityInstances = historyService.createHistoricActivityInstanceQuery()
                 .processInstanceId(processInstanceId)
-                //order by startime asc is not correct. use default order is correct.
-                //.orderByHistoricActivityInstanceStartTime().asc()/*.orderByActivityId().asc()*/
                 .list();
-
-        LinkedList<HistoricActivityInstance> hisActInstList = new LinkedList<HistoricActivityInstance>();
-        hisActInstList.addAll(historicActivityInstances);
-
+        LinkedList<HistoricActivityInstance> hisActInstList = new LinkedList<>(historicActivityInstances);
         getHighlightedFlows(processDefinition.getActivities(), hisActInstList, highLightedFlows);
-
         return highLightedFlows;
     }
 
-    /**
-     * getHighlightedFlows
-     * <p>
-     * code logic:
-     * 1. Loop all activities by id asc order;
-     * 2. Check each activity's outgoing transitions and eventBoundery outgoing transitions, if outgoing transitions's destination.id is in other executed activityIds, add this transition to highLightedFlows List;
-     * 3. But if activity is not a parallelGateway or inclusiveGateway, only choose the earliest flow.
-     *
-     * @param activityList
-     * @param hisActInstList
-     * @param highLightedFlows
-     */
     private void getHighlightedFlows(List<ActivityImpl> activityList, LinkedList<HistoricActivityInstance> hisActInstList, List<String> highLightedFlows) {
 
         //check out startEvents in activityList
-        List<ActivityImpl> startEventActList = new ArrayList<ActivityImpl>();
-        Map<String, ActivityImpl> activityMap = new HashMap<String, ActivityImpl>(activityList.size());
+        List<ActivityImpl> startEventActList = new ArrayList<>();
+        Map<String, ActivityImpl> activityMap = new HashMap<>(activityList.size());
         for (ActivityImpl activity : activityList) {
 
             activityMap.put(activity.getId(), activity);
 
             String actType = (String) activity.getProperty("type");
-            if (actType != null && actType.toLowerCase().indexOf("startevent") >= 0) {
+            if (actType != null && actType.toLowerCase().contains("startevent")) {
                 startEventActList.add(activity);
             }
         }
@@ -142,8 +125,8 @@ public class ProcessInstanceHighlightsResource {
         //Code logic:
         //Check the first activity if it is a startEvent, if not check out the startEvent's highlight outgoing flow.
         HistoricActivityInstance firstHistActInst = hisActInstList.getFirst();
-        String firstActType = (String) firstHistActInst.getActivityType();
-        if (firstActType != null && firstActType.toLowerCase().indexOf("startevent") < 0) {
+        String firstActType = firstHistActInst.getActivityType();
+        if (firstActType != null && !firstActType.toLowerCase().contains("startevent")) {
             PvmTransition startTrans = getStartTransaction(startEventActList, firstHistActInst);
             if (startTrans != null) {
                 highLightedFlows.add(startTrans.getId());
@@ -162,7 +145,7 @@ public class ProcessInstanceHighlightsResource {
                     getHighlightedFlows(activity.getActivities(), hisActInstList, highLightedFlows);
                 }
 
-                List<PvmTransition> allOutgoingTrans = new ArrayList<PvmTransition>();
+                List<PvmTransition> allOutgoingTrans = new ArrayList<>();
                 allOutgoingTrans.addAll(activity.getOutgoingTransitions());
                 allOutgoingTrans.addAll(getBoundaryEventOutgoingTransitions(activity));
                 List<String> activityHighLightedFlowIds = getHighlightedFlows(allOutgoingTrans, hisActInstList, isParallel);
@@ -174,9 +157,9 @@ public class ProcessInstanceHighlightsResource {
     /**
      * Check out the outgoing transition connected to firstActInst from startEventActList
      *
-     * @param startEventActList
-     * @param firstActInst
-     * @return
+     * @param startEventActList 起始节点集合
+     * @param firstActInst 第一个活动实例
+     * @return 启动流程
      */
     private PvmTransition getStartTransaction(List<ActivityImpl> startEventActList, HistoricActivityInstance firstActInst) {
         for (ActivityImpl startEventAct : startEventActList) {
@@ -192,14 +175,14 @@ public class ProcessInstanceHighlightsResource {
     /**
      * getBoundaryEventOutgoingTransitions
      *
-     * @param activity
-     * @return
+     * @param activity 环节定义
+     * @return 活动名称
      */
     private List<PvmTransition> getBoundaryEventOutgoingTransitions(ActivityImpl activity) {
-        List<PvmTransition> boundaryTrans = new ArrayList<PvmTransition>();
+        List<PvmTransition> boundaryTrans = new ArrayList<>();
         for (ActivityImpl subActivity : activity.getActivities()) {
             String type = (String) subActivity.getProperty("type");
-            if (type != null && type.toLowerCase().indexOf("boundary") >= 0) {
+            if (type != null && type.toLowerCase().contains("boundary")) {
                 boundaryTrans.addAll(subActivity.getOutgoingTransitions());
             }
         }
@@ -207,22 +190,17 @@ public class ProcessInstanceHighlightsResource {
     }
 
     /**
-     * find out single activity's highlighted flowIds
-     *
-     * @param activity
-     * @param hisActInstList
-     * @param isExclusive    if true only return one flowId(Such as exclusiveGateway, BoundaryEvent On Task)
-     * @return
+     * 获取高亮路线
+     * @param pvmTransitionList 节点集合
+     * @param hisActInstList 历史节点集合
+     * @param isParallel 是否多实例
+     * @return 高亮路线集合
      */
     private List<String> getHighlightedFlows(List<PvmTransition> pvmTransitionList, LinkedList<HistoricActivityInstance> hisActInstList, boolean isParallel) {
-
-        List<String> highLightedFlowIds = new ArrayList<String>();
-
+        List<String> highLightedFlowIds = new ArrayList<>();
         PvmTransition earliestTrans = null;
         HistoricActivityInstance earliestHisActInst = null;
-
         for (PvmTransition pvmTransition : pvmTransitionList) {
-
             String destActId = pvmTransition.getDestination().getId();
             HistoricActivityInstance destHisActInst = findHisActInst(hisActInstList, destActId);
             if (destHisActInst != null) {
@@ -234,11 +212,9 @@ public class ProcessInstanceHighlightsResource {
                 }
             }
         }
-
         if ((!isParallel) && earliestTrans != null) {
             highLightedFlowIds.add(earliestTrans.getId());
         }
-
         return highLightedFlowIds;
     }
 
