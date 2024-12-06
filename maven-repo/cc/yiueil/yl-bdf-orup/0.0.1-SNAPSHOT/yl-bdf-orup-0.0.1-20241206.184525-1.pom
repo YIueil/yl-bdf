@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>yl-bdf</artifactId>
+        <groupId>cc.yiueil</groupId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <description>用户账户模块-基于jwt实现</description>
+
+    <artifactId>yl-bdf-orup</artifactId>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+
+        <java-jwt.version>4.2.1</java-jwt.version>
+    </properties>
+
+    <profiles>
+        <profile>
+            <id>snapshot</id>
+            <distributionManagement>
+                <repository>
+                    <id>local-repo-snapshot</id>
+                    <name>本地发布仓库地址</name>
+                    <url>file://${basedir}/../maven-repo</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+        <profile>
+            <id>release</id>
+            <distributionManagement>
+                <repository>
+                    <id>github-repo</id>
+                    <name>GitHub Apache Maven Packages</name>
+                    <url>https://maven.pkg.github.com/YIueil/yl-bdf</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+    </profiles>
+
+    <dependencies>
+        <dependency>
+            <groupId>cc.yiueil</groupId>
+            <artifactId>yl-bdf-web</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>cc.yiueil</groupId>
+            <artifactId>yl-bdf-jpa</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>${java-jwt.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cc.yiueil</groupId>
+            <artifactId>yl-bdf-web-query</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
+</project>
