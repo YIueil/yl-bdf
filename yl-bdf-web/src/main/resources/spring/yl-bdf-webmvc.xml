@@ -12,8 +12,11 @@
     <!-- 自动扫描包，让指定包下的注解生效,由IOC容器统一管理 -->
     <context:component-scan base-package="cc.yiueil.controller"/>
 
-    <!-- 让Spring MVC不处理静态资源 -->
+    <!-- 让DispatchServlet不处理静态资源, 处理 /static/**`、`/public/**`、`/resources/**`、`/META-INF/resources/** 相关的目录  -->
     <mvc:default-servlet-handler />
+
+    <!--额外的开放一个目录, 对于statics目录下面的资源, 支持静态文件访问-->
+    <mvc:resources mapping="/statics/**" location="classpath:/statics/"/>
 
     <!--开启SpringMVC注解驱动-->
     <mvc:annotation-driven>

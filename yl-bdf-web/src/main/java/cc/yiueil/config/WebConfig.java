@@ -6,9 +6,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * WebConfig
+ * todo 这个配置类似乎并没有生效, 当使用<mvc:annotation-driven />注解驱动时，继承`WebMvcConfigurer`类来实现静态处理器将不会起作用。因为`<mvc:annotation-driven />`注解驱动使用的是基于老版本`WebMvcConfigurationSupport`来实现的。若一定要用`WebMvcConfigurer`，需要自行取得MVC相关的控制权，添加`@EnableWebMvc`。
+ *
  * @author 弋孓 YIueil@163.com
- * @date 2023/5/31 23:28
  * @version 1.0
+ * @date 2023/5/31 23:28
  */
 @Configuration
 public class WebConfig implements WebMvcConfigurer {

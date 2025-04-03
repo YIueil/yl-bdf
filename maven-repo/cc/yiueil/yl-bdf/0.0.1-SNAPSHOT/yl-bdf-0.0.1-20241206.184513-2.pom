@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>cc.yiueil</groupId>
+    <artifactId>yl-bdf</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <modules>
+        <module>yl-bdf-all</module>
+        <module>yl-bdf-core</module>
+        <module>yl-bdf-jpa</module>
+        <module>yl-bdf-web</module>
+        <module>yl-bdf-web-query</module>
+        <module>yl-bdf-web-swagger</module>
+        <module>yl-bdf-orup</module>
+        <module>yl-bdf-resource</module>
+        <module>yl-bdf-cache</module>
+        <module>yl-bdf-mail</module>
+        <module>yl-bdf-web-verifycode</module>
+    </modules>
+    <packaging>pom</packaging>
+
+    <developers>
+        <developer>
+            <name>yiueil</name>
+            <email>yiueil@163.com</email>
+            <organization>nameless</organization>
+            <organizationUrl>https://www.yiueil.cc</organizationUrl>
+        </developer>
+    </developers>
+
+    <properties>
+        <revision>0.0.1-SNAPSHOT</revision> <!--todo 版本号 固定使用revision变量关键字 实现对所有子模块的版本控制-->
+
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven-source-plugin.verison>3.2.1</maven-source-plugin.verison>
+        <maven-javadoc-plugin.version>3.3.2</maven-javadoc-plugin.version>
+
+        <junit-jupiter.version>5.8.2</junit-jupiter.version>
+        <lombok.version>1.18.22</lombok.version>
+
+        <jackson.version>2.15.0</jackson.version>
+        <dom4j.version>2.1.3</dom4j.version>
+        <okhttp.version>4.9.3</okhttp.version>
+        <jaxen.version>1.2.0</jaxen.version><!--xpath依赖-->
+        <spring.version>5.3.27</spring.version>
+        <spring.data.jpa.version>2.7.1</spring.data.jpa.version>
+        <spring.data.redis.version>2.7.1</spring.data.redis.version>
+        <hibernate.entitymanager.version>5.6.9.Final</hibernate.entitymanager.version>
+        <logback.version>1.2.9</logback.version>
+        <slf4j.version>1.7.32</slf4j.version>
+        <aspectj.version>1.9.7</aspectj.version>
+        <fileupload.version>1.5</fileupload.version>
+        <hibernate-validator.version>6.0.23.Final</hibernate-validator.version>
+        <swagger.version>2.9.2</swagger.version>
+        <swagger.annotaions.version>1.5.20</swagger.annotaions.version>
+        <swagger.bootstrap.version>3.0.3</swagger.bootstrap.version>
+        <commons.pool2.version>2.11.1</commons.pool2.version>
+        <lettuce.core.version>6.1.3.RELEASE</lettuce.core.version>
+        <javax.mail.version>1.6.2</javax.mail.version>
+    </properties>
+
+    <profiles>
+        <profile>
+            <id>snapshot</id>
+            <distributionManagement>
+                <repository>
+                    <id>local-repo-snapshot</id>
+                    <name>本地发布仓库地址</name>
+                    <url>file://${basedir}/maven-repo</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+        <profile>
+            <id>release</id>
+            <distributionManagement>
+                <repository>
+                    <id>github-repo</id>
+                    <name>GitHub Apache Maven Packages</name>
+                    <url>https://maven.pkg.github.com/YIueil/yl-bdf</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+    </profiles>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit-jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${maven-source-plugin.verison}</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven-javadoc-plugin.version}</version>
+                <configuration>
+                    <!-- jdk1.8要加上，1.7要去掉，否则会报错 -->
+                    <additionalJOptions>
+                        <additionalJOption>-Xdoclint:none</additionalJOption>
+                    </additionalJOptions>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
+        <finalName>yl-bdf</finalName>
+    </build>
+</project>
