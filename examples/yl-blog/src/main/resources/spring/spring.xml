@@ -6,4 +6,6 @@
     <import resource="classpath:spring/yl-bdf-spring.xml"/>
 
     <import resource="classpath:spring/spring-dao.xml"/>
+
+    <import resource="spring-mail.xml"/>
 </beans>
