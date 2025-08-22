@@ -22,6 +22,9 @@ public class OrupBaseDao extends JpaBaseDao {
             HasOwn ownEntity = (HasOwn) entity;
             if (ownEntity.getCreateUserId() == null) {
                 UserDto user = RequestContextThreadLocal.getUser();
+                if (user == null) {
+                    return;
+                }
                 ownEntity.setCreateUserId(user.getId());
             }
         }

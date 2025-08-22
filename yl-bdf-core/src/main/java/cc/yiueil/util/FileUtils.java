@@ -11,7 +11,7 @@ import java.util.Locale;
  */
 public class FileUtils {
     /**
-     * 判断文件是否为制定扩展名的文件
+     * 判断文件是否为指定扩展名的文件
      * @param fileName 文件名称
      * @param extension 文件扩展类型
      * @return 判断结果
@@ -25,7 +25,7 @@ public class FileUtils {
     }
 
     /**
-     * 判断文件是否为制定扩展名的文件
+     * 判断文件是否为指定扩展名的文件
      * @param file 目标文件
      * @param extension 文件扩展类型
      * @return 判断结果
