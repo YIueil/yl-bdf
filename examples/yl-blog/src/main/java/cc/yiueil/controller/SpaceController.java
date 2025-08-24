@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
  * Date:2022/8/18 15:29
  * Description: 工作空间 控制器
  */
-@CrossOrigin
 @RestController
 @RequestMapping(value = "/space")
 public class SpaceController implements LoggedController {

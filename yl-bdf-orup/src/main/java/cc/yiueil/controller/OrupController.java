@@ -36,7 +36,6 @@ import java.util.stream.Collectors;
  */
 @Api(value = "ORUP-用户角色账户权限控制")
 @Slf4j
-@CrossOrigin
 @RestController
 @RequestMapping(value = RestUrl.BASE_PATH + OrupRestUrl.ORUP)
 public class OrupController implements LoggedController {

@@ -25,7 +25,6 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Api(value = "VerifyCode-验证码模块")
 @Slf4j
-@CrossOrigin
 @RestController
 @RequestMapping(value = RestUrl.BASE_PATH + VerifyCodeUrl.VERIFY_CODE_V1)
 public class VerifyCodeController implements LoggedController {
