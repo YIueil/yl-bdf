@@ -19,6 +19,7 @@
         <module>yl-bdf-cache</module>
         <module>yl-bdf-mail</module>
         <module>yl-bdf-web-verifycode</module>
+        <module>yl-bdf-office</module>
     </modules>
     <packaging>pom</packaging>
 
